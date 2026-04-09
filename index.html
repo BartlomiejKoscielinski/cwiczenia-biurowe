@@ -58,8 +58,8 @@ a{text-decoration:none}a:active{filter:brightness(1.2)}
 .dn{text-align:center;padding:32px;background:rgba(34,197,94,.06);border-radius:16px}
 .sx{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center;flex:1}
 .nc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px;margin-bottom:12px}
-.svg-wrap{display:flex;justify-content:center;margin:12px 0 8px}
-.svg-wrap svg{filter:drop-shadow(0 0 8px rgba(110,231,183,.15))}
+.svg-wrap{display:flex;justify-content:center;margin:14px 0 10px;padding:12px;background:rgba(0,0,0,.2);border-radius:12px;border:1px solid rgba(255,255,255,.04)}
+.svg-wrap svg{filter:drop-shadow(0 0 10px rgba(110,231,183,.12));max-width:100%}
 </style>
 </head>
 <body>
@@ -125,200 +125,430 @@ function mData(y,m){const d=S.g('tr',{});const r=[];const f=new Date(y,m,1);cons
 // All viewBox 0 0 120 100, rendered at 120x100
 
 function svgEl(id){
-const L="#6ee7b7",A="#4ade80",D="#334155",W=2.2;
-const c=(tag,props,...ch)=>h(tag,props,...ch);
-const ln=(x1,y1,x2,y2,col,w)=>c("line",{x1,y1,x2,y2,stroke:col||L,strokeWidth:w||W,strokeLinecap:"round"});
-const ci=(cx,cy,r,col)=>c("circle",{cx,cy,r,fill:col||L});
-const ani=(attr,from,to,dur)=>c("animate",{attributeName:attr,values:from+";"+to+";"+from,dur:dur||"3s",repeatCount:"indefinite"});
-const aniT=(attr,from,to,dur)=>c("animateTransform",{attributeName:"transform",type:attr,values:from+";"+to+";"+from,dur:dur||"3s",repeatCount:"indefinite"});
-
-const floor=c("line",{x1:5,y1:92,x2:115,y2:92,stroke:D,strokeWidth:1,strokeDasharray:"4,3"});
-const wall=c("line",{x1:95,y1:15,x2:95,y2:92,stroke:D,strokeWidth:1.5});
+const B="#6ee7b7",A="#4ade80",D="#334155";
+const c=(...a)=>h(...a);
+const vb="0 0 160 120";
+const ln=(x1,y1,x2,y2,cl,w)=>c("line",{x1,y1,x2,y2,stroke:cl||B,strokeWidth:w||2.5,strokeLinecap:"round"});
+const hd=(x,y)=>c("circle",{cx:x,cy:y,r:5.5,fill:B});
+const jt=(x,y)=>c("circle",{cx:x,cy:y,r:2,fill:B});
+const fl=c("line",{x1:8,y1:110,x2:152,y2:110,stroke:D,strokeWidth:1,opacity:.4,strokeDasharray:"5,4"});
+const an=(attr,vals,dur)=>c("animate",{attributeName:attr,values:vals,dur:dur||"3s",repeatCount:"indefinite"});
+const atr=(type,vals,dur,orig)=>c("animateTransform",{attributeName:"transform",type,values:vals,dur:dur||"3s",repeatCount:"indefinite",...(orig?{additive:"sum"}:{})});
+const wrap=(children)=>c("svg",{viewBox:vb,width:160,height:120,xmlns:"http://www.w3.org/2000/svg"},children);
 
 switch(id){
-// 1: World's Greatest Stretch — deep lunge + rotation
-case 1: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(55,32,5),// head
-  ln(55,37,55,58),// torso (angled)
-  ln(55,58,35,85),// front leg bent
-  ln(35,85,35,92),// front shin
-  ln(55,58,80,80),// back leg
-  ln(80,80,95,92),// back shin
-  ln(55,45,35,60),// left arm down
-  c("g",null,ln(55,45,70,25),// right arm up rotating
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 55 45;15 55 45;0 55 45",dur:"3s",repeatCount:"indefinite"})),
-  c("path",{d:"M68 23 L72 20 L74 26",stroke:A,strokeWidth:1.5,fill:"none",children:
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 55 45;15 55 45;0 55 45",dur:"3s",repeatCount:"indefinite"})})
-);
-// 2: Cat-Cow — tabletop alternating arch/round
-case 2: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(30,48,4.5),// head
-  c("path",{d:"M34 52 Q60 42 86 52",stroke:L,strokeWidth:W,fill:"none",children:[
-    c("animate",{attributeName:"d",values:"M34 52 Q60 42 86 52;M34 52 Q60 62 86 52;M34 52 Q60 42 86 52",dur:"4s",repeatCount:"indefinite"})
-  ]}),// spine arching
-  ln(34,52,30,75),ln(30,75,30,92),// front legs
-  ln(86,52,86,75),ln(86,75,86,92),// back legs
-  c("circle",{cx:30,cy:48,r:4.5,fill:L,children:c("animate",{attributeName:"cy",values:"48;55;48",dur:"4s",repeatCount:"indefinite"})})
-);
-// 3: Chin Tuck — seated, head retracting
-case 3: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
-  c("rect",{x:55,y:40,width:30,height:50,rx:3,fill:D,opacity:.3}),// chair
-  ci(60,28,5),// head
-  c("animateTransform",{attributeName:"transform",type:"translate",values:"0,0;-6,0;0,0",dur:"2.5s",repeatCount:"indefinite",href:"#ct3h"}),
-  c("g",{id:"ct3h"},ci(60,28,5),ln(60,22,60,18)),// head+neck
-  ln(60,33,60,65),// torso
-  ln(60,65,45,92),ln(60,65,75,92),// legs on chair
-  ln(60,45,45,55),ln(60,45,75,55),// arms on lap
+
+// 1: World's Greatest Stretch — side view, deep lunge + T-spine rotation
+case 1: return wrap([fl,
+  // Back leg extended
+  ln(82,68,125,100), ln(125,100,138,108),
+  // Front leg bent 90°
+  ln(82,68,58,90), ln(58,90,58,108),
+  jt(58,90), // front knee
+  // Torso angled forward
+  ln(82,68,60,42),
+  jt(82,68), // hip
+  // Head
+  hd(55,36),
+  // Left hand on floor
+  ln(65,48,52,75), ln(52,75,48,90),
+  // Right arm — ANIMATED rotation (the key movement)
+  c("g",{style:{transformOrigin:"65px 48px"}},
+    ln(65,48,78,32,A,2.5),
+    ln(78,32,88,20,A,2.5),
+    c("circle",{cx:88,cy:20,r:2,fill:A}),
+    atr("rotate","-30;50;-30","3.5s")),
+  // Rotation arc indicator
+  c("path",{d:"M72 28 A18 18 0 0 1 90 38",stroke:A,strokeWidth:1,fill:"none",opacity:.3,strokeDasharray:"3,2"})
+]);
+
+// 2: Cat-Cow — side view on all fours, spine morphing
+case 2: return wrap([fl,
+  // Hands (static)
+  ln(35,88,35,108), ln(35,88,35,80,B,2),
+  // Knees/shins (static)
+  ln(115,88,115,108), ln(115,88,115,80,B,2),
+  // Spine — morphing between cow (arched down) and cat (rounded up)
+  c("path",{d:"M35 80 C55 80 95 80 115 80",stroke:B,strokeWidth:3,fill:"none",
+    children:an("d","M35 80 C55 68 95 68 115 80;M35 80 C55 92 95 92 115 80;M35 80 C55 68 95 68 115 80","4s")}),
+  // Head — follows spine
   c("g",null,
-    c("line",{x1:60,y1:28,x2:54,y2:28,stroke:A,strokeWidth:1.5,strokeDasharray:"2,2",opacity:.5}),
-    c("animate",{attributeName:"opacity",values:".5;1;.5",dur:"2.5s",repeatCount:"indefinite"}))
-);
-// 4: Hip Flexor Stretch — kneeling lunge
-case 4: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(60,25,5),// head
-  ln(60,30,60,55),// torso upright
-  ln(60,55,40,75),ln(40,75,40,92),// front leg 90°
-  ln(60,55,75,75),ln(75,75,85,92),// back leg kneeling
-  c("g",null,ln(60,40,60,15),// arm overhead
-    c("animate",{attributeName:"x2",values:"60;55;60",dur:"3s",repeatCount:"indefinite"})),
-  c("path",{d:"M55 55 L60 55 L60 60",stroke:A,strokeWidth:1,fill:"none",opacity:.6}),// pelvic tilt arrow
-  c("text",{x:48,y:63,fill:A,fontSize:6,opacity:.5},"←tilt")
-);
-// 5: Doorway Pec Stretch — standing in doorframe
-case 5: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ln(30,10,30,92,D,1.5),ln(90,10,90,92,D,1.5),// door frame
-  ci(60,28,5),// head
-  ln(60,33,60,65),// torso
-  ln(60,65,50,92),ln(60,65,70,92),// legs
-  ln(60,42,30,35),ln(60,42,90,35),// arms on frame
-  c("g",null,// chest opening
-    c("animate",{attributeName:"opacity",values:".3;.8;.3",dur:"3s",repeatCount:"indefinite"}),
-    c("path",{d:"M50 38 Q60 45 70 38",stroke:A,strokeWidth:1.5,fill:"none"}))
-);
-// 6: Glute Bridge — supine bridge
-case 6: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(20,82,4.5),// head
-  c("line",{x1:24,y1:80,x2:55,y2:65,stroke:L,strokeWidth:W,strokeLinecap:"round",children:
-    c("animate",{attributeName:"y2",values:"72;60;72",dur:"3s",repeatCount:"indefinite"})}),// torso rising
-  ln(55,72,70,92),// thigh
-  ln(70,92,55,92),// shin (foot flat)
-  ln(24,80,15,85),ln(24,80,15,75),// arms flat
-  c("circle",{cx:55,cy:65,r:3,fill:A,opacity:.4,children:c("animate",{attributeName:"cy",values:"72;60;72",dur:"3s",repeatCount:"indefinite"})})
-);
-// 7: Seated T-Spine Rotation
-case 7: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
-  c("rect",{x:45,y:45,width:30,height:45,rx:3,fill:D,opacity:.3}),// chair
-  ci(60,25,5),// head
-  ln(60,30,60,60),// torso
-  ln(60,60,48,92),ln(60,60,72,92),// legs
-  c("g",null,// rotating arms
-    ln(60,42,40,38),ln(60,42,80,38),
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 60 42;20 60 42;0 60 42;-20 60 42;0 60 42",dur:"4s",repeatCount:"indefinite"})),
-  c("path",{d:"M50 20 A15 15 0 0 1 70 20",stroke:A,strokeWidth:1,fill:"none",opacity:.4,children:
-    c("animate",{attributeName:"opacity",values:".2;.7;.2",dur:"4s",repeatCount:"indefinite"})})
-);
-// 8: Open Book — sidelying rotation
-case 8: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(25,78,4.5),// head
-  ln(29,80,55,80),// torso horizontal
-  ln(55,80,70,92),ln(70,92,55,92),// legs folded
-  ln(29,80,25,88),// bottom arm
-  c("g",null,// top arm rotating like opening a book
-    c("line",{x1:40,y1:78,x2:40,y2:50,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 40 78;-70 40 78;0 40 78",dur:"4s",repeatCount:"indefinite"})),
-  c("path",{d:"M35 75 A8 8 0 0 0 45 75",stroke:A,strokeWidth:1,fill:"none",opacity:.3})
-);
-// 9: Shoulder Circles + Neck Stretch
-case 9: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
-  ci(60,28,5),// head
-  ln(60,33,60,65),// torso
-  ln(60,65,50,92),ln(60,65,70,92),// legs
-  c("g",null,// shoulders circling
-    c("circle",{cx:48,cy:40,r:3,fill:A,opacity:.6}),
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 48 40;360 48 40",dur:"2s",repeatCount:"indefinite"})),
+    hd(28,76),
+    an("cy","70;84;70","4s")),
+  // Tail area
   c("g",null,
-    c("circle",{cx:72,cy:40,r:3,fill:A,opacity:.6}),
-    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 72 40;360 72 40",dur:"2s",repeatCount:"indefinite"})),
-  c("g",null,// head tilt
-    c("line",{x1:60,y1:23,x2:55,y2:20,stroke:L,strokeWidth:1.5}),
-    c("animate",{attributeName:"opacity",values:"0;1;1;0",dur:"4s",repeatCount:"indefinite"}))
-);
-// 10: Dead Bug
-case 10: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(25,85,4.5),// head
-  ln(28,83,65,83),// torso flat
-  c("g",null,// right arm extending overhead
-    c("line",{x1:45,y1:81,x2:45,y2:60,stroke:L,strokeWidth:W,strokeLinecap:"round"}),
-    c("animate",{attributeName:"y2",values:"70;45;70",dur:"3s",repeatCount:"indefinite"})),
-  c("g",null,// left leg extending
-    c("line",{x1:65,y1:83,x2:85,y2:70,stroke:L,strokeWidth:W,strokeLinecap:"round"}),
-    c("animate",{attributeName:"x2",values:"75;95;75",dur:"3s",repeatCount:"indefinite"}),
-    c("animate",{attributeName:"y2",values:"75;85;75",dur:"3s",repeatCount:"indefinite"})),
-  ln(65,83,75,70),// other leg up (static 90°)
-  ln(45,81,35,70),// other arm up (static)
-  c("line",{x1:28,y1:88,x2:65,y2:88,stroke:A,strokeWidth:1,strokeDasharray:"2,2",opacity:.3})// floor contact line
-);
-// 11: Median Nerve Glide — hand positions
-case 11: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
-  // Animated hand going through 6 positions
-  c("g",{transform:"translate(30,15)"},
-    c("rect",{x:15,y:20,width:30,height:40,rx:5,fill:"none",stroke:L,strokeWidth:1.5}),// palm
-    c("g",null,// fingers extending
-      c("line",{x1:22,y1:20,x2:22,y2:8,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
-      c("line",{x1:30,y1:20,x2:30,y2:5,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
-      c("line",{x1:38,y1:20,x2:38,y2:8,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
-      c("animate",{attributeName:"opacity",values:"0;1;1;0",dur:"5s",repeatCount:"indefinite"})),
-    c("g",null,// wrist extension arrow
-      c("path",{d:"M25 60 Q30 72 35 60",stroke:A,strokeWidth:1.5,fill:"none"}),
-      c("animate",{attributeName:"opacity",values:"0;0;1;1;0",dur:"5s",repeatCount:"indefinite"}))),
-  c("text",{x:60,y:92,fill:"#475569",fontSize:8,textAnchor:"middle"},"1→2→3→4→5→6")
-);
-// 12: Wall Angel
-case 12: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,wall,
-  ci(70,22,5),// head against wall
-  ln(70,27,70,60),// torso
-  ln(70,60,60,92),ln(70,60,80,92),// legs
-  c("g",null,// arms W to Y
-    c("line",{x1:70,y1:40,x2:55,y2:30,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
-    c("line",{x1:70,y1:40,x2:85,y2:30,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
-    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,0;0,-12;0,0",dur:"3s",repeatCount:"indefinite"})),
-  c("text",{x:92,y:55,fill:D,fontSize:7,writingMode:"vertical-rl"},"ściana")
-);
-// 13: Figure-4 Stretch
-case 13: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ci(20,82,4.5),// head
-  ln(24,80,60,82),// torso flat
-  ln(60,82,70,65),ln(70,65,60,55),// right leg: thigh up, shin crossed
-  ln(60,82,75,70),ln(75,70,80,82),// left leg: knee bent, foot flat
-  c("g",null,// hands pulling leg
-    ln(50,75,65,68),
-    c("animate",{attributeName:"opacity",values:".5;1;.5",dur:"3s",repeatCount:"indefinite"})),
-  c("text",{x:65,y:52,fill:A,fontSize:6,opacity:.5},"4")
-);
-// 14: Squat-to-Stand
-case 14: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+    ln(115,80,125,72,B,2),
+    c("animate",{attributeName:"y2",values:"68;86;68",dur:"4s",repeatCount:"indefinite"})),
+  // Labels
+  c("text",{x:75,y:18,fill:A,fontSize:9,textAnchor:"middle",opacity:.5,
+    children:[an("opacity","0;.7;0;0","4s")]},"cow ↓"),
+  c("text",{x:75,y:18,fill:A,fontSize:9,textAnchor:"middle",opacity:0,
+    children:[c("animate",{attributeName:"opacity",values:"0;0;.7;0",dur:"4s",repeatCount:"indefinite"})]},"cat ↑")
+]);
+
+// 3: Chin Tuck — side view seated on chair, head retracting
+case 3: return wrap([
+  // Chair
+  c("rect",{x:68,y:48,width:35,height:50,rx:4,fill:D,opacity:.25}),
+  c("rect",{x:95,y:28,width:8,height:70,rx:3,fill:D,opacity:.25}),
+  // Legs on chair
+  ln(78,82,65,105), ln(65,105,65,108),
+  ln(78,82,90,105), ln(90,105,90,108),
+  // Torso upright
+  ln(78,82,78,48),
+  jt(78,82),
+  // Arms on lap
+  ln(78,58,68,72), ln(68,72,72,82),
+  // Neck + Head — ANIMATED retraction
   c("g",null,
-    ci(60,25,5),// head
-    ln(60,30,60,55),// torso
-    ln(60,55,50,75),ln(50,75,50,92),// legs
-    ln(60,55,70,75),ln(70,75,70,92),
-    ln(60,55,50,92),// arms reaching toes
-    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,20;0,0;0,20",dur:"3.5s",repeatCount:"indefinite"})),
-  c("g",{opacity:.3},// ghost squat position
-    ci(60,55,4),ln(60,58,60,72),ln(60,72,45,88),ln(60,72,75,88))
-);
-// 15: Prone Y-Raise
-case 15: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
-  ln(30,85,90,85,L,W),// body prone
-  ci(25,83,4.5),// head on towel
-  c("rect",{x:18,y:86,width:14,height:3,rx:1,fill:D,opacity:.4}),// towel
-  ln(90,85,100,92),ln(90,85,100,80),// feet
-  c("g",null,// arms in Y shape lifting
-    c("line",{x1:35,y1:83,x2:15,y2:65,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
-    c("line",{x1:35,y1:83,x2:55,y2:65,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
-    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,5;0,-3;0,5",dur:"3s",repeatCount:"indefinite"})),
-  c("path",{d:"M12 68 L15 63 L18 68",stroke:A,strokeWidth:1,fill:"none",opacity:.5})// up arrow
-);
+    ln(78,48,78,38,B,2.2),
+    hd(78,32),
+    // Two fingers on chin (reference)
+    ln(73,34,71,35,A,1.5),
+    an("transform","translate(0,0);translate(-10,0);translate(0,0)","2.8s")),
+  // Arrow showing retraction direction
+  c("path",{d:"M66 28 L58 28",stroke:A,strokeWidth:1.5,fill:"none",markerEnd:"url(#ah)",opacity:.4,
+    children:an("opacity",".2;.7;.2","2.8s")}),
+  // Ghost of forward position
+  c("circle",{cx:78,cy:32,r:5.5,fill:"none",stroke:B,strokeWidth:1,opacity:.15,strokeDasharray:"3,3"})
+]);
+
+// 4: Hip Flexor Stretch — side view half-kneeling with posterior pelvic tilt
+case 4: return wrap([fl,
+  // Back knee on ground
+  ln(95,70,105,95), ln(105,95,118,108),
+  jt(105,95), // back knee on floor
+  c("circle",{cx:105,cy:108,r:3,fill:D,opacity:.3}), // padding
+  // Front leg 90°
+  ln(95,70,65,90), ln(65,90,65,108),
+  jt(65,90), // front knee
+  // Torso upright
+  ln(95,70,90,35),
+  jt(95,70), // hip
+  // Head
+  hd(88,28),
+  // Front arm on knee
+  ln(90,48,70,65),
+  // Back arm — ANIMATED reaching overhead
+  c("g",{style:{transformOrigin:"90px 48px"}},
+    ln(90,48,95,28,A,2.2),
+    ln(95,28,92,15,A,2.2),
+    an("opacity",".5;1;.5","3.5s")),
+  // Pelvic tilt arrow
+  c("g",{opacity:.5},
+    c("path",{d:"M100 75 Q98 80 95 76",stroke:A,strokeWidth:1.5,fill:"none"}),
+    c("text",{x:108,y:80,fill:A,fontSize:7},"tilt"))
+]);
+
+// 5: Doorway Pec Stretch — front view in doorframe
+case 5: return wrap([fl,
+  // Doorframe
+  ln(25,8,25,110,D,2.5), ln(135,8,135,110,D,2.5),
+  c("line",{x1:25,y1:8,x2:135,y2:8,stroke:D,strokeWidth:2.5}),
+  // Legs
+  ln(75,75,65,108), ln(75,75,85,108),
+  // Torso
+  ln(75,75,75,40),
+  jt(75,75),
+  // Head
+  hd(75,32),
+  // Shoulders
+  jt(60,44), jt(90,44),
+  // Arms on doorframe — forearms vertical on frame
+  ln(60,44,38,44,B,2.2), ln(38,44,28,28,B,2.2), // left arm up on frame
+  ln(90,44,112,44,B,2.2), ln(112,44,132,28,B,2.2), // right arm up on frame
+  // Chest opening — ANIMATED
+  c("g",null,
+    c("path",{d:"M62 50 Q75 58 88 50",stroke:A,strokeWidth:1.5,fill:"none",opacity:.3,
+      children:an("d","M62 50 Q75 58 88 50;M58 48 Q75 62 92 48;M62 50 Q75 58 88 50","3.5s")})),
+  // Body lean forward
+  c("g",{children:atr("translate","0,0;0,4;0,0","3.5s")},
+    c("path",{d:"M70 60 L75 75 L80 60",stroke:A,strokeWidth:1,fill:"none",opacity:.2}))
+]);
+
+// 6: Glute Bridge — side view supine, hips rising
+case 6: return wrap([fl,
+  // Head on floor
+  hd(22,102),
+  // Upper back/shoulders on floor
+  ln(28,100,50,95,B,2.8),
+  // Arms flat on floor
+  ln(35,100,20,105,B,1.8), ln(45,97,30,100,B,1.8),
+  // Torso to hip — ANIMATED (hips rise)
+  c("line",{x1:50,y1:95,x2:80,y2:80,stroke:B,strokeWidth:2.8,strokeLinecap:"round",
+    children:[an("y2","88;68;88","3s"),an("x2","80;85;80","3s")]}),
+  // Hip joint
+  c("circle",{cx:80,cy:80,r:2.5,fill:A,children:[an("cy","88;68;88","3s"),an("cx","80;85;80","3s")]}),
+  // Thigh — top segment, animated
+  c("line",{x1:80,y1:80,x2:100,y2:95,stroke:B,strokeWidth:2.5,strokeLinecap:"round",
+    children:[an("y1","88;68;88","3s"),an("x1","80;85;80","3s")]}),
+  jt(100,95), // knee
+  // Shin
+  ln(100,95,90,108),
+  // Foot flat
+  ln(86,108,94,108,B,2),
+  // Squeeze indicator
+  c("text",{x:82,y:62,fill:A,fontSize:7,opacity:0,textAnchor:"middle",
+    children:c("animate",{attributeName:"opacity",values:"0;.6;0",dur:"3s",repeatCount:"indefinite"})},
+    "squeeze!")
+]);
+
+// 7: Seated T-Spine Rotation — 3/4 view from above-front
+case 7: return wrap([
+  // Chair (simple box)
+  c("rect",{x:55,y:55,width:50,height:45,rx:4,fill:D,opacity:.2}),
+  // Legs (static, front)
+  ln(72,85,60,108), ln(88,85,100,108),
+  // Hip (static)
+  jt(80,85),
+  // Lower spine (static)
+  ln(80,85,80,65),
+  // Upper torso + arms — ANIMATED rotation
+  c("g",{style:{transformOrigin:"80px 65px"}},
+    // Upper torso
+    ln(80,65,80,42,B,2.8),
+    // Head
+    hd(80,35),
+    // Arms crossed on chest
+    ln(72,50,88,56,B,2),
+    ln(88,50,72,56,B,2),
+    // Shoulders
+    jt(70,48), jt(90,48),
+    atr("rotate","0;-25;0;25;0","4.5s")),
+  // Rotation arc
+  c("path",{d:"M60 30 A25 25 0 0 1 100 30",stroke:A,strokeWidth:1,fill:"none",opacity:.2,strokeDasharray:"3,3"})
+]);
+
+// 8: Open Book — lying on side, arm sweeping arc
+case 8: return wrap([fl,
+  // Head on floor
+  hd(25,95),
+  // Torso horizontal
+  ln(32,95,72,95,B,2.8),
+  // Bottom arm extended forward
+  ln(32,95,22,88,B,2),
+  // Knees bent — stacked, static
+  ln(72,95,90,108), ln(90,108,75,108),
+  jt(90,108),
+  // Top arm — ANIMATED sweeping arc (the "opening book" motion)
+  c("g",{style:{transformOrigin:"50px 93px"}},
+    ln(50,93,50,65,A,2.5),
+    ln(50,65,45,52,A,2.2),
+    c("circle",{cx:45,cy:52,r:2,fill:A}),
+    atr("rotate","0;-160;0","5s")),
+  // Arc path indicator
+  c("path",{d:"M50 60 A35 35 0 0 0 50 108",stroke:A,strokeWidth:.8,fill:"none",opacity:.15,strokeDasharray:"3,4"}),
+  // "Stay still" indicator on knees
+  c("text",{x:88,y:100,fill:D,fontSize:6,opacity:.4},"✕")
+]);
+
+// 9: Shoulder Circles + Neck Stretch — front view standing
+case 9: return wrap([fl,
+  // Torso
+  ln(80,75,80,40,B,2.5),
+  jt(80,75),
+  // Legs
+  ln(80,75,70,108), ln(80,75,90,108),
+  // Head — ANIMATED tilt (second phase)
+  c("g",null,
+    hd(80,30),
+    c("animate",{attributeName:"transform",
+      values:"translate(0,0);translate(0,0);translate(0,0);translate(-5,3);translate(0,0);translate(5,3);translate(0,0)",
+      dur:"6s",repeatCount:"indefinite"})),
+  // Shoulder joints — ANIMATED circular motion
+  c("g",null,
+    c("circle",{cx:66,cy:44,r:3,fill:A,opacity:.7}),
+    atr("translate","0,0;0,-6;4,-4;4,2;0,4;-4,2;-4,-4;0,-6;0,0","3s")),
+  c("g",null,
+    c("circle",{cx:94,cy:44,r:3,fill:A,opacity:.7}),
+    atr("translate","0,0;0,-6;-4,-4;-4,2;0,4;4,2;4,-4;0,-6;0,0","3s")),
+  // Arms hanging
+  ln(66,44,60,70,B,2), ln(94,44,100,70,B,2),
+  // Circular motion trail
+  c("circle",{cx:66,cy:44,r:7,fill:"none",stroke:A,strokeWidth:.6,opacity:.2}),
+  c("circle",{cx:94,cy:44,r:7,fill:"none",stroke:A,strokeWidth:.6,opacity:.2}),
+  // Hand on head (neck stretch phase)
+  c("g",{opacity:0,children:c("animate",{attributeName:"opacity",values:"0;0;0;.6;0;.6;0",dur:"6s",repeatCount:"indefinite"})},
+    ln(94,44,85,28,A,1.5))
+]);
+
+// 10: Dead Bug — supine, opposite arm+leg extending
+case 10: return wrap([fl,
+  // Head
+  hd(25,100),
+  // Torso flat on floor
+  ln(32,100,80,100,B,2.8),
+  // Floor contact line
+  c("line",{x1:20,y1:106,x2:85,y2:106,stroke:A,strokeWidth:.8,opacity:.2,strokeDasharray:"2,3"}),
+  // Left arm — static up at 90°
+  ln(45,98,45,75,B,2.2),
+  // Right arm — ANIMATED extending overhead
+  c("line",{x1:60,y1:98,x2:60,y2:75,stroke:A,strokeWidth:2.2,strokeLinecap:"round",
+    children:[an("x2","60;30;60","3.5s"),an("y2","75;95;75","3.5s")]}),
+  // Right leg — static up at 90°
+  ln(80,100,95,80,B,2.2), ln(95,80,95,65,B,2.2),
+  jt(95,80),
+  // Left leg — ANIMATED extending forward
+  c("line",{x1:72,y1:100,x2:85,y2:80,stroke:A,strokeWidth:2.2,strokeLinecap:"round",
+    children:[an("x2","85;130;85","3.5s"),an("y2","80;102;80","3.5s")]}),
+  // "Press low back down" indicator
+  c("path",{d:"M55 104 L55 108 L65 108 L65 104",stroke:A,strokeWidth:1,fill:"none",opacity:.3})
+]);
+
+// 11: Median Nerve Glide — hand close-up going through positions
+case 11: return wrap([
+  // Forearm
+  c("rect",{x:60,y:78,width:50,height:12,rx:4,fill:D,opacity:.2}),
+  ln(60,84,110,84,B,3),
+  // Wrist joint
+  jt(60,84),
+  // Hand — morphing through positions
+  // Fist → Open → Wrist ext → Thumb out → Supinate → Thumb pull
+  c("g",{style:{transformOrigin:"55px 84px"}},
+    // Palm
+    c("rect",{x:32,y:72,width:23,height:24,rx:4,fill:"none",stroke:B,strokeWidth:2,
+      children:an("rx","10;4;4;4;4;4;10","6s")}),
+    // Fingers
+    c("g",null,
+      c("line",{x1:38,y1:72,x2:38,y2:55,stroke:B,strokeWidth:2,strokeLinecap:"round",
+        children:an("y2","72;55;48;48;48;48;72","6s")}),
+      c("line",{x1:44,y1:72,x2:44,y2:52,stroke:B,strokeWidth:2,strokeLinecap:"round",
+        children:an("y2","72;52;45;45;45;45;72","6s")}),
+      c("line",{x1:50,y1:72,x2:50,y2:55,stroke:B,strokeWidth:2,strokeLinecap:"round",
+        children:an("y2","72;55;48;48;48;48;72","6s")})),
+    // Thumb
+    c("line",{x1:34,y1:80,x2:26,y2:72,stroke:A,strokeWidth:2,strokeLinecap:"round",
+      children:an("x2","34;26;26;18;18;18;34","6s")})),
+  // Position counter
+  c("text",{x:80,y:30,fill:A,fontSize:11,textAnchor:"middle",fontWeight:700,
+    children:an("textContent","1;2;3;4;5;6;1","6s")}),
+  c("text",{x:80,y:44,fill:"#64748b",fontSize:8,textAnchor:"middle"},"pozycja")
+]);
+
+// 12: Wall Angel — side view, arms W→Y against wall
+case 12: return wrap([fl,
+  // Wall
+  c("line",{x1:120,y1:8,x2:120,y2:110,stroke:D,strokeWidth:3}),
+  c("text",{x:130,y:60,fill:D,fontSize:7,opacity:.4,writingMode:"vertical-rl"},"ściana"),
+  // Legs
+  ln(100,75,92,108), ln(100,75,108,108),
+  // Torso against wall
+  ln(100,75,105,38,B,2.8),
+  jt(100,75), // hip
+  // Head against wall
+  hd(107,30),
+  // Shoulders
+  jt(100,44), jt(110,44),
+  // Arms — ANIMATED W to Y
+  // Left arm
+  c("g",null,
+    c("line",{x1:100,y1:44,x2:88,y2:38,stroke:A,strokeWidth:2.5,strokeLinecap:"round",
+      children:[an("x2","88;82;88","3s"),an("y2","38;18;38","3s")]}),
+    c("line",{x1:88,y1:38,x2:85,y2:24,stroke:A,strokeWidth:2.2,strokeLinecap:"round",
+      children:[an("x1","88;82;88","3s"),an("y1","38;18;38","3s"),
+               an("x2","85;78;85","3s"),an("y2","24;10;24","3s")]})),
+  // Right arm (mirrored, against wall)
+  c("g",null,
+    c("line",{x1:110,y1:44,x2:115,y2:38,stroke:A,strokeWidth:2.5,strokeLinecap:"round",
+      children:[an("x2","115;118;115","3s"),an("y2","38;18;38","3s")]}),
+    c("line",{x1:115,y1:38,x2:118,y2:24,stroke:A,strokeWidth:2.2,strokeLinecap:"round",
+      children:[an("x1","115;118;115","3s"),an("y1","38;18;38","3s"),
+               an("x2","118;120;118","3s"),an("y2","24;10;24","3s")]})),
+  // W and Y labels
+  c("text",{x:50,y:40,fill:A,fontSize:10,fontWeight:700,opacity:.4,
+    children:an("textContent","W;Y;W","3s")})
+]);
+
+// 13: Figure-4 Stretch — supine, ankle on opposite knee
+case 13: return wrap([fl,
+  // Head
+  hd(20,100),
+  // Torso flat
+  ln(28,100,70,100,B,2.8),
+  // Arms pulling leg — ANIMATED
+  c("g",null,
+    ln(50,98,70,82,A,2),
+    ln(58,98,78,82,A,2),
+    c("animate",{attributeName:"transform",
+      values:"translate(0,0);translate(-4,-4);translate(0,0)",dur:"3s",repeatCount:"indefinite"})),
+  // Left leg — base, knee up, foot flat (gets pulled)
+  c("g",null,
+    c("line",{x1:70,y1:100,x2:90,y2:78,stroke:B,strokeWidth:2.5,strokeLinecap:"round",
+      children:an("y2","78;72;78","3s")}),
+    c("line",{x1:90,y1:78,x2:82,y2:100,stroke:B,strokeWidth:2.2,strokeLinecap:"round",
+      children:[an("y1","78;72;78","3s"),an("y2","100;94;100","3s")]}),
+    c("circle",{cx:90,cy:78,r:2,fill:B,children:an("cy","78;72;78","3s")})),
+  // Right leg — crossed over in "4" shape
+  c("g",null,
+    c("line",{x1:70,y1:100,x2:88,y2:82,stroke:A,strokeWidth:2.5,strokeLinecap:"round",
+      children:an("y2","82;76;82","3s")}),
+    c("line",{x1:88,y1:82,x2:100,y2:72,stroke:A,strokeWidth:2.2,strokeLinecap:"round",
+      children:[an("y1","82;76;82","3s"),an("y2","72;66;72","3s")]}),
+    c("circle",{cx:88,cy:82,r:2,fill:A,children:an("cy","82;76;82","3s")})),
+  // "4" label
+  c("text",{x:102,y:66,fill:A,fontSize:12,fontWeight:700,opacity:.3},"4")
+]);
+
+// 14: Squat-to-Stand — side view, transitioning from squat to forward fold
+case 14: return wrap([fl,
+  // The key animation: body goes from deep squat (low) to straight-leg forward fold (high hips)
+  // Feet (static)
+  ln(85,108,95,108,B,2.5),
+  // Hands holding toes (static contact point)
+  c("circle",{cx:82,cy:108,r:2,fill:A}),
+  // Shin (static, vertical in squat)
+  ln(88,108,88,88,B,2.2),
+  // Thigh — ANIMATED from horizontal (squat) to diagonal up (straight)
+  c("line",{x1:88,y1:88,x2:72,y2:82,stroke:B,strokeWidth:2.5,strokeLinecap:"round",
+    children:[an("x2","72;65;72","3.5s"),an("y2","82;52;82","3.5s")]}),
+  c("circle",{cx:88,cy:88,r:2,fill:B}), // knee
+  // Hip joint — ANIMATED rising
+  c("circle",{cx:72,cy:82,r:2.5,fill:A,
+    children:[an("cx","72;65;72","3.5s"),an("cy","82;52;82","3.5s")]}),
+  // Torso — ANIMATED from compressed to hanging
+  c("line",{x1:72,y1:82,x2:65,y2:62,stroke:B,strokeWidth:2.8,strokeLinecap:"round",
+    children:[an("x1","72;65;72","3.5s"),an("y1","82;52;82","3.5s"),
+             an("x2","65;70;65","3.5s"),an("y2","62;32;62","3.5s")]}),
+  // Head — ANIMATED
+  c("circle",{cx:62,cy:56,r:5,fill:B,
+    children:[an("cx","62;68;62","3.5s"),an("cy","56;26;56","3.5s")]}),
+  // Arms to toes (constant contact)
+  c("line",{x1:68,y1:70,x2:82,y2:108,stroke:A,strokeWidth:2,strokeLinecap:"round",
+    children:[an("x1","68;68;68","3.5s"),an("y1","70;42;70","3.5s")]}),
+  // Hamstring stretch indicator
+  c("g",{opacity:0,children:c("animate",{attributeName:"opacity",values:"0;.5;0",dur:"3.5s",repeatCount:"indefinite"})},
+    c("text",{x:48,y:70,fill:A,fontSize:7,transform:"rotate(-70,48,70)"},"stretch"))
+]);
+
+// 15: Prone Y-Raise — lying face down, arms lifting in Y
+case 15: return wrap([fl,
+  // Towel under forehead
+  c("rect",{x:18,y:100,width:18,height:5,rx:2,fill:D,opacity:.3}),
+  // Head face down
+  c("circle",{cx:28,cy:98,r:5,fill:B}),
+  // Torso prone (horizontal)
+  ln(35,100,100,100,B,2.8),
+  // Legs
+  ln(100,100,120,108,B,2.2), ln(120,108,135,108,B,2),
+  // Arms in Y shape — ANIMATED lifting
+  c("g",null,
+    // Left arm (Y diagonal left)
+    c("line",{x1:42,y1:98,x2:18,y2:82,stroke:A,strokeWidth:2.5,strokeLinecap:"round",
+      children:an("y2","88;72;88","3s")}),
+    c("circle",{cx:18,cy:82,r:2,fill:A,children:an("cy","88;72;88","3s")}),
+    // Right arm (Y diagonal right)
+    c("line",{x1:42,y1:98,x2:55,y2:82,stroke:A,strokeWidth:2.5,strokeLinecap:"round",
+      children:an("y2","88;72;88","3s")}),
+    c("circle",{cx:55,cy:82,r:2,fill:A,children:an("cy","88;72;88","3s")})),
+  // Thumbs up indicator
+  c("g",{opacity:.4},
+    c("text",{x:14,y:78,fill:A,fontSize:7,children:an("y","84;68;84","3s")},"👍"),
+    c("text",{x:52,y:78,fill:A,fontSize:7,children:an("y","84;68;84","3s")},"👍")),
+  // Scapular depression arrows
+  c("g",{opacity:0,children:c("animate",{attributeName:"opacity",values:"0;.4;0","3s",repeatCount:"indefinite"})},
+    c("path",{d:"M60 92 L60 96 M75 92 L75 96",stroke:A,strokeWidth:1.5}))
+]);
+
 default: return null;
 }}
 
