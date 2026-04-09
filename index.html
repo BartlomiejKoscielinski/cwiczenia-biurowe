@@ -13,68 +13,57 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=JetBrains+Mono:wght@700&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { background: #0c0f1a; color: #e2e8f0; font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
-    max-width: 480px; margin: 0 auto; min-height: 100vh; min-height: 100dvh;
-    background: linear-gradient(180deg, #0c0f1a 0%, #111827 50%, #0f172a 100%);
-    overscroll-behavior: none; padding-bottom: env(safe-area-inset-bottom);
-  }
-  button { font-family: inherit; cursor: pointer; border: none; }
-  button:active { filter: brightness(1.15); transform: scale(0.97); }
-  a { text-decoration: none; }
-  a:active { filter: brightness(1.2); }
-  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
-  @keyframes fadeSlide { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-  .header { padding: 24px 20px 0; padding-top: max(24px, env(safe-area-inset-top)); }
-  .tab-bar { display:flex; gap:4px; padding:16px 20px; position:sticky; top:0;
-    background: linear-gradient(180deg, #0c0f1a 80%, transparent); z-index:10; }
-  .tab-btn { flex:1; padding:10px 8px; border-radius:10px; font-weight:600; font-size:12px;
-    display:flex; flex-direction:column; align-items:center; gap:2px; transition: all 0.2s; }
-  .tab-btn.active { background:rgba(110,231,183,0.12); color:#6ee7b7; }
-  .tab-btn:not(.active) { background:rgba(255,255,255,0.03); color:#64748b; }
-  .content { padding: 0 20px 32px; }
-  .card { border-radius:16px; overflow:hidden; transition: all 0.3s ease; margin-bottom: 8px; }
-  .card.collapsed { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); }
-  .card.expanded { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); }
-  .card-header { width:100%; padding:16px 20px; background:transparent; text-align:left;
-    display:flex; align-items:center; gap:14px; }
-  .badge { font-size:10px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase;
-    padding:2px 7px; border-radius:4px; display:inline-block; }
-  .badge-new { font-size:9px; font-weight:800; letter-spacing:1px; color:#fbbf24;
-    background:rgba(251,191,36,0.12); padding:2px 6px; border-radius:4px; }
-  .score-bar { width:48px; height:6px; border-radius:3px; background:rgba(255,255,255,0.08); }
-  .score-fill { height:100%; border-radius:3px; transition: width 0.5s ease; }
-  .card-body { padding:0 20px 20px; animation: fadeSlide 0.3s ease; }
-  .cue-step { display:flex; gap:10px; margin-bottom:8px; font-size:13px; color:#cbd5e1; line-height:1.5; }
-  .cue-num { width:20px; height:20px; border-radius:6px; flex-shrink:0; background:rgba(110,231,183,0.1);
-    color:#6ee7b7; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; margin-top:1px; }
-  .error-item { font-size:13px; color:#94a3b8; margin-bottom:6px; line-height:1.5;
-    padding-left:12px; border-left:2px solid rgba(248,113,113,0.2); }
-  .pill { font-size:12px; color:#64748b; background:rgba(255,255,255,0.04); padding:4px 10px; border-radius:6px; display:inline-block; }
-  .yt-pill { font-size:12px; color:#f87171; background:rgba(248,113,113,0.08); padding:4px 10px;
-    border-radius:6px; font-weight:600; display:inline-block; }
-  .timer-ring { position:relative; width:130px; height:130px; }
-  .timer-text { position:absolute; top:0; left:0; width:100%; height:100%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:'JetBrains Mono','SF Mono','Fira Code',monospace;
-    font-size:28px; font-weight:700; letter-spacing:2px; }
-  .timer-btn { padding:8px 20px; border-radius:8px; font-weight:600; font-size:13px; transition: all 0.2s; }
-  .btn-start { background:rgba(110,231,183,0.15); color:#6ee7b7; }
-  .btn-pause { background:rgba(239,68,68,0.15); color:#fca5a5; }
-  .btn-reset { background:rgba(255,255,255,0.06); color:#94a3b8; padding:8px 14px; }
-  .routine-card { background:rgba(255,255,255,0.03); border-radius:16px;
-    border:1px solid rgba(255,255,255,0.06); padding:20px; }
-  .btn-done { flex:1; padding:12px 16px; border-radius:10px; font-weight:700; font-size:14px;
-    background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(110,231,183,0.15)); color:#6ee7b7; transition:all 0.2s; }
-  .btn-yt { padding:12px 16px; border-radius:10px; background:rgba(248,113,113,0.08);
-    color:#f87171; font-weight:600; font-size:14px; display:flex; align-items:center; }
-  .progress-seg { flex:1; height:6px; border-radius:3px; border:none; cursor:pointer; transition:all 0.3s; }
-  .filter-btn { padding:6px 12px; border-radius:6px; font-weight:600; font-size:12px; }
-  .filter-btn.active { background:rgba(255,255,255,0.08); color:#e2e8f0; }
-  .filter-btn:not(.active) { background:transparent; color:#475569; }
-  .section-label { font-size:11px; font-weight:700; letter-spacing:1px; margin-bottom:8px; text-transform:uppercase; }
-  .done-banner { text-align:center; padding:32px; background:rgba(34,197,94,0.06); border-radius:16px; }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#0c0f1a;color:#e2e8f0;font-family:'DM Sans','Segoe UI',system-ui,sans-serif;
+    max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;
+    background:linear-gradient(180deg,#0c0f1a 0%,#111827 50%,#0f172a 100%);
+    overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
+  button{font-family:inherit;cursor:pointer;border:none}
+  button:active{filter:brightness(1.15);transform:scale(0.97)}
+  a{text-decoration:none}a:active{filter:brightness(1.2)}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+  @keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .header{padding:24px 20px 0;padding-top:max(24px,env(safe-area-inset-top))}
+  .tab-bar{display:flex;gap:3px;padding:12px 20px;position:sticky;top:0;
+    background:linear-gradient(180deg,#0c0f1a 80%,transparent);z-index:10}
+  .tab-btn{flex:1;padding:8px 4px;border-radius:10px;font-weight:600;font-size:11px;
+    display:flex;flex-direction:column;align-items:center;gap:2px;transition:all 0.2s}
+  .tab-btn.active{background:rgba(110,231,183,0.12);color:#6ee7b7}
+  .tab-btn:not(.active){background:rgba(255,255,255,0.03);color:#64748b}
+  .content{padding:0 20px 32px}
+  .card{border-radius:16px;overflow:hidden;transition:all 0.3s ease;margin-bottom:8px}
+  .card.collapsed{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
+  .card.expanded{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)}
+  .card-header{width:100%;padding:16px 20px;background:transparent;text-align:left;display:flex;align-items:center;gap:14px}
+  .badge{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:2px 7px;border-radius:4px;display:inline-block}
+  .badge-new{font-size:9px;font-weight:800;letter-spacing:1px;color:#fbbf24;background:rgba(251,191,36,0.12);padding:2px 6px;border-radius:4px}
+  .score-bar{width:48px;height:6px;border-radius:3px;background:rgba(255,255,255,0.08)}
+  .score-fill{height:100%;border-radius:3px;transition:width 0.5s ease}
+  .card-body{padding:0 20px 20px;animation:fadeSlide 0.3s ease}
+  .cue-step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;color:#cbd5e1;line-height:1.5}
+  .cue-num{width:20px;height:20px;border-radius:6px;flex-shrink:0;background:rgba(110,231,183,0.1);color:#6ee7b7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+  .error-item{font-size:13px;color:#94a3b8;margin-bottom:6px;line-height:1.5;padding-left:12px;border-left:2px solid rgba(248,113,113,0.2)}
+  .pill{font-size:12px;color:#64748b;background:rgba(255,255,255,0.04);padding:4px 10px;border-radius:6px;display:inline-block}
+  .yt-pill{font-size:12px;color:#f87171;background:rgba(248,113,113,0.08);padding:4px 10px;border-radius:6px;font-weight:600;display:inline-block}
+  .timer-ring{position:relative;width:130px;height:130px}
+  .timer-text{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code',monospace;font-size:28px;font-weight:700;letter-spacing:2px}
+  .timer-btn{padding:8px 20px;border-radius:8px;font-weight:600;font-size:13px;transition:all 0.2s}
+  .btn-start{background:rgba(110,231,183,0.15);color:#6ee7b7}
+  .btn-pause{background:rgba(239,68,68,0.15);color:#fca5a5}
+  .btn-reset{background:rgba(255,255,255,0.06);color:#94a3b8;padding:8px 14px}
+  .routine-card{background:rgba(255,255,255,0.03);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:20px}
+  .btn-done{flex:1;padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(110,231,183,0.15));color:#6ee7b7;transition:all 0.2s}
+  .btn-yt{padding:12px 16px;border-radius:10px;background:rgba(248,113,113,0.08);color:#f87171;font-weight:600;font-size:14px;display:flex;align-items:center}
+  .progress-seg{flex:1;height:6px;border-radius:3px;border:none;cursor:pointer;transition:all 0.3s}
+  .filter-btn{padding:6px 12px;border-radius:6px;font-weight:600;font-size:12px}
+  .filter-btn.active{background:rgba(255,255,255,0.08);color:#e2e8f0}
+  .filter-btn:not(.active){background:transparent;color:#475569}
+  .section-label{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+  .done-banner{text-align:center;padding:32px;background:rgba(34,197,94,0.06);border-radius:16px}
+  .stat-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;text-align:center;flex:1}
+  .notif-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -82,222 +71,101 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script>
-const e=React.createElement,{useState,useEffect,useRef}=React;
-
+const e=React.createElement,{useState,useEffect,useRef,useCallback}=React;
+const ST={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(x){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(x){}}};
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function beep(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[0,0.15,0.3].forEach(t=>{const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;o.type="sine";g.gain.setValueAtTime(0.3,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+t+0.12);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+0.12)});if(navigator.vibrate)navigator.vibrate([100,50,100,50,100])}catch(x){}}
+let _niv=null;
+function nStat(){return typeof Notification!=='undefined'?Notification.permission:'unavailable'}
+function reqN(cb){if(typeof Notification==='undefined')return cb('unavailable');Notification.requestPermission().then(p=>cb(p))}
+function startR(m){stopR();if(nStat()!=='granted')return;_niv=setInterval(()=>{new Notification('\u26A1 Czas na mikro-przerw\u0119!',{body:'Wsta\u0144, rozci\u0105gnij si\u0119 \u2014 Tw\u00F3j kr\u0119gos\u0142up Ci podzi\u0119kuje.',icon:'icon-192.png',tag:'mb',silent:false});if(navigator.vibrate)navigator.vibrate([200,100,200])},m*60*1000);ST.set('nm',m);ST.set('no',true)}
+function stopR(){if(_niv){clearInterval(_niv);_niv=null}ST.set('no',false)}
 const EX=[
-{id:1,cat:"B",name:"World's Greatest Stretch",ns:"WGS",time:"2×5 na stronę",tgt:"Biodra, kręgosłup piersiowy, zginacze bioder",sc:4.8,ts:240,em:"🌍",sets:2,reps:"5 na stronę",rest:30,
-cues:["Duży wykrok do przodu, kolano 90°, dłonie przy wewnętrznej stronie stopy","Napnij pośladek tylnej nogi — pogłębiasz rozciąg zginacza biodra","Dłoń za głowę → wydech → rotacja tułowia w górę, łokieć ku sufitowi","Wdech → wróć łokciem w dół ku podłodze (zamknij się)","Ruch TYLKO z kręgosłupa piersiowego — lędźwie stabilne!"],
-errs:["Kolano przedniej nogi zapada się do wewnątrz","Rotacja z odcinka lędźwiowego zamiast piersiowego","Zbyt płytki wykrok — zginacz biodra nie rozciągnięty"],
-yt:"https://www.youtube.com/results?search_query=world%27s+greatest+stretch+how+to+proper+form"},
-{id:2,cat:"B",name:"Cat-Cow",ns:"Cat-Cow",time:"2×12 cykli",tgt:"Mobilność całego kręgosłupa",sc:4.6,ts:180,em:"🐱",sets:2,reps:"12 cykli",rest:20,
-cues:["Czworaki: dłonie pod barkami, kolana pod biodrami","WDECH (cow): brzuch w dół, klatka i ogon w górę, wzrok łagodnie do przodu","WYDECH (cat): plecy ku sufitowi, broda do klatki, ogon podwinięty","Płynne przejścia — 3-4 s na każdą fazę","Ruch segmentowy kręgosłupa, NIE z ramion czy kolan"],
-errs:["Zarzucanie głową w fazie cow → kompresja szyjna","Ruch z ramion/kolan zamiast z kręgosłupa","Nie robić zaraz po przebudzeniu (dyski wypełnione płynem)"],
-yt:"https://www.youtube.com/results?search_query=cat+cow+stretch+proper+form+tutorial"},
-{id:3,cat:"A",name:"Chin Tuck (retrakcja głowy)",ns:"Chin Tuck",time:"3×10, 5s hold",tgt:"Głębokie zginacze szyi, mięśnie podpotyliczne",sc:4.6,ts:180,em:"🎯",sets:3,reps:"10 × 5s hold",rest:15,
-cues:["Siedź prosto, barki cofnięte i opuszczone","Dwa palce na brodzie jako punkt odniesienia","Cofnij głowę horyzontalnie do tyłu — tworzysz 'podwójny podbródek'","Poczuj rozciąg u podstawy czaszki + napięcie z przodu szyi","Trzymaj 5 sekund → wróć powoli → powtórz"],
-errs:["Przechylanie głowy w dół zamiast cofania horyzontalnego","Zbyt duża siła — aktywuje powierzchowne mięśnie","Napinanie żuchwy i marszczenie czoła"],
-yt:"https://www.youtube.com/results?search_query=chin+tuck+exercise+proper+form+physical+therapy"},
-{id:4,cat:"B",name:"Klęczący rozciąg zginaczy bioder",ns:"Hip Flexor",time:"2×30s na stronę",tgt:"Biodrowo-lędźwiowy, prosty uda",sc:4.4,ts:180,em:"🦵",sets:2,reps:"30s na stronę",rest:15,
-cues:["Klęk na jednym kolanie (podłóż ręcznik), drugie kolano 90° przed tobą","KLUCZOWE: Napnij pośladek tylnej nogi → miednica podwija się do tyłu","Utrzymując napięcie pośladka i brzucha, przesuń biodra do przodu","NIE wyginaj pleców w łuk!","Pogłębienie: unieś rękę tylnej nogi nad głowę, przechyl na bok"],
-errs:["Lordoza lędźwiowa zamiast posterior pelvic tilt","Kolano przedniej nogi za palcami stopy","Opadanie tułowia do przodu"],
-yt:"https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+pelvic+tilt+tutorial"},
-{id:5,cat:"A",name:"Doorway Pec Stretch",ns:"Pec Stretch",time:"2×20s",tgt:"Mięsień piersiowy większy i mniejszy",sc:4.4,ts:90,em:"🚪",sets:2,reps:"20s",rest:10,
-cues:["Stań w drzwiach, przedramiona na futrynach, łokcie na wysokości barków","Cofnij barki, ściągnij łopatki","Mały krok do przodu — poczuj rozciąg na przedniej klatce","Nie wyginaj pleców w łuk — core napięty","Wariant wyższy/niższy łokci → różne włókna mięśnia"],
-errs:["Wyginanie pleców w lordozę","Wysuwanie głowy do przodu","Zbyt agresywne wchodzenie w rozciąg"],
-yt:"https://www.youtube.com/results?search_query=doorway+pectoral+stretch+proper+form+posture"},
-{id:6,cat:"B",name:"Glute Bridge (mostek biodrowy)",ns:"Glute Bridge",time:"3×12",tgt:"Pośladkowy wielki, stabilizacja lędźwi",sc:4.2,ts:240,em:"🍑",sets:3,reps:"12",rest:30,
-cues:["Na plecach, kolana zgięte, stopy na szerokość bioder, pięty blisko pośladków","Napnij brzuch — pępek ku kręgosłupowi","Naciśnij piętami + ściśnij pośladki → unieś biodra","Prosta linia kolana–barki, max napięcie pośladków 2-3s","Powoli opuść, NIE dotykając podłogi → powtórz"],
-errs:["Przeprost w lędźwiach zamiast w biodrach","Dominacja tylnych ud — przybliż stopy do pośladków","Kolana rozjeżdżają się na boki"],
-yt:"https://www.youtube.com/results?search_query=glute+bridge+proper+form+tutorial+physical+therapy"},
-{id:7,cat:"A",name:"Rotacja piersiowa na krześle",ns:"T-Spine Rot.",time:"2×8 na stronę",tgt:"Rotatory kręgosłupa piersiowego",sc:4.2,ts:150,em:"🔄",sets:2,reps:"8 na stronę",rest:15,
-cues:["Brzeg krzesła, stopy płasko, ręce skrzyżowane na klatce lub za głową","Napnij brzuch → stabilizacja lędźwi","WYDECH → obróć tułów powoli w jedną stronę, patrz za bark","Trzymaj 2-3s w końcowej pozycji","WDECH → wróć do środka → powtórz na drugą stronę"],
-errs:["Obrót bioder/kolan razem z tułowiem","Kompensacja ruchem szyi","Zaokrąglanie pleców przy rotacji"],
-yt:"https://www.youtube.com/results?search_query=seated+thoracic+spine+rotation+exercise+tutorial"},
-{id:8,cat:"B",name:"Open Book (rotacja na boku)",ns:"Open Book",time:"2×8 na stronę",tgt:"Kręgosłup piersiowy, mięśnie piersiowe",sc:4.0,ts:240,em:"📖",sets:2,reps:"8 na stronę",rest:20,
-cues:["Na lewym boku, kolana i biodra zgięte 90° (pozycja płodu)","Ręce wyprostowane przed sobą, dłonie złożone","WDECH → górna ręka łukiem nad głową na drugą stronę","Łopatka ku podłodze, wzrok za dłonią, kolana NIERUCHOME","W końcowej pozycji: 2-3 głębokie oddechy → WYDECH → powrót"],
-errs:["Kolana odchodzą od podłogi (użyj poduszki między nimi)","Wymuszanie rotacji siłą ręki","Brak kontroli nad powrotem"],
-yt:"https://www.youtube.com/results?search_query=open+book+thoracic+rotation+exercise+tutorial"},
-{id:9,cat:"A",name:"Barki + rozciąg boczny szyi",ns:"Barki & Szyja",time:"2×10 + 2×15s/str.",tgt:"Górna część kapturowego, dźwigacz łopatki",sc:3.8,ts:150,em:"💆",sets:2,reps:"10 okrążeń + 15s/stronę",rest:10,
-cues:["FAZA 1: Barki w górę → tył → dół → przód — 10 kółek do tyłu, 10 do przodu","Ruch powolny, kontrolowany, pełen zakres","FAZA 2: Dłoń na przeciwnej stronie głowy (nad uchem)","Przechyl głowę bocznie — ucho do barku, NIE unoś barku!","Drugą rękę aktywnie kieruj w dół → pogłębia rozciąg → 15s"],
-errs:["Obracanie głowy zamiast przechylania bocznego","Zbyt duża siła ręki przy rozciągu szyi","Szybkie, chaotyczne okrążanie barków"],
-yt:"https://www.youtube.com/results?search_query=shoulder+circles+lateral+neck+stretch+desk+exercise"},
-{id:10,cat:"B",name:"Dead Bug (martwy robak)",ns:"Dead Bug",time:"2×8 na stronę",tgt:"Mięśnie głębokie tułowia, stabilizacja lędźwi",sc:3.8,ts:180,em:"🪲",sets:2,reps:"8 na stronę",rest:30,
-cues:["Na plecach: ręce pionowo nad barkami, kolana nad biodrami (90°/90°)","KLUCZOWE: Dolne plecy dociśnięte do podłogi!","WYDECH → prawa ręka nad głowę + lewa noga w przód (tuż nad podłogą)","Lędźwie MUSZĄ zostać na podłodze — jeśli nie, zmniejsz zakres","WDECH → powrót do 90/90 → powtórz drugą stronę"],
-errs:["Odrywanie dolnych pleców od podłogi (najważniejszy błąd!)","Wstrzymywanie oddechu","Zbyt szybkie tempo — ruch 3-4s na fazę"],
-yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+core+stability+tutorial"},
-{id:11,cat:"A",name:"Ślizg nerwu pośrodkowego",ns:"Nerve Floss",time:"2×6 poz. × 5s",tgt:"Nerw pośrodkowy, nadgarstek, przedramię",sc:4.3,ts:120,em:"🤲",sets:2,reps:"6 pozycji × 5s hold",rest:15,
-cues:["Pozycja 1: Pięść z kciukiem do siebie, nadgarstek neutralny","Pozycja 2: Wyprostuj palce i kciuk, nadgarstek neutralny","Pozycja 3: Cofnij nadgarstek (dłoń do góry), palce proste","Pozycja 4: Odwiń kciuk na bok (od dłoni)","Pozycja 5: Obróć dłoń — wewnętrzna strona od siebie","Pozycja 6: Drugą ręką delikatnie pociągnij kciuk w dół — ŁAGODNIE!"],
-errs:["Zbyt agresywne rozciąganie — mrowienie OK, ból/drętwienie NIE","Pomijanie pozycji — każda dodaje napięcie stopniowo","Wykonywanie przy istniejącym bólu nadgarstka bez konsultacji"],
-yt:"https://www.youtube.com/results?search_query=median+nerve+glide+exercise+carpal+tunnel+prevention"},
-{id:12,cat:"A",name:"Wall Angel (anioł przy ścianie)",ns:"Wall Angel",time:"2×8",tgt:"Dolny/środkowy trapez, zębaty przedni, romboidalny",sc:4.5,ts:150,em:"👼",sets:2,reps:"8",rest:20,
-cues:["Stań plecami do ściany — stopy 8-10 cm od ściany, kolana lekko zgięte","Dociśnij do ściany: głowę, łopatki, dolne plecy (posterior pelvic tilt!)","Ręce w pozycji 'W' — łokcie 90°, na wys. barków, dociśnięte do ściany","WYDECH → przesuń ręce w górę do 'Y' — nadgarstki i łokcie przy ścianie!","WDECH → wróć do 'W'. Ruch POWOLNY, 3-4s w każdą stronę"],
-errs:["Odchodzenie dolnych pleców od ściany (lordoza)","Odrywanie nadgarstków/łokci — lepiej mniejszy zakres","Zarzucanie głową — chin tuck + docisk do ściany"],
-yt:"https://www.youtube.com/results?search_query=wall+angels+exercise+proper+form+posture+correction"},
-{id:13,cat:"B",name:"Figure-4 Stretch (gruszkowaty)",ns:"Figure-4",time:"2×30s na stronę",tgt:"Mięsień gruszkowaty, głębokie rotatory zewnętrzne biodra",sc:4.2,ts:150,em:"4️⃣",sets:2,reps:"30s na stronę",rest:15,
-cues:["Na plecach, kolana zgięte, stopy na podłodze","Połóż kostkę prawej nogi na kolanie lewej (kształt '4')","Chwyć lewą nogę za udo/goleń i przyciągnij ku klatce","Poczujesz głęboki rozciąg w prawym pośladku — to piriformis","Odpychaj prawe kolano łokciem dla pogłębienia"],
-errs:["Odrywanie głowy/barków od podłogi","Zbyt agresywne ciągnięcie — rozciąg powinien być przyjemny","Krzywe ustawienie bioder — miednica równo na podłodze"],
-yt:"https://www.youtube.com/results?search_query=figure+4+piriformis+stretch+supine+tutorial"},
-{id:14,cat:"B",name:"Squat-to-Stand",ns:"Squat-Stand",time:"2×6",tgt:"Hamstrings, mobilność bioder i stawu skokowego",sc:4.1,ts:120,em:"⬆️",sets:2,reps:"6",rest:20,
-cues:["Stopy na szerokość bioder → zejdź do GŁĘBOKIEGO przysiadu","Chwyć palce stóp od spodu — kciuki pod palcami","NIE puszczając palców → wyprostuj kolana, biodra w górę","Poczujesz intensywny rozciąg tylnych ud (hamstrings)","Trzymaj 2s → wróć do przysiadu → wyprostuj się do stania"],
-errs:["Puszczanie palców stóp przy prostowaniu kolan","Zaokrąglanie pleców zamiast wypychania bioder","Zbyt szybkie tempo — trzymaj 2s wyprostowane kolana"],
-yt:"https://www.youtube.com/results?search_query=squat+to+stand+stretch+hamstring+mobility+tutorial"},
-{id:15,cat:"B",name:"Prone Y-Raise (Y na brzuchu)",ns:"Prone Y",time:"2×10",tgt:"Dolny trapez, stabilizatory łopatki, prostowniki grzbietu",sc:4.0,ts:120,em:"🔱",sets:2,reps:"10",rest:20,
-cues:["Na brzuchu, czoło na ręczniku, ręce nad głową w kształt Y","Kciuki ku SUFITOWI (rotacja zewnętrzna barków)","WYDECH → unieś ręce 5-10 cm, ściskając łopatki razem i W DÓŁ","Poczuj pracę MIĘDZY i POD łopatkami — dolny trapez","Trzymaj 2-3s → WDECH → opuść. NIE zarzucaj głową!"],
-errs:["Unoszenie głowy/szyi — czoło na ręczniku, szyja neutralna","Wzruszanie barkami — łopatki muszą iść W DÓŁ, nie w górę","Przeprost lędźwi — napnij brzuch, miednica do podłogi"],
-yt:"https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap+exercise+tutorial"}
+{id:1,cat:"B",name:"World's Greatest Stretch",ns:"WGS",time:"2\u00D75 na stron\u0119",tgt:"Biodra, kr\u0119gos\u0142up piersiowy, zginacze bioder",sc:4.8,ts:240,em:"\uD83C\uDF0D",sets:2,reps:"5 na stron\u0119",rest:30,cues:["Du\u017Cy wykrok do przodu, kolano 90\u00B0, d\u0142onie przy wewn\u0119trznej stronie stopy","Napnij po\u015Bladek tylnej nogi \u2014 pog\u0142\u0119biasz rozci\u0105g zginacza biodra","D\u0142o\u0144 za g\u0142ow\u0119 \u2192 wydech \u2192 rotacja tu\u0142owia w g\u00F3r\u0119, \u0142okie\u0107 ku sufitowi","Wdech \u2192 wr\u00F3\u0107 \u0142okciem w d\u00F3\u0142 ku pod\u0142odze (zamknij si\u0119)","Ruch TYLKO z kr\u0119gos\u0142upa piersiowego \u2014 l\u0119d\u017Awie stabilne!"],errs:["Kolano przedniej nogi zapada si\u0119 do wewn\u0105trz","Rotacja z odcinka l\u0119d\u017Awiowego zamiast piersiowego","Zbyt p\u0142ytki wykrok \u2014 zginacz biodra nie rozci\u0105gni\u0119ty"],yt:"https://www.youtube.com/results?search_query=world%27s+greatest+stretch+how+to+proper+form"},
+{id:2,cat:"B",name:"Cat-Cow",ns:"Cat-Cow",time:"2\u00D712 cykli",tgt:"Mobilno\u015B\u0107 ca\u0142ego kr\u0119gos\u0142upa",sc:4.6,ts:180,em:"\uD83D\uDC31",sets:2,reps:"12 cykli",rest:20,cues:["Czworaki: d\u0142onie pod barkami, kolana pod biodrami","WDECH (cow): brzuch w d\u00F3\u0142, klatka i ogon w g\u00F3r\u0119, wzrok \u0142agodnie do przodu","WYDECH (cat): plecy ku sufitowi, broda do klatki, ogon podwini\u0119ty","P\u0142ynne przej\u015Bcia \u2014 3-4 s na ka\u017Cd\u0105 faz\u0119","Ruch segmentowy kr\u0119gos\u0142upa, NIE z ramion czy kolan"],errs:["Zarzucanie g\u0142ow\u0105 w fazie cow \u2192 kompresja szyjna","Ruch z ramion/kolan zamiast z kr\u0119gos\u0142upa","Nie robi\u0107 zaraz po przebudzeniu (dyski wype\u0142nione p\u0142ynem)"],yt:"https://www.youtube.com/results?search_query=cat+cow+stretch+proper+form+tutorial"},
+{id:3,cat:"A",name:"Chin Tuck (retrakcja g\u0142owy)",ns:"Chin Tuck",time:"3\u00D710, 5s hold",tgt:"G\u0142\u0119bokie zginacze szyi, mi\u0119\u015Bnie podpotyliczne",sc:4.6,ts:180,em:"\uD83C\uDFAF",sets:3,reps:"10 \u00D7 5s hold",rest:15,cues:["Sied\u017A prosto, barki cofni\u0119te i opuszczone","Dwa palce na brodzie jako punkt odniesienia","Cofnij g\u0142ow\u0119 horyzontalnie do ty\u0142u \u2014 tworzysz 'podw\u00F3jny podb\u00F3dek'","Poczuj rozci\u0105g u podstawy czaszki + napi\u0119cie z przodu szyi","Trzymaj 5 sekund \u2192 wr\u00F3\u0107 powoli \u2192 powt\u00F3rz"],errs:["Przechylanie g\u0142owy w d\u00F3\u0142 zamiast cofania horyzontalnego","Zbyt du\u017Ca si\u0142a \u2014 aktywuje powierzchowne mi\u0119\u015Bnie","Napinanie \u017Cuchwy i marszczenie czo\u0142a"],yt:"https://www.youtube.com/results?search_query=chin+tuck+exercise+proper+form+physical+therapy"},
+{id:4,cat:"B",name:"Kl\u0119cz\u0105cy rozci\u0105g zginaczy bioder",ns:"Hip Flexor",time:"2\u00D730s na stron\u0119",tgt:"Biodrowo-l\u0119d\u017Awiowy, prosty uda",sc:4.4,ts:180,em:"\uD83E\uDDB5",sets:2,reps:"30s na stron\u0119",rest:15,cues:["Kl\u0119k na jednym kolanie (pod\u0142\u00F3\u017C r\u0119cznik), drugie kolano 90\u00B0 przed tob\u0105","KLUCZOWE: Napnij po\u015Bladek tylnej nogi \u2192 miednica podwija si\u0119 do ty\u0142u","Utrzymuj\u0105c napi\u0119cie po\u015Bladka i brzucha, przesu\u0144 biodra do przodu","NIE wyginaj plec\u00F3w w \u0142uk!","Pog\u0142\u0119bienie: unie\u015B r\u0119k\u0119 tylnej nogi nad g\u0142ow\u0119, przechyl na bok"],errs:["Lordoza l\u0119d\u017Awiowa zamiast posterior pelvic tilt","Kolano przedniej nogi za palcami stopy","Opadanie tu\u0142owia do przodu"],yt:"https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+pelvic+tilt+tutorial"},
+{id:5,cat:"A",name:"Doorway Pec Stretch",ns:"Pec Stretch",time:"2\u00D720s",tgt:"Mi\u0119sie\u0144 piersiowy wi\u0119kszy i mniejszy",sc:4.4,ts:90,em:"\uD83D\uDEAA",sets:2,reps:"20s",rest:10,cues:["Sta\u0144 w drzwiach, przedramiona na futrynach, \u0142okcie na wysoko\u015Bci bark\u00F3w","Cofnij barki, \u015Bci\u0105gnij \u0142opatki","Ma\u0142y krok do przodu \u2014 poczuj rozci\u0105g na przedniej klatce","Nie wyginaj plec\u00F3w w \u0142uk \u2014 core napi\u0119ty","Wariant wy\u017Cszy/ni\u017Cszy \u0142okci \u2192 r\u00F3\u017Cne w\u0142\u00F3kna mi\u0119\u015Bnia"],errs:["Wyginanie plec\u00F3w w lordoz\u0119","Wysuwanie g\u0142owy do przodu","Zbyt agresywne wchodzenie w rozci\u0105g"],yt:"https://www.youtube.com/results?search_query=doorway+pectoral+stretch+proper+form+posture"},
+{id:6,cat:"B",name:"Glute Bridge (mostek biodrowy)",ns:"Glute Bridge",time:"3\u00D712",tgt:"Po\u015Bladkowy wielki, stabilizacja l\u0119d\u017Awi",sc:4.2,ts:240,em:"\uD83C\uDF51",sets:3,reps:"12",rest:30,cues:["Na plecach, kolana zgi\u0119te, stopy na szeroko\u015B\u0107 bioder, pi\u0119ty blisko po\u015Bladk\u00F3w","Napnij brzuch \u2014 p\u0119pek ku kr\u0119gos\u0142upowi","Naci\u015Bnij pi\u0119tami + \u015Bci\u015Bnij po\u015Bladki \u2192 unie\u015B biodra","Prosta linia kolana\u2013barki, max napi\u0119cie po\u015Bladk\u00F3w 2-3s","Powoli opu\u015B\u0107, NIE dotykaj\u0105c pod\u0142ogi \u2192 powt\u00F3rz"],errs:["Przeprost w l\u0119d\u017Awiach zamiast w biodrach","Dominacja tylnych ud \u2014 przybli\u017C stopy do po\u015Bladk\u00F3w","Kolana rozje\u017Cd\u017Caj\u0105 si\u0119 na boki"],yt:"https://www.youtube.com/results?search_query=glute+bridge+proper+form+tutorial+physical+therapy"},
+{id:7,cat:"A",name:"Rotacja piersiowa na krze\u015Ble",ns:"T-Spine Rot.",time:"2\u00D78 na stron\u0119",tgt:"Rotatory kr\u0119gos\u0142upa piersiowego",sc:4.2,ts:150,em:"\uD83D\uDD04",sets:2,reps:"8 na stron\u0119",rest:15,cues:["Brzeg krzes\u0142a, stopy p\u0142asko, r\u0119ce skrzy\u017Cowane na klatce lub za g\u0142ow\u0105","Napnij brzuch \u2192 stabilizacja l\u0119d\u017Awi","WYDECH \u2192 obr\u00F3\u0107 tu\u0142\u00F3w powoli w jedn\u0105 stron\u0119, patrz za bark","Trzymaj 2-3s w ko\u0144cowej pozycji","WDECH \u2192 wr\u00F3\u0107 do \u015Brodka \u2192 powt\u00F3rz na drug\u0105 stron\u0119"],errs:["Obr\u00F3t bioder/kolan razem z tu\u0142owiem","Kompensacja ruchem szyi","Zaokr\u0105glanie plec\u00F3w przy rotacji"],yt:"https://www.youtube.com/results?search_query=seated+thoracic+spine+rotation+exercise+tutorial"},
+{id:8,cat:"B",name:"Open Book (rotacja na boku)",ns:"Open Book",time:"2\u00D78 na stron\u0119",tgt:"Kr\u0119gos\u0142up piersiowy, mi\u0119\u015Bnie piersiowe",sc:4.0,ts:240,em:"\uD83D\uDCD6",sets:2,reps:"8 na stron\u0119",rest:20,cues:["Na lewym boku, kolana i biodra zgi\u0119te 90\u00B0 (pozycja p\u0142odu)","R\u0119ce wyprostowane przed sob\u0105, d\u0142onie z\u0142o\u017Cone","WDECH \u2192 g\u00F3rna r\u0119ka \u0142ukiem nad g\u0142ow\u0105 na drug\u0105 stron\u0119","\u0141opatka ku pod\u0142odze, wzrok za d\u0142oni\u0105, kolana NIERUCHOME","W ko\u0144cowej pozycji: 2-3 g\u0142\u0119bokie oddechy \u2192 WYDECH \u2192 powr\u00F3t"],errs:["Kolana odchodz\u0105 od pod\u0142ogi (u\u017Cyj poduszki mi\u0119dzy nimi)","Wymuszanie rotacji si\u0142\u0105 r\u0119ki","Brak kontroli nad powrotem"],yt:"https://www.youtube.com/results?search_query=open+book+thoracic+rotation+exercise+tutorial"},
+{id:9,cat:"A",name:"Barki + rozci\u0105g boczny szyi",ns:"Barki & Szyja",time:"2\u00D710 + 2\u00D715s/str.",tgt:"G\u00F3rna cz\u0119\u015B\u0107 kapturowego, d\u017Awigacz \u0142opatki",sc:3.8,ts:150,em:"\uD83D\uDC86",sets:2,reps:"10 okr\u0105\u017Ce\u0144 + 15s/stron\u0119",rest:10,cues:["FAZA 1: Barki w g\u00F3r\u0119 \u2192 ty\u0142 \u2192 d\u00F3\u0142 \u2192 prz\u00F3d \u2014 10 k\u00F3\u0142ek do ty\u0142u, 10 do przodu","Ruch powolny, kontrolowany, pe\u0142en zakres","FAZA 2: D\u0142o\u0144 na przeciwnej stronie g\u0142owy (nad uchem)","Przechyl g\u0142ow\u0119 bocznie \u2014 ucho do barku, NIE uno\u015B barku!","Drug\u0105 r\u0119k\u0119 aktywnie kieruj w d\u00F3\u0142 \u2192 pog\u0142\u0119bia rozci\u0105g \u2192 15s"],errs:["Obracanie g\u0142owy zamiast przechylania bocznego","Zbyt du\u017Ca si\u0142a r\u0119ki przy rozci\u0105gu szyi","Szybkie, chaotyczne okr\u0105\u017Canie bark\u00F3w"],yt:"https://www.youtube.com/results?search_query=shoulder+circles+lateral+neck+stretch+desk+exercise"},
+{id:10,cat:"B",name:"Dead Bug (martwy robak)",ns:"Dead Bug",time:"2\u00D78 na stron\u0119",tgt:"Mi\u0119\u015Bnie g\u0142\u0119bokie tu\u0142owia, stabilizacja l\u0119d\u017Awi",sc:3.8,ts:180,em:"\uD83E\uDEB2",sets:2,reps:"8 na stron\u0119",rest:30,cues:["Na plecach: r\u0119ce pionowo nad barkami, kolana nad biodrami (90\u00B0/90\u00B0)","KLUCZOWE: Dolne plecy doci\u015Bni\u0119te do pod\u0142ogi!","WYDECH \u2192 prawa r\u0119ka nad g\u0142ow\u0119 + lewa noga w prz\u00F3d (tu\u017C nad pod\u0142og\u0105)","L\u0119d\u017Awie MUSZ\u0104 zosta\u0107 na pod\u0142odze \u2014 je\u015Bli nie, zmniejsz zakres","WDECH \u2192 powr\u00F3t do 90/90 \u2192 powt\u00F3rz drug\u0105 stron\u0119"],errs:["Odrywanie dolnych plec\u00F3w od pod\u0142ogi (najwa\u017Cniejszy b\u0142\u0105d!)","Wstrzymywanie oddechu","Zbyt szybkie tempo \u2014 ruch 3-4s na faz\u0119"],yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+core+stability+tutorial"},
+{id:11,cat:"A",name:"\u015Alizg nerwu po\u015Brodkowego",ns:"Nerve Floss",time:"2\u00D76 poz. \u00D7 5s",tgt:"Nerw po\u015Brodkowy, nadgarstek, przedrami\u0119",sc:4.3,ts:120,em:"\uD83E\uDD32",sets:2,reps:"6 pozycji \u00D7 5s hold",rest:15,cues:["Pozycja 1: Pi\u0119\u015B\u0107 z kciukiem do siebie, nadgarstek neutralny","Pozycja 2: Wyprostuj palce i kciuk, nadgarstek neutralny","Pozycja 3: Cofnij nadgarstek (d\u0142o\u0144 do g\u00F3ry), palce proste","Pozycja 4: Odwi\u0144 kciuk na bok (od d\u0142oni)","Pozycja 5: Obr\u00F3\u0107 d\u0142o\u0144 \u2014 wewn\u0119trzna strona od siebie","Pozycja 6: Drug\u0105 r\u0119k\u0105 delikatnie poci\u0105gnij kciuk w d\u00F3\u0142 \u2014 \u0141AGODNIE!"],errs:["Zbyt agresywne rozci\u0105ganie \u2014 mrowienie OK, b\u00F3l/dr\u0119twienie NIE","Pomijanie pozycji \u2014 ka\u017Cda dodaje napi\u0119cie stopniowo","Wykonywanie przy istniej\u0105cym b\u00F3lu nadgarstka bez konsultacji"],yt:"https://www.youtube.com/results?search_query=median+nerve+glide+exercise+carpal+tunnel+prevention"},
+{id:12,cat:"A",name:"Wall Angel (anio\u0142 przy \u015Bcianie)",ns:"Wall Angel",time:"2\u00D78",tgt:"Dolny/\u015Brodkowy trapez, z\u0119baty przedni, romboidalny",sc:4.5,ts:150,em:"\uD83D\uDC7C",sets:2,reps:"8",rest:20,cues:["Sta\u0144 plecami do \u015Bciany \u2014 stopy 8-10 cm od \u015Bciany, kolana lekko zgi\u0119te","Doci\u015Bnij do \u015Bciany: g\u0142ow\u0119, \u0142opatki, dolne plecy (posterior pelvic tilt!)","R\u0119ce w pozycji 'W' \u2014 \u0142okcie 90\u00B0, na wys. bark\u00F3w, doci\u015Bni\u0119te do \u015Bciany","WYDECH \u2192 przesu\u0144 r\u0119ce w g\u00F3r\u0119 do 'Y' \u2014 nadgarstki i \u0142okcie przy \u015Bcianie!","WDECH \u2192 wr\u00F3\u0107 do 'W'. Ruch POWOLNY, 3-4s w ka\u017Cd\u0105 stron\u0119"],errs:["Odchodzenie dolnych plec\u00F3w od \u015Bciany (lordoza)","Odrywanie nadgarstk\u00F3w/\u0142okci \u2014 lepiej mniejszy zakres","Zarzucanie g\u0142ow\u0105 \u2014 chin tuck + docisk do \u015Bciany"],yt:"https://www.youtube.com/results?search_query=wall+angels+exercise+proper+form+posture+correction"},
+{id:13,cat:"B",name:"Figure-4 Stretch (gruszkowaty)",ns:"Figure-4",time:"2\u00D730s na stron\u0119",tgt:"Mi\u0119sie\u0144 gruszkowaty, g\u0142\u0119bokie rotatory zewn\u0119trzne biodra",sc:4.2,ts:150,em:"4\uFE0F\u20E3",sets:2,reps:"30s na stron\u0119",rest:15,cues:["Na plecach, kolana zgi\u0119te, stopy na pod\u0142odze","Po\u0142\u00F3\u017C kostk\u0119 prawej nogi na kolanie lewej (kszta\u0142t '4')","Chwy\u0107 lew\u0105 nog\u0119 za udo/gole\u0144 i przyci\u0105gnij ku klatce","Poczujesz g\u0142\u0119boki rozci\u0105g w prawym po\u015Bladku \u2014 to piriformis","Odpychaj prawe kolano \u0142okciem dla pog\u0142\u0119bienia"],errs:["Odrywanie g\u0142owy/bark\u00F3w od pod\u0142ogi","Zbyt agresywne ci\u0105gni\u0119cie \u2014 rozci\u0105g powinien by\u0107 przyjemny","Krzywe ustawienie bioder \u2014 miednica r\u00F3wno na pod\u0142odze"],yt:"https://www.youtube.com/results?search_query=figure+4+piriformis+stretch+supine+tutorial"},
+{id:14,cat:"B",name:"Squat-to-Stand",ns:"Squat-Stand",time:"2\u00D76",tgt:"Hamstrings, mobilno\u015B\u0107 bioder i stawu skokowego",sc:4.1,ts:120,em:"\u2B06\uFE0F",sets:2,reps:"6",rest:20,cues:["Stopy na szeroko\u015B\u0107 bioder \u2192 zejd\u017A do G\u0141\u0118BOKIEGO przysiadu","Chwy\u0107 palce st\u00F3p od spodu \u2014 kciuki pod palcami","NIE puszczaj\u0105c palc\u00F3w \u2192 wyprostuj kolana, biodra w g\u00F3r\u0119","Poczujesz intensywny rozci\u0105g tylnych ud (hamstrings)","Trzymaj 2s \u2192 wr\u00F3\u0107 do przysiadu \u2192 wyprostuj si\u0119 do stania"],errs:["Puszczanie palc\u00F3w st\u00F3p przy prostowaniu kolan","Zaokr\u0105glanie plec\u00F3w zamiast wypychania bioder","Zbyt szybkie tempo \u2014 trzymaj 2s wyprostowane kolana"],yt:"https://www.youtube.com/results?search_query=squat+to+stand+stretch+hamstring+mobility+tutorial"},
+{id:15,cat:"B",name:"Prone Y-Raise (Y na brzuchu)",ns:"Prone Y",time:"2\u00D710",tgt:"Dolny trapez, stabilizatory \u0142opatki, prostowniki grzbietu",sc:4.0,ts:120,em:"\uD83D\uDD31",sets:2,reps:"10",rest:20,cues:["Na brzuchu, czo\u0142o na r\u0119czniku, r\u0119ce nad g\u0142ow\u0105 w kszta\u0142t Y","Kciuki ku SUFITOWI (rotacja zewn\u0119trzna bark\u00F3w)","WYDECH \u2192 unie\u015B r\u0119ce 5-10 cm, \u015Bciskaj\u0105c \u0142opatki razem i W D\u00D3\u0141","Poczuj prac\u0119 MI\u0118DZY i POD \u0142opatkami \u2014 dolny trapez","Trzymaj 2-3s \u2192 WDECH \u2192 opu\u015B\u0107. NIE zarzucaj g\u0142ow\u0105!"],errs:["Unoszenie g\u0142owy/szyi \u2014 czo\u0142o na r\u0119czniku, szyja neutralna","Wzruszanie barkami \u2014 \u0142opatki musz\u0105 i\u015B\u0107 W D\u00D3\u0141, nie w g\u00F3r\u0119","Przeprost l\u0119d\u017Awi \u2014 napnij brzuch, miednica do pod\u0142ogi"],yt:"https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap+exercise+tutorial"}
 ];
+const MICRO=[3,12,5,7,11,9],POST=[2,4,1,14,6,13,8,15,10];
+function fmt(s){return Math.floor(s/60)+":"+(s%60).toString().padStart(2,"0")}
+function scCol(s){return s>=4.5?"#22c55e":s>=4?"#84cc16":s>=3.5?"#eab308":"#f97316"}
+function logS(type){const d=ST.get('tr',{});const k=todayKey();if(!d[k])d[k]={m:0,s:0};d[k][type==='micro'?'m':'s']++;ST.set('tr',d)}
+function getStreak(){const d=ST.get('tr',{});let s=0;const n=new Date();n.setHours(0,0,0,0);for(let i=0;i<365;i++){const dt=new Date(n);dt.setDate(dt.getDate()-i);const k=dt.toISOString().slice(0,10);if(d[k]&&(d[k].m>0||d[k].s>0))s++;else break}return s}
+function getMD(y,m){const d=ST.get('tr',{});const r=[];const f=new Date(y,m,1);const l=new Date(y,m+1,0);for(let i=1;i<=l.getDate();i++){const k=y+"-"+String(m+1).padStart(2,"0")+"-"+String(i).padStart(2,"0");const v=d[k]||{m:0,s:0};r.push({day:i,k,mc:v.m,sc:v.s,t:v.m+v.s})}return{days:r,fd:(f.getDay()+6)%7}}
 
-const MICRO=[3,12,5,7,11,9];
-const POST=[2,4,1,14,6,13,8,15,10];
+function Timer({total,onDone,tkey}){const[rem,setRem]=useState(total);const[run,setRun]=useState(false);const iv=useRef(null);
+useEffect(()=>{setRem(total);setRun(false);iv.current&&clearInterval(iv.current)},[total,tkey]);
+useEffect(()=>{if(run&&rem>0){iv.current=setInterval(()=>setRem(p=>{if(p<=1){clearInterval(iv.current);setRun(false);beep();if(onDone)onDone();return 0}return p-1}),1000)}return()=>clearInterval(iv.current)},[run,rem]);
+const pct=rem/total*100,R=54,C=2*Math.PI*R,off=C-pct/100*C,col=rem<10&&rem>0?"#ef4444":"#6ee7b7";
+return e("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",gap:12}},
+e("div",{className:"timer-ring"},e("svg",{width:130,height:130,viewBox:"0 0 130 130"},e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:"rgba(255,255,255,0.06)",strokeWidth:8}),e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:col,strokeWidth:8,strokeLinecap:"round",strokeDasharray:C,strokeDashoffset:off,transform:"rotate(-90 65 65)",style:{transition:"stroke-dashoffset 0.3s linear,stroke 0.3s ease"}})),e("div",{className:"timer-text",style:{color:rem===0?"#22c55e":"#e2e8f0"}},rem===0?"\u2713":fmt(rem))),
+e("div",{style:{display:"flex",gap:8}},e("button",{className:"timer-btn "+(run?"btn-pause":"btn-start"),onClick:()=>{if(rem===0)setRem(total);setRun(!run)}},run?"\u23F8 Pauza":rem===0?"\u25B6 Od nowa":"\u25B6 Start"),e("button",{className:"timer-btn btn-reset",onClick:()=>{setRem(total);setRun(false);clearInterval(iv.current)}},"\u21BA Reset")))}
 
-function fmt(s){const m=Math.floor(s/60);return m+":"+(s%60).toString().padStart(2,"0")}
-function scCol(s){return s>=4.5?"#22c55e":s>=4.0?"#84cc16":s>=3.5?"#eab308":"#f97316"}
+function Card({ex,open,toggle}){const cc=ex.cat==="A"?"#38bdf8":"#c084fc",cl=ex.cat==="A"?"MIKRO-PRZERWA":"SESJA PO PRACY";
+return e("div",{className:"card "+(open?"expanded":"collapsed")},
+e("button",{className:"card-header",onClick:toggle},e("span",{style:{fontSize:26,lineHeight:1,flexShrink:0}},ex.em),e("div",{style:{flex:1,minWidth:0}},e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}},e("span",{className:"badge",style:{color:cc,background:cc+"15"}},cl),ex.id>10&&e("span",{className:"badge-new"},"NOWE"),e("div",{style:{display:"flex",alignItems:"center",gap:6}},e("div",{className:"score-bar"},e("div",{className:"score-fill",style:{width:(ex.sc/5*100)+"%",background:scCol(ex.sc)}})),e("span",{style:{fontSize:11,color:scCol(ex.sc),fontWeight:700}},ex.sc.toFixed(1)))),e("div",{style:{fontSize:15,fontWeight:600,color:"#e2e8f0",lineHeight:1.3}},ex.name),e("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},ex.tgt+" \u00B7 "+ex.time)),e("span",{style:{color:"#475569",fontSize:18,transition:"transform 0.3s",transform:open?"rotate(180deg)":"rotate(0)",flexShrink:0}},"\u25BE")),
+open&&e("div",{className:"card-body"},e(Timer,{total:ex.ts,tkey:ex.id}),e("div",{style:{marginTop:16}},e("div",{className:"section-label",style:{color:"#6ee7b7"}},"Technika wykonania"),ex.cues.map((c,i)=>e("div",{className:"cue-step",key:i},e("span",{className:"cue-num"},i+1),e("span",null,c)))),e("div",{style:{marginTop:12}},e("div",{className:"section-label",style:{color:"#f87171"}},"\u26A0 Unikaj tych b\u0142\u0119d\u00F3w"),ex.errs.map((r,i)=>e("div",{className:"error-item",key:i},r))),e("div",{style:{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}},e("span",{className:"pill"},ex.sets+" serie \u00D7 "+ex.reps),e("span",{className:"pill"},"Przerwa: "+ex.rest+"s"),e("a",{href:ex.yt,target:"_blank",rel:"noopener noreferrer",className:"yt-pill"},"\u25B6 YouTube"))))}
 
-function Timer({total,key:k}){
-  const[rem,setRem]=useState(total);
-  const[run,setRun]=useState(false);
-  const iv=useRef(null);
-  useEffect(()=>{setRem(total);setRun(false);iv.current&&clearInterval(iv.current)},[total,k]);
-  useEffect(()=>{
-    if(run&&rem>0){iv.current=setInterval(()=>setRem(p=>{if(p<=1){clearInterval(iv.current);setRun(false);return 0}return p-1}),1000)}
-    return()=>clearInterval(iv.current);
-  },[run,rem]);
-  const pct=rem/total*100,R=54,C=2*Math.PI*R,off=C-pct/100*C;
-  const col=rem<10&&rem>0?"#ef4444":"#6ee7b7";
-  return e("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",gap:12}},
-    e("div",{className:"timer-ring"},
-      e("svg",{width:130,height:130,viewBox:"0 0 130 130"},
-        e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:"rgba(255,255,255,0.06)",strokeWidth:8}),
-        e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:col,strokeWidth:8,strokeLinecap:"round",
-          strokeDasharray:C,strokeDashoffset:off,transform:"rotate(-90 65 65)",
-          style:{transition:"stroke-dashoffset 0.3s linear, stroke 0.3s ease"}})
-      ),
-      e("div",{className:"timer-text",style:{color:rem===0?"#22c55e":"#e2e8f0"}},rem===0?"✓":fmt(rem))
-    ),
-    e("div",{style:{display:"flex",gap:8}},
-      e("button",{className:"timer-btn "+(run?"btn-pause":"btn-start"),
-        onClick:()=>{if(rem===0)setRem(total);setRun(!run)}},
-        run?"⏸ Pauza":rem===0?"▶ Od nowa":"▶ Start"),
-      e("button",{className:"timer-btn btn-reset",onClick:()=>{setRem(total);setRun(false);clearInterval(iv.current)}},"↺ Reset")
-    )
-  );
-}
+function Routine({title,ids,icon,type}){const[idx,setIdx]=useState(0);const[done,setDone]=useState({});const exs=ids.map(id=>EX.find(x=>x.id===id));const cur=exs[idx];const cnt=Object.keys(done).length;const allDone=cnt===exs.length;
+const mark=()=>{const nd={...done,[idx]:true};setDone(nd);if(Object.keys(nd).length===exs.length){logS(type);beep()}else if(idx<exs.length-1)setIdx(idx+1)};
+return e("div",null,e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},e("div",{style:{fontSize:14,fontWeight:700,color:"#e2e8f0"}},icon+" "+title),e("div",{style:{fontSize:12,color:"#64748b"}},cnt+"/"+exs.length)),
+e("div",{style:{display:"flex",gap:4,marginBottom:16}},exs.map((_,i)=>e("button",{key:i,className:"progress-seg",onClick:()=>setIdx(i),style:{background:done[i]?"#22c55e":i===idx?"#6ee7b7":"rgba(255,255,255,0.08)"}}))),
+allDone?e("div",{className:"done-banner"},e("div",{style:{fontSize:40,marginBottom:8,animation:"pulse 0.6s ease"}},"\uD83C\uDF89"),e("div",{style:{fontSize:18,fontWeight:700,color:"#22c55e",marginBottom:4}},"Gratulacje!"),e("div",{style:{fontSize:13,color:"#94a3b8",marginBottom:4}},"Sesja zapisana w trackerze"),e("div",{style:{fontSize:12,color:"#6ee7b7"}},"\uD83D\uDD25 Streak: "+getStreak()+" dni"),e("button",{onClick:()=>{setDone({});setIdx(0)},className:"timer-btn btn-start",style:{marginTop:16}},"\u21BA Zacznij od nowa")):
+e("div",{className:"routine-card"},e("div",{style:{display:"flex",alignItems:"center",gap:10,marginBottom:16}},e("span",{style:{fontSize:28}},cur.em),e("div",null,e("div",{style:{fontSize:16,fontWeight:700,color:"#e2e8f0"}},cur.name),e("div",{style:{fontSize:12,color:"#64748b"}},cur.sets+" serie \u00D7 "+cur.reps))),e(Timer,{total:cur.ts,tkey:"r"+cur.id+idx}),e("div",{style:{marginTop:16}},cur.cues.map((c,i)=>e("div",{key:i,style:{display:"flex",gap:8,marginBottom:6,fontSize:13,color:"#cbd5e1",lineHeight:1.5}},e("span",{style:{color:"#6ee7b7",fontWeight:700,flexShrink:0}},i+1+"."),e("span",null,c)))),e("div",{style:{display:"flex",gap:8,marginTop:16}},e("button",{className:"btn-done",onClick:mark},"\u2713 Gotowe \u2014 nast\u0119pne"),e("a",{href:cur.yt,target:"_blank",rel:"noopener noreferrer",className:"btn-yt"},"\u25B6"))))}
 
-function Card({ex,open,toggle}){
-  const cc=ex.cat==="A"?"#38bdf8":"#c084fc";
-  const cl=ex.cat==="A"?"MIKRO-PRZERWA":"SESJA PO PRACY";
-  return e("div",{className:"card "+(open?"expanded":"collapsed")},
-    e("button",{className:"card-header",onClick:toggle},
-      e("span",{style:{fontSize:26,lineHeight:1,flexShrink:0}},ex.em),
-      e("div",{style:{flex:1,minWidth:0}},
-        e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}},
-          e("span",{className:"badge",style:{color:cc,background:cc+"15"}},cl),
-          ex.id>10&&e("span",{className:"badge-new"},"NOWE"),
-          e("div",{style:{display:"flex",alignItems:"center",gap:6}},
-            e("div",{className:"score-bar"},e("div",{className:"score-fill",style:{width:(ex.sc/5*100)+"%",background:scCol(ex.sc)}})),
-            e("span",{style:{fontSize:11,color:scCol(ex.sc),fontWeight:700}},ex.sc.toFixed(1))
-          )
-        ),
-        e("div",{style:{fontSize:15,fontWeight:600,color:"#e2e8f0",lineHeight:1.3}},ex.name),
-        e("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},ex.tgt+" · "+ex.time)
-      ),
-      e("span",{style:{color:"#475569",fontSize:18,transition:"transform 0.3s",transform:open?"rotate(180deg)":"rotate(0)",flexShrink:0}},"▾")
-    ),
-    open&&e("div",{className:"card-body"},
-      e(Timer,{total:ex.ts,key:ex.id}),
-      e("div",{style:{marginTop:16}},
-        e("div",{className:"section-label",style:{color:"#6ee7b7"}},"Technika wykonania"),
-        ex.cues.map((c,i)=>e("div",{className:"cue-step",key:i},e("span",{className:"cue-num"},i+1),e("span",null,c)))
-      ),
-      e("div",{style:{marginTop:12}},
-        e("div",{className:"section-label",style:{color:"#f87171"}},"⚠ Unikaj tych błędów"),
-        ex.errs.map((er,i)=>e("div",{className:"error-item",key:i},er))
-      ),
-      e("div",{style:{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}},
-        e("span",{className:"pill"},ex.sets+" serie × "+ex.reps),
-        e("span",{className:"pill"},"Przerwa: "+ex.rest+"s"),
-        e("a",{href:ex.yt,target:"_blank",rel:"noopener noreferrer",className:"yt-pill"},"▶ YouTube")
-      )
-    )
-  );
-}
+function Heatmap(){const now=new Date();const[mo,setMo]=useState(now.getMonth());const[yr,setYr]=useState(now.getFullYear());
+const data=getMD(yr,mo);const streak=getStreak();const tr=ST.get('tr',{});const tDays=Object.keys(tr).length;
+const tM=Object.values(tr).reduce((a,v)=>a+(v.m||0),0);const tS=Object.values(tr).reduce((a,v)=>a+(v.s||0),0);
+const mn=["Stycze\u0144","Luty","Marzec","Kwiecie\u0144","Maj","Czerwiec","Lipiec","Sierpie\u0144","Wrzesie\u0144","Pa\u017Adziernik","Listopad","Grudzie\u0144"];
+const dn=["Pn","Wt","\u015Ar","Cz","Pt","So","Nd"];
+const pM=()=>{if(mo===0){setMo(11);setYr(yr-1)}else setMo(mo-1)};
+const nM=()=>{const n=new Date();if(yr===n.getFullYear()&&mo===n.getMonth())return;if(mo===11){setMo(0);setYr(yr+1)}else setMo(mo+1)};
+const cc=t=>t===0?"rgba(255,255,255,0.04)":t===1?"rgba(110,231,183,0.2)":t===2?"rgba(110,231,183,0.4)":t>=3?"rgba(110,231,183,0.7)":"rgba(110,231,183,0.9)";
+const isT=k=>k===todayKey();
+return e("div",null,
+e("div",{style:{textAlign:"center",marginBottom:24,padding:20,background:"rgba(255,255,255,0.02)",borderRadius:16,border:"1px solid rgba(255,255,255,0.06)"}},e("div",{className:"streak-num",style:{fontFamily:"'JetBrains Mono',monospace",fontSize:48,fontWeight:700,lineHeight:1,background:"linear-gradient(135deg,#6ee7b7,#22c55e)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},streak),e("div",{style:{fontSize:13,color:"#94a3b8",marginTop:4}},streak===1?"dzie\u0144 z rz\u0119du":"dni z rz\u0119du"),e("div",{style:{fontSize:11,color:"#475569",marginTop:2}},"\uD83D\uDD25 Tw\u00F3j aktualny streak")),
+e("div",{style:{display:"flex",gap:8,marginBottom:20}},e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#38bdf8"}},tM),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\u26A1 Mikro-przerw")),e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#c084fc"}},tS),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\uD83E\uDDD8 Sesji po pracy")),e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#6ee7b7"}},tDays),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\uD83D\uDCC5 Aktywnych dni"))),
+e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},e("button",{onClick:pM,style:{background:"rgba(255,255,255,0.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"\u2039"),e("div",{style:{fontSize:14,fontWeight:700,color:"#e2e8f0"}},mn[mo]+" "+yr),e("button",{onClick:nM,style:{background:"rgba(255,255,255,0.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"\u203A")),
+e("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:4}},dn.map(d=>e("div",{key:d,style:{textAlign:"center",fontSize:10,color:"#475569",fontWeight:600}},d))),
+e("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}},Array(data.fd).fill(null).map((_,i)=>e("div",{key:"e"+i,style:{aspectRatio:"1"}})),data.days.map(d=>e("div",{key:d.day,title:d.k+": "+d.t+" sesji",style:{background:cc(d.t),outline:isT(d.k)?"2px solid #6ee7b7":"none",outlineOffset:"-1px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,color:d.t>0?"#e2e8f0":"#334155",aspectRatio:"1",borderRadius:4}},d.day))),
+e("div",{style:{display:"flex",alignItems:"center",gap:6,marginTop:12,justifyContent:"center"}},e("span",{style:{fontSize:10,color:"#475569"}},"Mniej"),[0,1,2,3].map(l=>e("div",{key:l,style:{width:12,height:12,borderRadius:3,background:cc(l)}})),e("span",{style:{fontSize:10,color:"#475569"}},"Wi\u0119cej")),
+e("div",{style:{textAlign:"center",marginTop:20}},e("button",{onClick:()=>{if(confirm("Wyczy\u015Bci\u0107 ca\u0142y tracker?")){ST.set('tr',{});location.reload()}},style:{fontSize:11,color:"#475569",background:"transparent",padding:"6px 12px"}},"Wyczy\u015B\u0107 dane trackera")))}
 
-function Routine({title,ids,icon}){
-  const[idx,setIdx]=useState(0);
-  const[done,setDone]=useState({});
-  const exs=ids.map(id=>EX.find(x=>x.id===id));
-  const cur=exs[idx];
-  const cnt=Object.keys(done).length;
-  const allDone=cnt===exs.length;
-  const mark=()=>{const nd={...done,[idx]:true};setDone(nd);if(idx<exs.length-1)setIdx(idx+1)};
-  return e("div",null,
-    e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},
-      e("div",{style:{fontSize:14,fontWeight:700,color:"#e2e8f0"}},icon+" "+title),
-      e("div",{style:{fontSize:12,color:"#64748b"}},cnt+"/"+exs.length+" ukończone")
-    ),
-    e("div",{style:{display:"flex",gap:4,marginBottom:16}},
-      exs.map((_,i)=>e("button",{key:i,className:"progress-seg",onClick:()=>setIdx(i),
-        style:{background:done[i]?"#22c55e":i===idx?"#6ee7b7":"rgba(255,255,255,0.08)"}}))
-    ),
-    allDone?
-      e("div",{className:"done-banner"},
-        e("div",{style:{fontSize:40,marginBottom:8}},"🎉"),
-        e("div",{style:{fontSize:18,fontWeight:700,color:"#22c55e",marginBottom:4}},"Gratulacje!"),
-        e("div",{style:{fontSize:13,color:"#94a3b8"}},"Wszystkie ćwiczenia ukończone"),
-        e("button",{onClick:()=>{setDone({});setIdx(0)},className:"timer-btn btn-start",
-          style:{marginTop:16}},"↺ Zacznij od nowa")
-      ):
-      e("div",{className:"routine-card"},
-        e("div",{style:{display:"flex",alignItems:"center",gap:10,marginBottom:16}},
-          e("span",{style:{fontSize:28}},cur.em),
-          e("div",null,
-            e("div",{style:{fontSize:16,fontWeight:700,color:"#e2e8f0"}},cur.name),
-            e("div",{style:{fontSize:12,color:"#64748b"}},cur.sets+" serie × "+cur.reps)
-          )
-        ),
-        e(Timer,{total:cur.ts,key:"r"+cur.id+idx}),
-        e("div",{style:{marginTop:16}},
-          cur.cues.map((c,i)=>e("div",{key:i,style:{display:"flex",gap:8,marginBottom:6,fontSize:13,color:"#cbd5e1",lineHeight:1.5}},
-            e("span",{style:{color:"#6ee7b7",fontWeight:700,flexShrink:0}},i+1+"."),e("span",null,c)))
-        ),
-        e("div",{style:{display:"flex",gap:8,marginTop:16}},
-          e("button",{className:"btn-done",onClick:mark},"✓ Gotowe — następne"),
-          e("a",{href:cur.yt,target:"_blank",rel:"noopener noreferrer",className:"btn-yt"},"▶")
-        )
-      )
-  );
-}
+function Notifs(){const[perm,setPerm]=useState(nStat());const[on,setOn]=useState(ST.get('no',false));const[mins,setMins]=useState(ST.get('nm',90));
+useEffect(()=>{if(on&&perm==='granted')startR(mins)},[]);
+const toggle=()=>{if(!on){if(perm!=='granted'){reqN(p=>{setPerm(p);if(p==='granted'){startR(mins);setOn(true)}})}else{startR(mins);setOn(true)}}else{stopR();setOn(false)}};
+const chg=m=>{setMins(m);ST.set('nm',m);if(on)startR(m)};
+return e("div",null,
+e("div",{className:"notif-card"},e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},e("div",null,e("div",{style:{fontSize:15,fontWeight:700,color:"#e2e8f0"}},"\u26A1 Przypomnienia"),e("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},on?"Aktywne \u2014 co "+mins+" min":"Wy\u0142\u0105czone")),e("button",{onClick:toggle,style:{width:52,height:28,borderRadius:14,padding:2,background:on?"#22c55e":"rgba(255,255,255,0.1)",transition:"all 0.3s",display:"flex",alignItems:"center"}},e("div",{style:{width:24,height:24,borderRadius:12,background:"#fff",transition:"all 0.3s",transform:on?"translateX(24px)":"translateX(0)"}}))),
+perm==='denied'&&e("div",{style:{fontSize:12,color:"#f87171",marginTop:8,padding:8,background:"rgba(248,113,113,0.08)",borderRadius:8}},"\u26A0 Powiadomienia zablokowane. Odblokuj: k\u0142\u00F3dka obok adresu \u2192 Powiadomienia \u2192 Zezwalaj."),
+perm==='unavailable'&&e("div",{style:{fontSize:12,color:"#eab308",marginTop:8,padding:8,background:"rgba(234,179,8,0.08)",borderRadius:8}},"\u26A0 Przegl\u0105darka nie obs\u0142uguje powiadomie\u0144. U\u017Cyj Chrome.")),
+on&&e("div",{className:"notif-card"},e("div",{style:{fontSize:13,fontWeight:700,color:"#e2e8f0",marginBottom:12}},"Cz\u0119stotliwo\u015B\u0107"),e("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}},[45,60,90,120].map(m=>e("button",{key:m,onClick:()=>chg(m),style:{padding:"10px 8px",borderRadius:10,fontSize:13,fontWeight:600,textAlign:"center",background:mins===m?"rgba(110,231,183,0.15)":"rgba(255,255,255,0.04)",color:mins===m?"#6ee7b7":"#94a3b8",transition:"all 0.2s"}},m+" min")))),
+e("div",{className:"notif-card",style:{marginTop:12}},e("div",{style:{fontSize:13,fontWeight:700,color:"#e2e8f0",marginBottom:8}},"\uD83D\uDD0A D\u017Awi\u0119k timera"),e("div",{style:{fontSize:12,color:"#64748b",marginBottom:12}},"Timer ko\u0144czy si\u0119 potr\u00F3jnym sygna\u0142em + wibracj\u0105."),e("button",{onClick:beep,style:{padding:"8px 16px",borderRadius:8,fontSize:12,fontWeight:600,background:"rgba(255,255,255,0.06)",color:"#94a3b8"}},"\u25B6 Testuj d\u017Awi\u0119k + wibracj\u0119")))}
 
-function App(){
-  const[tab,setTab]=useState("all");
-  const[exp,setExp]=useState(null);
-  const[flt,setFlt]=useState("all");
-  const tabs=[{id:"all",l:"Katalog",ic:"📋"},{id:"micro",l:"Mikro-przerwa",ic:"⚡"},{id:"session",l:"Sesja po pracy",ic:"🧘"}];
-  const filtered=flt==="all"?EX:flt==="A"?EX.filter(x=>x.cat==="A"):EX.filter(x=>x.cat==="B");
-
-  return e("div",null,
-    e("div",{className:"header"},
-      e("div",{style:{fontSize:11,fontWeight:700,letterSpacing:2,color:"#475569",textTransform:"uppercase",marginBottom:4}},"PROGRAM KOMPENSACYJNY"),
-      e("h1",{style:{fontSize:24,fontWeight:700,margin:0,lineHeight:1.2,background:"linear-gradient(135deg,#e2e8f0,#6ee7b7)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},"Ćwiczenia dla pracownika biurowego"),
-      e("p",{style:{fontSize:13,color:"#64748b",margin:"6px 0 0",lineHeight:1.5}},"15 ćwiczeń z timerem, instrukcjami i linkami do YouTube. Działa offline.")
-    ),
-    e("div",{className:"tab-bar"},
-      tabs.map(t=>e("button",{key:t.id,className:"tab-btn "+(tab===t.id?"active":""),
-        onClick:()=>{setTab(t.id);setExp(null)}},e("span",{style:{fontSize:16}},t.ic),t.l))
-    ),
-    e("div",{className:"content"},
-      tab==="all"&&e("div",null,
-        e("div",{style:{display:"flex",gap:6,marginBottom:16}},
-          [["all","Wszystkie (15)"],["A","Mikro-przerwy (8)"],["B","Po pracy (7)"]].map(([v,l])=>
-            e("button",{key:v,className:"filter-btn "+(flt===v?"active":""),onClick:()=>setFlt(v)},l))
-        ),
-        filtered.map(ex=>e(Card,{key:ex.id,ex,open:exp===ex.id,toggle:()=>setExp(exp===ex.id?null:ex.id)}))
-      ),
-      tab==="micro"&&e(Routine,{title:"Mikro-przerwa w pracy",ids:MICRO,icon:"⚡"}),
-      tab==="session"&&e(Routine,{title:"Sesja kompensacyjna po pracy",ids:POST,icon:"🧘"})
-    )
-  );
-}
+function App(){const[tab,setTab]=useState("all");const[exp,setExp]=useState(null);const[flt,setFlt]=useState("all");const[_,setR]=useState(0);
+const tabs=[{id:"all",l:"Katalog",ic:"\uD83D\uDCCB"},{id:"micro",l:"Mikro",ic:"\u26A1"},{id:"session",l:"Sesja",ic:"\uD83E\uDDD8"},{id:"tracker",l:"Tracker",ic:"\uD83D\uDD25"},{id:"settings",l:"Ustaw.",ic:"\u2699\uFE0F"}];
+const filtered=flt==="all"?EX:flt==="A"?EX.filter(x=>x.cat==="A"):EX.filter(x=>x.cat==="B");
+const rf=()=>setR(r=>r+1);
+return e("div",null,
+e("div",{className:"header"},e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between"}},e("div",null,e("div",{style:{fontSize:11,fontWeight:700,letterSpacing:2,color:"#475569",textTransform:"uppercase",marginBottom:4}},"PROGRAM KOMPENSACYJNY"),e("h1",{style:{fontSize:22,fontWeight:700,margin:0,lineHeight:1.2,background:"linear-gradient(135deg,#e2e8f0,#6ee7b7)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},"\u0106wiczenia biurowe")),getStreak()>0&&e("div",{style:{textAlign:"center"}},e("div",{style:{fontSize:24,fontWeight:700,color:"#6ee7b7",fontFamily:"'JetBrains Mono',monospace"}},getStreak()),e("div",{style:{fontSize:9,color:"#475569",letterSpacing:1}},"STREAK")))),
+e("div",{className:"tab-bar"},tabs.map(t=>e("button",{key:t.id,className:"tab-btn "+(tab===t.id?"active":""),onClick:()=>{setTab(t.id);setExp(null);rf()}},e("span",{style:{fontSize:14}},t.ic),t.l))),
+e("div",{className:"content"},
+tab==="all"&&e("div",null,e("div",{style:{display:"flex",gap:6,marginBottom:16}},[["all","Wszystkie"],["A","Mikro (8)"],["B","Po pracy (7)"]].map(([v,l])=>e("button",{key:v,className:"filter-btn "+(flt===v?"active":""),onClick:()=>setFlt(v)},l))),filtered.map(ex=>e(Card,{key:ex.id,ex,open:exp===ex.id,toggle:()=>setExp(exp===ex.id?null:ex.id)}))),
+tab==="micro"&&e(Routine,{title:"Mikro-przerwa w pracy",ids:MICRO,icon:"\u26A1",type:"micro",key:"m"+_}),
+tab==="session"&&e(Routine,{title:"Sesja kompensacyjna po pracy",ids:POST,icon:"\uD83E\uDDD8",type:"session",key:"s"+_}),
+tab==="tracker"&&e(Heatmap,{key:"t"+_}),
+tab==="settings"&&e(Notifs,{key:"n"+_})))}
 
 ReactDOM.createRoot(document.getElementById("app")).render(e(App));
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js')}
