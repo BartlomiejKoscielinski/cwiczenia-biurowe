@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,58 +12,54 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=JetBrains+Mono:wght@700&display=swap');
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{background:#0c0f1a;color:#e2e8f0;font-family:'DM Sans','Segoe UI',system-ui,sans-serif;
-    max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;
-    background:linear-gradient(180deg,#0c0f1a 0%,#111827 50%,#0f172a 100%);
-    overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
-  button{font-family:inherit;cursor:pointer;border:none}
-  button:active{filter:brightness(1.15);transform:scale(0.97)}
-  a{text-decoration:none}a:active{filter:brightness(1.2)}
-  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}
-  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
-  @keyframes fadeSlide{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-  .header{padding:24px 20px 0;padding-top:max(24px,env(safe-area-inset-top))}
-  .tab-bar{display:flex;gap:3px;padding:12px 20px;position:sticky;top:0;
-    background:linear-gradient(180deg,#0c0f1a 80%,transparent);z-index:10}
-  .tab-btn{flex:1;padding:8px 4px;border-radius:10px;font-weight:600;font-size:11px;
-    display:flex;flex-direction:column;align-items:center;gap:2px;transition:all 0.2s}
-  .tab-btn.active{background:rgba(110,231,183,0.12);color:#6ee7b7}
-  .tab-btn:not(.active){background:rgba(255,255,255,0.03);color:#64748b}
-  .content{padding:0 20px 32px}
-  .card{border-radius:16px;overflow:hidden;transition:all 0.3s ease;margin-bottom:8px}
-  .card.collapsed{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
-  .card.expanded{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)}
-  .card-header{width:100%;padding:16px 20px;background:transparent;text-align:left;display:flex;align-items:center;gap:14px}
-  .badge{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:2px 7px;border-radius:4px;display:inline-block}
-  .badge-new{font-size:9px;font-weight:800;letter-spacing:1px;color:#fbbf24;background:rgba(251,191,36,0.12);padding:2px 6px;border-radius:4px}
-  .score-bar{width:48px;height:6px;border-radius:3px;background:rgba(255,255,255,0.08)}
-  .score-fill{height:100%;border-radius:3px;transition:width 0.5s ease}
-  .card-body{padding:0 20px 20px;animation:fadeSlide 0.3s ease}
-  .cue-step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;color:#cbd5e1;line-height:1.5}
-  .cue-num{width:20px;height:20px;border-radius:6px;flex-shrink:0;background:rgba(110,231,183,0.1);color:#6ee7b7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
-  .error-item{font-size:13px;color:#94a3b8;margin-bottom:6px;line-height:1.5;padding-left:12px;border-left:2px solid rgba(248,113,113,0.2)}
-  .pill{font-size:12px;color:#64748b;background:rgba(255,255,255,0.04);padding:4px 10px;border-radius:6px;display:inline-block}
-  .yt-pill{font-size:12px;color:#f87171;background:rgba(248,113,113,0.08);padding:4px 10px;border-radius:6px;font-weight:600;display:inline-block}
-  .timer-ring{position:relative;width:130px;height:130px}
-  .timer-text{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono','SF Mono','Fira Code',monospace;font-size:28px;font-weight:700;letter-spacing:2px}
-  .timer-btn{padding:8px 20px;border-radius:8px;font-weight:600;font-size:13px;transition:all 0.2s}
-  .btn-start{background:rgba(110,231,183,0.15);color:#6ee7b7}
-  .btn-pause{background:rgba(239,68,68,0.15);color:#fca5a5}
-  .btn-reset{background:rgba(255,255,255,0.06);color:#94a3b8;padding:8px 14px}
-  .routine-card{background:rgba(255,255,255,0.03);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:20px}
-  .btn-done{flex:1;padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;background:linear-gradient(135deg,rgba(34,197,94,0.2),rgba(110,231,183,0.15));color:#6ee7b7;transition:all 0.2s}
-  .btn-yt{padding:12px 16px;border-radius:10px;background:rgba(248,113,113,0.08);color:#f87171;font-weight:600;font-size:14px;display:flex;align-items:center}
-  .progress-seg{flex:1;height:6px;border-radius:3px;border:none;cursor:pointer;transition:all 0.3s}
-  .filter-btn{padding:6px 12px;border-radius:6px;font-weight:600;font-size:12px}
-  .filter-btn.active{background:rgba(255,255,255,0.08);color:#e2e8f0}
-  .filter-btn:not(.active){background:transparent;color:#475569}
-  .section-label{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
-  .done-banner{text-align:center;padding:32px;background:rgba(34,197,94,0.06);border-radius:16px}
-  .stat-box{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;text-align:center;flex:1}
-  .notif-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;margin-bottom:12px}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=JetBrains+Mono:wght@700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#0c0f1a;color:#e2e8f0;font-family:'DM Sans','Segoe UI',system-ui,sans-serif;
+  max-width:480px;margin:0 auto;min-height:100dvh;
+  background:linear-gradient(180deg,#0c0f1a,#111827 50%,#0f172a);
+  overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
+button{font-family:inherit;cursor:pointer;border:none}
+button:active{filter:brightness(1.15);transform:scale(0.97)}
+a{text-decoration:none}a:active{filter:brightness(1.2)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes breathe{0%,100%{opacity:.6}50%{opacity:1}}
+.hdr{padding:24px 20px 0;padding-top:max(24px,env(safe-area-inset-top))}
+.tabs{display:flex;gap:3px;padding:12px 20px;position:sticky;top:0;background:linear-gradient(180deg,#0c0f1a 80%,transparent);z-index:10}
+.tab{flex:1;padding:8px 4px;border-radius:10px;font-weight:600;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;transition:.2s}
+.tab.on{background:rgba(110,231,183,.12);color:#6ee7b7}.tab:not(.on){background:rgba(255,255,255,.03);color:#64748b}
+.cnt{padding:0 20px 32px}
+.crd{border-radius:16px;overflow:hidden;transition:.3s;margin-bottom:8px}
+.crd.off{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.crd.on{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.ch{width:100%;padding:16px 20px;background:0;text-align:left;display:flex;align-items:center;gap:14px}
+.bdg{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:2px 7px;border-radius:4px}
+.new{font-size:9px;font-weight:800;letter-spacing:1px;color:#fbbf24;background:rgba(251,191,36,.12);padding:2px 6px;border-radius:4px}
+.sb{width:48px;height:6px;border-radius:3px;background:rgba(255,255,255,.08)}.sf{height:100%;border-radius:3px;transition:.5s}
+.cb{padding:0 20px 20px;animation:fadeIn .3s}
+.cs{display:flex;gap:10px;margin-bottom:8px;font-size:13px;color:#cbd5e1;line-height:1.5}
+.cn{width:20px;height:20px;border-radius:6px;flex-shrink:0;background:rgba(110,231,183,.1);color:#6ee7b7;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+.ei{font-size:13px;color:#94a3b8;margin-bottom:6px;line-height:1.5;padding-left:12px;border-left:2px solid rgba(248,113,113,.2)}
+.pl{font-size:12px;color:#64748b;background:rgba(255,255,255,.04);padding:4px 10px;border-radius:6px;display:inline-block}
+.yl{font-size:12px;color:#f87171;background:rgba(248,113,113,.08);padding:4px 10px;border-radius:6px;font-weight:600;display:inline-block}
+.tr{position:relative;width:130px;height:130px}
+.tt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;letter-spacing:2px}
+.tb{padding:8px 20px;border-radius:8px;font-weight:600;font-size:13px;transition:.2s}
+.ts{background:rgba(110,231,183,.15);color:#6ee7b7}.tp{background:rgba(239,68,68,.15);color:#fca5a5}
+.tre{background:rgba(255,255,255,.06);color:#94a3b8;padding:8px 14px}
+.rc{background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(255,255,255,.06);padding:20px}
+.bd{flex:1;padding:12px 16px;border-radius:10px;font-weight:700;font-size:14px;background:linear-gradient(135deg,rgba(34,197,94,.2),rgba(110,231,183,.15));color:#6ee7b7;transition:.2s}
+.by{padding:12px 16px;border-radius:10px;background:rgba(248,113,113,.08);color:#f87171;font-weight:600;font-size:14px;display:flex;align-items:center}
+.ps{flex:1;height:6px;border-radius:3px;border:none;cursor:pointer;transition:.3s}
+.fb{padding:6px 12px;border-radius:6px;font-weight:600;font-size:12px}
+.fb.on{background:rgba(255,255,255,.08);color:#e2e8f0}.fb:not(.on){background:0;color:#475569}
+.sl{font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+.dn{text-align:center;padding:32px;background:rgba(34,197,94,.06);border-radius:16px}
+.sx{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:center;flex:1}
+.nc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:20px;margin-bottom:12px}
+.svg-wrap{display:flex;justify-content:center;margin:12px 0 8px}
+.svg-wrap svg{filter:drop-shadow(0 0 8px rgba(110,231,183,.15))}
 </style>
 </head>
 <body>
@@ -71,104 +67,448 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script>
-const e=React.createElement,{useState,useEffect,useRef,useCallback}=React;
-const ST={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(x){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(x){}}};
-function todayKey(){return new Date().toISOString().slice(0,10)}
-function beep(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();[0,0.15,0.3].forEach(t=>{const o=ac.createOscillator(),g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;o.type="sine";g.gain.setValueAtTime(0.3,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(0.01,ac.currentTime+t+0.12);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+0.12)});if(navigator.vibrate)navigator.vibrate([100,50,100,50,100])}catch(x){}}
+"use strict";
+const h=React.createElement,{useState,useEffect,useRef}=React;
+
+// ── Storage ──
+const S={g(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const today=()=>new Date().toISOString().slice(0,10);
+
+// ── Audio ──
+function beep(){try{const a=new(window.AudioContext||window.webkitAudioContext)();[0,.15,.3].forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;o.type="sine";g.gain.setValueAtTime(.3,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.01,a.currentTime+t+.12);o.start(a.currentTime+t);o.stop(a.currentTime+t+.12)});if(navigator.vibrate)navigator.vibrate([100,50,100,50,100])}catch(e){}}
+
+// ── Smart Notifications (quiet hours aware) ──
 let _niv=null;
-function nStat(){return typeof Notification!=='undefined'?Notification.permission:'unavailable'}
-function reqN(cb){if(typeof Notification==='undefined')return cb('unavailable');Notification.requestPermission().then(p=>cb(p))}
-function startR(m){stopR();if(nStat()!=='granted')return;_niv=setInterval(()=>{new Notification('\u26A1 Czas na mikro-przerw\u0119!',{body:'Wsta\u0144, rozci\u0105gnij si\u0119 \u2014 Tw\u00F3j kr\u0119gos\u0142up Ci podzi\u0119kuje.',icon:'icon-192.png',tag:'mb',silent:false});if(navigator.vibrate)navigator.vibrate([200,100,200])},m*60*1000);ST.set('nm',m);ST.set('no',true)}
-function stopR(){if(_niv){clearInterval(_niv);_niv=null}ST.set('no',false)}
+const nPerm=()=>typeof Notification!=='undefined'?Notification.permission:'unavailable';
+const nReq=cb=>{if(typeof Notification==='undefined')return cb('unavailable');Notification.requestPermission().then(cb)};
+
+function inQuiet(cfg){
+  const now=new Date(),h=now.getHours();
+  const qs=cfg.qs||21, qe=cfg.qe||9;
+  if(qs>qe) return h>=qs||h<qe; // e.g. 21-9: quiet from 21:00 to 08:59
+  return h>=qs&&h<qe;
+}
+
+function tryNotify(cfg){
+  if(nPerm()!=='granted')return;
+  if(inQuiet(cfg))return; // silent during quiet hours
+  const msgs=[
+    {t:'⚡ Czas na mikro-przerwę!',b:'Wstań i rozciągnij się — 2 minuty dla kręgosłupa.'},
+    {t:'🔄 Przerwa od ekranu!',b:'Chin tuck + rotacja piersiowa — Twoja szyja Ci podziękuje.'},
+    {t:'💆 Rozruszaj barki!',b:'Wall Angel lub Doorway Stretch — otwórz klatkę piersiową.'},
+    {t:'🤲 Zadbaj o nadgarstki!',b:'Nerve flossing nerwu pośrodkowego — profilaktyka cieśni.'},
+    {t:'🎯 Mikro-przerwa!',b:'2 minuty ruchu = 2 godziny lepszego skupienia.'}
+  ];
+  const m=msgs[Math.floor(Math.random()*msgs.length)];
+  new Notification(m.t,{body:m.b,icon:'icon-192.png',tag:'mb',silent:false});
+  if(navigator.vibrate)navigator.vibrate([200,100,200]);
+}
+
+function startN(cfg){
+  stopN();
+  if(nPerm()!=='granted')return;
+  // Check immediately, then repeat
+  tryNotify(cfg);
+  _niv=setInterval(()=>tryNotify(cfg),(cfg.mins||90)*60*1000);
+  S.s('ncfg',cfg);S.s('non',true);
+}
+function stopN(){if(_niv){clearInterval(_niv);_niv=null}S.s('non',false)}
+
+// ── Tracker ──
+function logDone(type){const d=S.g('tr',{});const k=today();if(!d[k])d[k]={m:0,s:0};d[k][type==='micro'?'m':'s']++;S.s('tr',d)}
+function streak(){const d=S.g('tr',{});let s=0;const n=new Date();n.setHours(0,0,0,0);for(let i=0;i<365;i++){const dt=new Date(n);dt.setDate(dt.getDate()-i);if(d[dt.toISOString().slice(0,10)])s++;else break}return s}
+function mData(y,m){const d=S.g('tr',{});const r=[];const f=new Date(y,m,1);const l=new Date(y,m+1,0);for(let i=1;i<=l.getDate();i++){const k=y+"-"+String(m+1).padStart(2,"0")+"-"+String(i).padStart(2,"0");const v=d[k]||{m:0,s:0};r.push({day:i,k,mc:v.m,sc:v.s,t:v.m+v.s})}return{days:r,fd:(f.getDay()+6)%7}}
+
+// ── SVG Illustrations ──
+// Each returns an animated SVG showing the exercise position
+// Body color scheme: #6ee7b7 (limbs), #4ade80 (accent/active), #334155 (floor/wall)
+// All viewBox 0 0 120 100, rendered at 120x100
+
+function svgEl(id){
+const L="#6ee7b7",A="#4ade80",D="#334155",W=2.2;
+const c=(tag,props,...ch)=>h(tag,props,...ch);
+const ln=(x1,y1,x2,y2,col,w)=>c("line",{x1,y1,x2,y2,stroke:col||L,strokeWidth:w||W,strokeLinecap:"round"});
+const ci=(cx,cy,r,col)=>c("circle",{cx,cy,r,fill:col||L});
+const ani=(attr,from,to,dur)=>c("animate",{attributeName:attr,values:from+";"+to+";"+from,dur:dur||"3s",repeatCount:"indefinite"});
+const aniT=(attr,from,to,dur)=>c("animateTransform",{attributeName:"transform",type:attr,values:from+";"+to+";"+from,dur:dur||"3s",repeatCount:"indefinite"});
+
+const floor=c("line",{x1:5,y1:92,x2:115,y2:92,stroke:D,strokeWidth:1,strokeDasharray:"4,3"});
+const wall=c("line",{x1:95,y1:15,x2:95,y2:92,stroke:D,strokeWidth:1.5});
+
+switch(id){
+// 1: World's Greatest Stretch — deep lunge + rotation
+case 1: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(55,32,5),// head
+  ln(55,37,55,58),// torso (angled)
+  ln(55,58,35,85),// front leg bent
+  ln(35,85,35,92),// front shin
+  ln(55,58,80,80),// back leg
+  ln(80,80,95,92),// back shin
+  ln(55,45,35,60),// left arm down
+  c("g",null,ln(55,45,70,25),// right arm up rotating
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 55 45;15 55 45;0 55 45",dur:"3s",repeatCount:"indefinite"})),
+  c("path",{d:"M68 23 L72 20 L74 26",stroke:A,strokeWidth:1.5,fill:"none",children:
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 55 45;15 55 45;0 55 45",dur:"3s",repeatCount:"indefinite"})})
+);
+// 2: Cat-Cow — tabletop alternating arch/round
+case 2: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(30,48,4.5),// head
+  c("path",{d:"M34 52 Q60 42 86 52",stroke:L,strokeWidth:W,fill:"none",children:[
+    c("animate",{attributeName:"d",values:"M34 52 Q60 42 86 52;M34 52 Q60 62 86 52;M34 52 Q60 42 86 52",dur:"4s",repeatCount:"indefinite"})
+  ]}),// spine arching
+  ln(34,52,30,75),ln(30,75,30,92),// front legs
+  ln(86,52,86,75),ln(86,75,86,92),// back legs
+  c("circle",{cx:30,cy:48,r:4.5,fill:L,children:c("animate",{attributeName:"cy",values:"48;55;48",dur:"4s",repeatCount:"indefinite"})})
+);
+// 3: Chin Tuck — seated, head retracting
+case 3: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
+  c("rect",{x:55,y:40,width:30,height:50,rx:3,fill:D,opacity:.3}),// chair
+  ci(60,28,5),// head
+  c("animateTransform",{attributeName:"transform",type:"translate",values:"0,0;-6,0;0,0",dur:"2.5s",repeatCount:"indefinite",href:"#ct3h"}),
+  c("g",{id:"ct3h"},ci(60,28,5),ln(60,22,60,18)),// head+neck
+  ln(60,33,60,65),// torso
+  ln(60,65,45,92),ln(60,65,75,92),// legs on chair
+  ln(60,45,45,55),ln(60,45,75,55),// arms on lap
+  c("g",null,
+    c("line",{x1:60,y1:28,x2:54,y2:28,stroke:A,strokeWidth:1.5,strokeDasharray:"2,2",opacity:.5}),
+    c("animate",{attributeName:"opacity",values:".5;1;.5",dur:"2.5s",repeatCount:"indefinite"}))
+);
+// 4: Hip Flexor Stretch — kneeling lunge
+case 4: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(60,25,5),// head
+  ln(60,30,60,55),// torso upright
+  ln(60,55,40,75),ln(40,75,40,92),// front leg 90°
+  ln(60,55,75,75),ln(75,75,85,92),// back leg kneeling
+  c("g",null,ln(60,40,60,15),// arm overhead
+    c("animate",{attributeName:"x2",values:"60;55;60",dur:"3s",repeatCount:"indefinite"})),
+  c("path",{d:"M55 55 L60 55 L60 60",stroke:A,strokeWidth:1,fill:"none",opacity:.6}),// pelvic tilt arrow
+  c("text",{x:48,y:63,fill:A,fontSize:6,opacity:.5},"←tilt")
+);
+// 5: Doorway Pec Stretch — standing in doorframe
+case 5: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ln(30,10,30,92,D,1.5),ln(90,10,90,92,D,1.5),// door frame
+  ci(60,28,5),// head
+  ln(60,33,60,65),// torso
+  ln(60,65,50,92),ln(60,65,70,92),// legs
+  ln(60,42,30,35),ln(60,42,90,35),// arms on frame
+  c("g",null,// chest opening
+    c("animate",{attributeName:"opacity",values:".3;.8;.3",dur:"3s",repeatCount:"indefinite"}),
+    c("path",{d:"M50 38 Q60 45 70 38",stroke:A,strokeWidth:1.5,fill:"none"}))
+);
+// 6: Glute Bridge — supine bridge
+case 6: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(20,82,4.5),// head
+  c("line",{x1:24,y1:80,x2:55,y2:65,stroke:L,strokeWidth:W,strokeLinecap:"round",children:
+    c("animate",{attributeName:"y2",values:"72;60;72",dur:"3s",repeatCount:"indefinite"})}),// torso rising
+  ln(55,72,70,92),// thigh
+  ln(70,92,55,92),// shin (foot flat)
+  ln(24,80,15,85),ln(24,80,15,75),// arms flat
+  c("circle",{cx:55,cy:65,r:3,fill:A,opacity:.4,children:c("animate",{attributeName:"cy",values:"72;60;72",dur:"3s",repeatCount:"indefinite"})})
+);
+// 7: Seated T-Spine Rotation
+case 7: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
+  c("rect",{x:45,y:45,width:30,height:45,rx:3,fill:D,opacity:.3}),// chair
+  ci(60,25,5),// head
+  ln(60,30,60,60),// torso
+  ln(60,60,48,92),ln(60,60,72,92),// legs
+  c("g",null,// rotating arms
+    ln(60,42,40,38),ln(60,42,80,38),
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 60 42;20 60 42;0 60 42;-20 60 42;0 60 42",dur:"4s",repeatCount:"indefinite"})),
+  c("path",{d:"M50 20 A15 15 0 0 1 70 20",stroke:A,strokeWidth:1,fill:"none",opacity:.4,children:
+    c("animate",{attributeName:"opacity",values:".2;.7;.2",dur:"4s",repeatCount:"indefinite"})})
+);
+// 8: Open Book — sidelying rotation
+case 8: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(25,78,4.5),// head
+  ln(29,80,55,80),// torso horizontal
+  ln(55,80,70,92),ln(70,92,55,92),// legs folded
+  ln(29,80,25,88),// bottom arm
+  c("g",null,// top arm rotating like opening a book
+    c("line",{x1:40,y1:78,x2:40,y2:50,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 40 78;-70 40 78;0 40 78",dur:"4s",repeatCount:"indefinite"})),
+  c("path",{d:"M35 75 A8 8 0 0 0 45 75",stroke:A,strokeWidth:1,fill:"none",opacity:.3})
+);
+// 9: Shoulder Circles + Neck Stretch
+case 9: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
+  ci(60,28,5),// head
+  ln(60,33,60,65),// torso
+  ln(60,65,50,92),ln(60,65,70,92),// legs
+  c("g",null,// shoulders circling
+    c("circle",{cx:48,cy:40,r:3,fill:A,opacity:.6}),
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 48 40;360 48 40",dur:"2s",repeatCount:"indefinite"})),
+  c("g",null,
+    c("circle",{cx:72,cy:40,r:3,fill:A,opacity:.6}),
+    c("animateTransform",{attributeName:"transform",type:"rotate",values:"0 72 40;360 72 40",dur:"2s",repeatCount:"indefinite"})),
+  c("g",null,// head tilt
+    c("line",{x1:60,y1:23,x2:55,y2:20,stroke:L,strokeWidth:1.5}),
+    c("animate",{attributeName:"opacity",values:"0;1;1;0",dur:"4s",repeatCount:"indefinite"}))
+);
+// 10: Dead Bug
+case 10: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(25,85,4.5),// head
+  ln(28,83,65,83),// torso flat
+  c("g",null,// right arm extending overhead
+    c("line",{x1:45,y1:81,x2:45,y2:60,stroke:L,strokeWidth:W,strokeLinecap:"round"}),
+    c("animate",{attributeName:"y2",values:"70;45;70",dur:"3s",repeatCount:"indefinite"})),
+  c("g",null,// left leg extending
+    c("line",{x1:65,y1:83,x2:85,y2:70,stroke:L,strokeWidth:W,strokeLinecap:"round"}),
+    c("animate",{attributeName:"x2",values:"75;95;75",dur:"3s",repeatCount:"indefinite"}),
+    c("animate",{attributeName:"y2",values:"75;85;75",dur:"3s",repeatCount:"indefinite"})),
+  ln(65,83,75,70),// other leg up (static 90°)
+  ln(45,81,35,70),// other arm up (static)
+  c("line",{x1:28,y1:88,x2:65,y2:88,stroke:A,strokeWidth:1,strokeDasharray:"2,2",opacity:.3})// floor contact line
+);
+// 11: Median Nerve Glide — hand positions
+case 11: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},
+  // Animated hand going through 6 positions
+  c("g",{transform:"translate(30,15)"},
+    c("rect",{x:15,y:20,width:30,height:40,rx:5,fill:"none",stroke:L,strokeWidth:1.5}),// palm
+    c("g",null,// fingers extending
+      c("line",{x1:22,y1:20,x2:22,y2:8,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
+      c("line",{x1:30,y1:20,x2:30,y2:5,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
+      c("line",{x1:38,y1:20,x2:38,y2:8,stroke:L,strokeWidth:2,strokeLinecap:"round"}),
+      c("animate",{attributeName:"opacity",values:"0;1;1;0",dur:"5s",repeatCount:"indefinite"})),
+    c("g",null,// wrist extension arrow
+      c("path",{d:"M25 60 Q30 72 35 60",stroke:A,strokeWidth:1.5,fill:"none"}),
+      c("animate",{attributeName:"opacity",values:"0;0;1;1;0",dur:"5s",repeatCount:"indefinite"}))),
+  c("text",{x:60,y:92,fill:"#475569",fontSize:8,textAnchor:"middle"},"1→2→3→4→5→6")
+);
+// 12: Wall Angel
+case 12: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,wall,
+  ci(70,22,5),// head against wall
+  ln(70,27,70,60),// torso
+  ln(70,60,60,92),ln(70,60,80,92),// legs
+  c("g",null,// arms W to Y
+    c("line",{x1:70,y1:40,x2:55,y2:30,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
+    c("line",{x1:70,y1:40,x2:85,y2:30,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
+    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,0;0,-12;0,0",dur:"3s",repeatCount:"indefinite"})),
+  c("text",{x:92,y:55,fill:D,fontSize:7,writingMode:"vertical-rl"},"ściana")
+);
+// 13: Figure-4 Stretch
+case 13: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ci(20,82,4.5),// head
+  ln(24,80,60,82),// torso flat
+  ln(60,82,70,65),ln(70,65,60,55),// right leg: thigh up, shin crossed
+  ln(60,82,75,70),ln(75,70,80,82),// left leg: knee bent, foot flat
+  c("g",null,// hands pulling leg
+    ln(50,75,65,68),
+    c("animate",{attributeName:"opacity",values:".5;1;.5",dur:"3s",repeatCount:"indefinite"})),
+  c("text",{x:65,y:52,fill:A,fontSize:6,opacity:.5},"4")
+);
+// 14: Squat-to-Stand
+case 14: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  c("g",null,
+    ci(60,25,5),// head
+    ln(60,30,60,55),// torso
+    ln(60,55,50,75),ln(50,75,50,92),// legs
+    ln(60,55,70,75),ln(70,75,70,92),
+    ln(60,55,50,92),// arms reaching toes
+    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,20;0,0;0,20",dur:"3.5s",repeatCount:"indefinite"})),
+  c("g",{opacity:.3},// ghost squat position
+    ci(60,55,4),ln(60,58,60,72),ln(60,72,45,88),ln(60,72,75,88))
+);
+// 15: Prone Y-Raise
+case 15: return c("svg",{viewBox:"0 0 120 100",width:120,height:100},floor,
+  ln(30,85,90,85,L,W),// body prone
+  ci(25,83,4.5),// head on towel
+  c("rect",{x:18,y:86,width:14,height:3,rx:1,fill:D,opacity:.4}),// towel
+  ln(90,85,100,92),ln(90,85,100,80),// feet
+  c("g",null,// arms in Y shape lifting
+    c("line",{x1:35,y1:83,x2:15,y2:65,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
+    c("line",{x1:35,y1:83,x2:55,y2:65,stroke:A,strokeWidth:W,strokeLinecap:"round"}),
+    c("animateTransform",{attributeName:"transform",type:"translate",values:"0,5;0,-3;0,5",dur:"3s",repeatCount:"indefinite"})),
+  c("path",{d:"M12 68 L15 63 L18 68",stroke:A,strokeWidth:1,fill:"none",opacity:.5})// up arrow
+);
+default: return null;
+}}
+
+// ── Exercise Data ──
 const EX=[
-{id:1,cat:"B",name:"World's Greatest Stretch",ns:"WGS",time:"2\u00D75 na stron\u0119",tgt:"Biodra, kr\u0119gos\u0142up piersiowy, zginacze bioder",sc:4.8,ts:240,em:"\uD83C\uDF0D",sets:2,reps:"5 na stron\u0119",rest:30,cues:["Du\u017Cy wykrok do przodu, kolano 90\u00B0, d\u0142onie przy wewn\u0119trznej stronie stopy","Napnij po\u015Bladek tylnej nogi \u2014 pog\u0142\u0119biasz rozci\u0105g zginacza biodra","D\u0142o\u0144 za g\u0142ow\u0119 \u2192 wydech \u2192 rotacja tu\u0142owia w g\u00F3r\u0119, \u0142okie\u0107 ku sufitowi","Wdech \u2192 wr\u00F3\u0107 \u0142okciem w d\u00F3\u0142 ku pod\u0142odze (zamknij si\u0119)","Ruch TYLKO z kr\u0119gos\u0142upa piersiowego \u2014 l\u0119d\u017Awie stabilne!"],errs:["Kolano przedniej nogi zapada si\u0119 do wewn\u0105trz","Rotacja z odcinka l\u0119d\u017Awiowego zamiast piersiowego","Zbyt p\u0142ytki wykrok \u2014 zginacz biodra nie rozci\u0105gni\u0119ty"],yt:"https://www.youtube.com/results?search_query=world%27s+greatest+stretch+how+to+proper+form"},
-{id:2,cat:"B",name:"Cat-Cow",ns:"Cat-Cow",time:"2\u00D712 cykli",tgt:"Mobilno\u015B\u0107 ca\u0142ego kr\u0119gos\u0142upa",sc:4.6,ts:180,em:"\uD83D\uDC31",sets:2,reps:"12 cykli",rest:20,cues:["Czworaki: d\u0142onie pod barkami, kolana pod biodrami","WDECH (cow): brzuch w d\u00F3\u0142, klatka i ogon w g\u00F3r\u0119, wzrok \u0142agodnie do przodu","WYDECH (cat): plecy ku sufitowi, broda do klatki, ogon podwini\u0119ty","P\u0142ynne przej\u015Bcia \u2014 3-4 s na ka\u017Cd\u0105 faz\u0119","Ruch segmentowy kr\u0119gos\u0142upa, NIE z ramion czy kolan"],errs:["Zarzucanie g\u0142ow\u0105 w fazie cow \u2192 kompresja szyjna","Ruch z ramion/kolan zamiast z kr\u0119gos\u0142upa","Nie robi\u0107 zaraz po przebudzeniu (dyski wype\u0142nione p\u0142ynem)"],yt:"https://www.youtube.com/results?search_query=cat+cow+stretch+proper+form+tutorial"},
-{id:3,cat:"A",name:"Chin Tuck (retrakcja g\u0142owy)",ns:"Chin Tuck",time:"3\u00D710, 5s hold",tgt:"G\u0142\u0119bokie zginacze szyi, mi\u0119\u015Bnie podpotyliczne",sc:4.6,ts:180,em:"\uD83C\uDFAF",sets:3,reps:"10 \u00D7 5s hold",rest:15,cues:["Sied\u017A prosto, barki cofni\u0119te i opuszczone","Dwa palce na brodzie jako punkt odniesienia","Cofnij g\u0142ow\u0119 horyzontalnie do ty\u0142u \u2014 tworzysz 'podw\u00F3jny podb\u00F3dek'","Poczuj rozci\u0105g u podstawy czaszki + napi\u0119cie z przodu szyi","Trzymaj 5 sekund \u2192 wr\u00F3\u0107 powoli \u2192 powt\u00F3rz"],errs:["Przechylanie g\u0142owy w d\u00F3\u0142 zamiast cofania horyzontalnego","Zbyt du\u017Ca si\u0142a \u2014 aktywuje powierzchowne mi\u0119\u015Bnie","Napinanie \u017Cuchwy i marszczenie czo\u0142a"],yt:"https://www.youtube.com/results?search_query=chin+tuck+exercise+proper+form+physical+therapy"},
-{id:4,cat:"B",name:"Kl\u0119cz\u0105cy rozci\u0105g zginaczy bioder",ns:"Hip Flexor",time:"2\u00D730s na stron\u0119",tgt:"Biodrowo-l\u0119d\u017Awiowy, prosty uda",sc:4.4,ts:180,em:"\uD83E\uDDB5",sets:2,reps:"30s na stron\u0119",rest:15,cues:["Kl\u0119k na jednym kolanie (pod\u0142\u00F3\u017C r\u0119cznik), drugie kolano 90\u00B0 przed tob\u0105","KLUCZOWE: Napnij po\u015Bladek tylnej nogi \u2192 miednica podwija si\u0119 do ty\u0142u","Utrzymuj\u0105c napi\u0119cie po\u015Bladka i brzucha, przesu\u0144 biodra do przodu","NIE wyginaj plec\u00F3w w \u0142uk!","Pog\u0142\u0119bienie: unie\u015B r\u0119k\u0119 tylnej nogi nad g\u0142ow\u0119, przechyl na bok"],errs:["Lordoza l\u0119d\u017Awiowa zamiast posterior pelvic tilt","Kolano przedniej nogi za palcami stopy","Opadanie tu\u0142owia do przodu"],yt:"https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+pelvic+tilt+tutorial"},
-{id:5,cat:"A",name:"Doorway Pec Stretch",ns:"Pec Stretch",time:"2\u00D720s",tgt:"Mi\u0119sie\u0144 piersiowy wi\u0119kszy i mniejszy",sc:4.4,ts:90,em:"\uD83D\uDEAA",sets:2,reps:"20s",rest:10,cues:["Sta\u0144 w drzwiach, przedramiona na futrynach, \u0142okcie na wysoko\u015Bci bark\u00F3w","Cofnij barki, \u015Bci\u0105gnij \u0142opatki","Ma\u0142y krok do przodu \u2014 poczuj rozci\u0105g na przedniej klatce","Nie wyginaj plec\u00F3w w \u0142uk \u2014 core napi\u0119ty","Wariant wy\u017Cszy/ni\u017Cszy \u0142okci \u2192 r\u00F3\u017Cne w\u0142\u00F3kna mi\u0119\u015Bnia"],errs:["Wyginanie plec\u00F3w w lordoz\u0119","Wysuwanie g\u0142owy do przodu","Zbyt agresywne wchodzenie w rozci\u0105g"],yt:"https://www.youtube.com/results?search_query=doorway+pectoral+stretch+proper+form+posture"},
-{id:6,cat:"B",name:"Glute Bridge (mostek biodrowy)",ns:"Glute Bridge",time:"3\u00D712",tgt:"Po\u015Bladkowy wielki, stabilizacja l\u0119d\u017Awi",sc:4.2,ts:240,em:"\uD83C\uDF51",sets:3,reps:"12",rest:30,cues:["Na plecach, kolana zgi\u0119te, stopy na szeroko\u015B\u0107 bioder, pi\u0119ty blisko po\u015Bladk\u00F3w","Napnij brzuch \u2014 p\u0119pek ku kr\u0119gos\u0142upowi","Naci\u015Bnij pi\u0119tami + \u015Bci\u015Bnij po\u015Bladki \u2192 unie\u015B biodra","Prosta linia kolana\u2013barki, max napi\u0119cie po\u015Bladk\u00F3w 2-3s","Powoli opu\u015B\u0107, NIE dotykaj\u0105c pod\u0142ogi \u2192 powt\u00F3rz"],errs:["Przeprost w l\u0119d\u017Awiach zamiast w biodrach","Dominacja tylnych ud \u2014 przybli\u017C stopy do po\u015Bladk\u00F3w","Kolana rozje\u017Cd\u017Caj\u0105 si\u0119 na boki"],yt:"https://www.youtube.com/results?search_query=glute+bridge+proper+form+tutorial+physical+therapy"},
-{id:7,cat:"A",name:"Rotacja piersiowa na krze\u015Ble",ns:"T-Spine Rot.",time:"2\u00D78 na stron\u0119",tgt:"Rotatory kr\u0119gos\u0142upa piersiowego",sc:4.2,ts:150,em:"\uD83D\uDD04",sets:2,reps:"8 na stron\u0119",rest:15,cues:["Brzeg krzes\u0142a, stopy p\u0142asko, r\u0119ce skrzy\u017Cowane na klatce lub za g\u0142ow\u0105","Napnij brzuch \u2192 stabilizacja l\u0119d\u017Awi","WYDECH \u2192 obr\u00F3\u0107 tu\u0142\u00F3w powoli w jedn\u0105 stron\u0119, patrz za bark","Trzymaj 2-3s w ko\u0144cowej pozycji","WDECH \u2192 wr\u00F3\u0107 do \u015Brodka \u2192 powt\u00F3rz na drug\u0105 stron\u0119"],errs:["Obr\u00F3t bioder/kolan razem z tu\u0142owiem","Kompensacja ruchem szyi","Zaokr\u0105glanie plec\u00F3w przy rotacji"],yt:"https://www.youtube.com/results?search_query=seated+thoracic+spine+rotation+exercise+tutorial"},
-{id:8,cat:"B",name:"Open Book (rotacja na boku)",ns:"Open Book",time:"2\u00D78 na stron\u0119",tgt:"Kr\u0119gos\u0142up piersiowy, mi\u0119\u015Bnie piersiowe",sc:4.0,ts:240,em:"\uD83D\uDCD6",sets:2,reps:"8 na stron\u0119",rest:20,cues:["Na lewym boku, kolana i biodra zgi\u0119te 90\u00B0 (pozycja p\u0142odu)","R\u0119ce wyprostowane przed sob\u0105, d\u0142onie z\u0142o\u017Cone","WDECH \u2192 g\u00F3rna r\u0119ka \u0142ukiem nad g\u0142ow\u0105 na drug\u0105 stron\u0119","\u0141opatka ku pod\u0142odze, wzrok za d\u0142oni\u0105, kolana NIERUCHOME","W ko\u0144cowej pozycji: 2-3 g\u0142\u0119bokie oddechy \u2192 WYDECH \u2192 powr\u00F3t"],errs:["Kolana odchodz\u0105 od pod\u0142ogi (u\u017Cyj poduszki mi\u0119dzy nimi)","Wymuszanie rotacji si\u0142\u0105 r\u0119ki","Brak kontroli nad powrotem"],yt:"https://www.youtube.com/results?search_query=open+book+thoracic+rotation+exercise+tutorial"},
-{id:9,cat:"A",name:"Barki + rozci\u0105g boczny szyi",ns:"Barki & Szyja",time:"2\u00D710 + 2\u00D715s/str.",tgt:"G\u00F3rna cz\u0119\u015B\u0107 kapturowego, d\u017Awigacz \u0142opatki",sc:3.8,ts:150,em:"\uD83D\uDC86",sets:2,reps:"10 okr\u0105\u017Ce\u0144 + 15s/stron\u0119",rest:10,cues:["FAZA 1: Barki w g\u00F3r\u0119 \u2192 ty\u0142 \u2192 d\u00F3\u0142 \u2192 prz\u00F3d \u2014 10 k\u00F3\u0142ek do ty\u0142u, 10 do przodu","Ruch powolny, kontrolowany, pe\u0142en zakres","FAZA 2: D\u0142o\u0144 na przeciwnej stronie g\u0142owy (nad uchem)","Przechyl g\u0142ow\u0119 bocznie \u2014 ucho do barku, NIE uno\u015B barku!","Drug\u0105 r\u0119k\u0119 aktywnie kieruj w d\u00F3\u0142 \u2192 pog\u0142\u0119bia rozci\u0105g \u2192 15s"],errs:["Obracanie g\u0142owy zamiast przechylania bocznego","Zbyt du\u017Ca si\u0142a r\u0119ki przy rozci\u0105gu szyi","Szybkie, chaotyczne okr\u0105\u017Canie bark\u00F3w"],yt:"https://www.youtube.com/results?search_query=shoulder+circles+lateral+neck+stretch+desk+exercise"},
-{id:10,cat:"B",name:"Dead Bug (martwy robak)",ns:"Dead Bug",time:"2\u00D78 na stron\u0119",tgt:"Mi\u0119\u015Bnie g\u0142\u0119bokie tu\u0142owia, stabilizacja l\u0119d\u017Awi",sc:3.8,ts:180,em:"\uD83E\uDEB2",sets:2,reps:"8 na stron\u0119",rest:30,cues:["Na plecach: r\u0119ce pionowo nad barkami, kolana nad biodrami (90\u00B0/90\u00B0)","KLUCZOWE: Dolne plecy doci\u015Bni\u0119te do pod\u0142ogi!","WYDECH \u2192 prawa r\u0119ka nad g\u0142ow\u0119 + lewa noga w prz\u00F3d (tu\u017C nad pod\u0142og\u0105)","L\u0119d\u017Awie MUSZ\u0104 zosta\u0107 na pod\u0142odze \u2014 je\u015Bli nie, zmniejsz zakres","WDECH \u2192 powr\u00F3t do 90/90 \u2192 powt\u00F3rz drug\u0105 stron\u0119"],errs:["Odrywanie dolnych plec\u00F3w od pod\u0142ogi (najwa\u017Cniejszy b\u0142\u0105d!)","Wstrzymywanie oddechu","Zbyt szybkie tempo \u2014 ruch 3-4s na faz\u0119"],yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form+core+stability+tutorial"},
-{id:11,cat:"A",name:"\u015Alizg nerwu po\u015Brodkowego",ns:"Nerve Floss",time:"2\u00D76 poz. \u00D7 5s",tgt:"Nerw po\u015Brodkowy, nadgarstek, przedrami\u0119",sc:4.3,ts:120,em:"\uD83E\uDD32",sets:2,reps:"6 pozycji \u00D7 5s hold",rest:15,cues:["Pozycja 1: Pi\u0119\u015B\u0107 z kciukiem do siebie, nadgarstek neutralny","Pozycja 2: Wyprostuj palce i kciuk, nadgarstek neutralny","Pozycja 3: Cofnij nadgarstek (d\u0142o\u0144 do g\u00F3ry), palce proste","Pozycja 4: Odwi\u0144 kciuk na bok (od d\u0142oni)","Pozycja 5: Obr\u00F3\u0107 d\u0142o\u0144 \u2014 wewn\u0119trzna strona od siebie","Pozycja 6: Drug\u0105 r\u0119k\u0105 delikatnie poci\u0105gnij kciuk w d\u00F3\u0142 \u2014 \u0141AGODNIE!"],errs:["Zbyt agresywne rozci\u0105ganie \u2014 mrowienie OK, b\u00F3l/dr\u0119twienie NIE","Pomijanie pozycji \u2014 ka\u017Cda dodaje napi\u0119cie stopniowo","Wykonywanie przy istniej\u0105cym b\u00F3lu nadgarstka bez konsultacji"],yt:"https://www.youtube.com/results?search_query=median+nerve+glide+exercise+carpal+tunnel+prevention"},
-{id:12,cat:"A",name:"Wall Angel (anio\u0142 przy \u015Bcianie)",ns:"Wall Angel",time:"2\u00D78",tgt:"Dolny/\u015Brodkowy trapez, z\u0119baty przedni, romboidalny",sc:4.5,ts:150,em:"\uD83D\uDC7C",sets:2,reps:"8",rest:20,cues:["Sta\u0144 plecami do \u015Bciany \u2014 stopy 8-10 cm od \u015Bciany, kolana lekko zgi\u0119te","Doci\u015Bnij do \u015Bciany: g\u0142ow\u0119, \u0142opatki, dolne plecy (posterior pelvic tilt!)","R\u0119ce w pozycji 'W' \u2014 \u0142okcie 90\u00B0, na wys. bark\u00F3w, doci\u015Bni\u0119te do \u015Bciany","WYDECH \u2192 przesu\u0144 r\u0119ce w g\u00F3r\u0119 do 'Y' \u2014 nadgarstki i \u0142okcie przy \u015Bcianie!","WDECH \u2192 wr\u00F3\u0107 do 'W'. Ruch POWOLNY, 3-4s w ka\u017Cd\u0105 stron\u0119"],errs:["Odchodzenie dolnych plec\u00F3w od \u015Bciany (lordoza)","Odrywanie nadgarstk\u00F3w/\u0142okci \u2014 lepiej mniejszy zakres","Zarzucanie g\u0142ow\u0105 \u2014 chin tuck + docisk do \u015Bciany"],yt:"https://www.youtube.com/results?search_query=wall+angels+exercise+proper+form+posture+correction"},
-{id:13,cat:"B",name:"Figure-4 Stretch (gruszkowaty)",ns:"Figure-4",time:"2\u00D730s na stron\u0119",tgt:"Mi\u0119sie\u0144 gruszkowaty, g\u0142\u0119bokie rotatory zewn\u0119trzne biodra",sc:4.2,ts:150,em:"4\uFE0F\u20E3",sets:2,reps:"30s na stron\u0119",rest:15,cues:["Na plecach, kolana zgi\u0119te, stopy na pod\u0142odze","Po\u0142\u00F3\u017C kostk\u0119 prawej nogi na kolanie lewej (kszta\u0142t '4')","Chwy\u0107 lew\u0105 nog\u0119 za udo/gole\u0144 i przyci\u0105gnij ku klatce","Poczujesz g\u0142\u0119boki rozci\u0105g w prawym po\u015Bladku \u2014 to piriformis","Odpychaj prawe kolano \u0142okciem dla pog\u0142\u0119bienia"],errs:["Odrywanie g\u0142owy/bark\u00F3w od pod\u0142ogi","Zbyt agresywne ci\u0105gni\u0119cie \u2014 rozci\u0105g powinien by\u0107 przyjemny","Krzywe ustawienie bioder \u2014 miednica r\u00F3wno na pod\u0142odze"],yt:"https://www.youtube.com/results?search_query=figure+4+piriformis+stretch+supine+tutorial"},
-{id:14,cat:"B",name:"Squat-to-Stand",ns:"Squat-Stand",time:"2\u00D76",tgt:"Hamstrings, mobilno\u015B\u0107 bioder i stawu skokowego",sc:4.1,ts:120,em:"\u2B06\uFE0F",sets:2,reps:"6",rest:20,cues:["Stopy na szeroko\u015B\u0107 bioder \u2192 zejd\u017A do G\u0141\u0118BOKIEGO przysiadu","Chwy\u0107 palce st\u00F3p od spodu \u2014 kciuki pod palcami","NIE puszczaj\u0105c palc\u00F3w \u2192 wyprostuj kolana, biodra w g\u00F3r\u0119","Poczujesz intensywny rozci\u0105g tylnych ud (hamstrings)","Trzymaj 2s \u2192 wr\u00F3\u0107 do przysiadu \u2192 wyprostuj si\u0119 do stania"],errs:["Puszczanie palc\u00F3w st\u00F3p przy prostowaniu kolan","Zaokr\u0105glanie plec\u00F3w zamiast wypychania bioder","Zbyt szybkie tempo \u2014 trzymaj 2s wyprostowane kolana"],yt:"https://www.youtube.com/results?search_query=squat+to+stand+stretch+hamstring+mobility+tutorial"},
-{id:15,cat:"B",name:"Prone Y-Raise (Y na brzuchu)",ns:"Prone Y",time:"2\u00D710",tgt:"Dolny trapez, stabilizatory \u0142opatki, prostowniki grzbietu",sc:4.0,ts:120,em:"\uD83D\uDD31",sets:2,reps:"10",rest:20,cues:["Na brzuchu, czo\u0142o na r\u0119czniku, r\u0119ce nad g\u0142ow\u0105 w kszta\u0142t Y","Kciuki ku SUFITOWI (rotacja zewn\u0119trzna bark\u00F3w)","WYDECH \u2192 unie\u015B r\u0119ce 5-10 cm, \u015Bciskaj\u0105c \u0142opatki razem i W D\u00D3\u0141","Poczuj prac\u0119 MI\u0118DZY i POD \u0142opatkami \u2014 dolny trapez","Trzymaj 2-3s \u2192 WDECH \u2192 opu\u015B\u0107. NIE zarzucaj g\u0142ow\u0105!"],errs:["Unoszenie g\u0142owy/szyi \u2014 czo\u0142o na r\u0119czniku, szyja neutralna","Wzruszanie barkami \u2014 \u0142opatki musz\u0105 i\u015B\u0107 W D\u00D3\u0141, nie w g\u00F3r\u0119","Przeprost l\u0119d\u017Awi \u2014 napnij brzuch, miednica do pod\u0142ogi"],yt:"https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap+exercise+tutorial"}
+{id:1,cat:"B",name:"World's Greatest Stretch",ns:"WGS",time:"2×5/str.",tgt:"Biodra, kręgosłup piersiowy, zginacze bioder",sc:4.8,ts:240,em:"🌍",sets:2,reps:"5 na stronę",rest:30,cues:["Duży wykrok do przodu, kolano 90°, dłonie przy wewnętrznej stronie stopy","Napnij pośladek tylnej nogi — pogłębiasz rozciąg zginacza biodra","Dłoń za głowę → wydech → rotacja tułowia w górę, łokieć ku sufitowi","Wdech → wróć łokciem w dół ku podłodze (zamknij się)","Ruch TYLKO z kręgosłupa piersiowego — lędźwie stabilne!"],errs:["Kolano przedniej nogi zapada się do wewnątrz","Rotacja z odcinka lędźwiowego zamiast piersiowego","Zbyt płytki wykrok — zginacz biodra nie rozciągnięty"],yt:"https://www.youtube.com/results?search_query=world%27s+greatest+stretch+how+to+proper+form"},
+{id:2,cat:"B",name:"Cat-Cow",ns:"Cat-Cow",time:"2×12 cykli",tgt:"Mobilność całego kręgosłupa",sc:4.6,ts:180,em:"🐱",sets:2,reps:"12 cykli",rest:20,cues:["Czworaki: dłonie pod barkami, kolana pod biodrami","WDECH (cow): brzuch w dół, klatka i ogon w górę","WYDECH (cat): plecy ku sufitowi, broda do klatki, ogon podwinięty","Płynne przejścia — 3-4 s na każdą fazę","Ruch segmentowy kręgosłupa, NIE z ramion czy kolan"],errs:["Zarzucanie głową w fazie cow → kompresja szyjna","Ruch z ramion/kolan zamiast z kręgosłupa","Nie robić zaraz po przebudzeniu"],yt:"https://www.youtube.com/results?search_query=cat+cow+stretch+proper+form+tutorial"},
+{id:3,cat:"A",name:"Chin Tuck",ns:"Chin Tuck",time:"3×10, 5s",tgt:"Głębokie zginacze szyi, mięśnie podpotyliczne",sc:4.6,ts:180,em:"🎯",sets:3,reps:"10 × 5s hold",rest:15,cues:["Siedź prosto, barki cofnięte i opuszczone","Dwa palce na brodzie jako punkt odniesienia","Cofnij głowę horyzontalnie — tworzysz 'podwójny podbródek'","Poczuj rozciąg u podstawy czaszki + napięcie z przodu szyi","Trzymaj 5s → wróć powoli → powtórz"],errs:["Przechylanie głowy w dół zamiast cofania horyzontalnego","Zbyt duża siła — aktywuje powierzchowne mięśnie","Napinanie żuchwy i marszczenie czoła"],yt:"https://www.youtube.com/results?search_query=chin+tuck+exercise+proper+form"},
+{id:4,cat:"B",name:"Klęczący rozciąg zginaczy bioder",ns:"Hip Flexor",time:"2×30s/str.",tgt:"Biodrowo-lędźwiowy, prosty uda",sc:4.4,ts:180,em:"🦵",sets:2,reps:"30s na stronę",rest:15,cues:["Klęk na jednym kolanie (podłóż ręcznik), drugie 90° przed tobą","KLUCZOWE: Napnij pośladek tylnej nogi → miednica do tyłu","Utrzymując napięcie pośladka i brzucha, przesuń biodra do przodu","NIE wyginaj pleców w łuk!","Pogłębienie: unieś rękę tylnej nogi nad głowę"],errs:["Lordoza lędźwiowa zamiast posterior pelvic tilt","Kolano przedniej nogi za palcami stopy","Opadanie tułowia do przodu"],yt:"https://www.youtube.com/results?search_query=kneeling+hip+flexor+stretch+posterior+pelvic+tilt"},
+{id:5,cat:"A",name:"Doorway Pec Stretch",ns:"Pec Stretch",time:"2×20s",tgt:"Mięsień piersiowy większy i mniejszy",sc:4.4,ts:90,em:"🚪",sets:2,reps:"20s",rest:10,cues:["Stań w drzwiach, przedramiona na futrynach, łokcie na wys. barków","Cofnij barki, ściągnij łopatki","Mały krok do przodu — poczuj rozciąg na przedniej klatce","Nie wyginaj pleców w łuk — core napięty","Wariant wyższy/niższy łokci → różne włókna mięśnia"],errs:["Wyginanie pleców w lordozę","Wysuwanie głowy do przodu","Zbyt agresywne wchodzenie w rozciąg"],yt:"https://www.youtube.com/results?search_query=doorway+pectoral+stretch+proper+form"},
+{id:6,cat:"B",name:"Glute Bridge",ns:"Glute Bridge",time:"3×12",tgt:"Pośladkowy wielki, stabilizacja lędźwi",sc:4.2,ts:240,em:"🍑",sets:3,reps:"12",rest:30,cues:["Na plecach, kolana zgięte, stopy na szerokość bioder","Napnij brzuch — pępek ku kręgosłupowi","Naciśnij piętami + ściśnij pośladki → unieś biodra","Prosta linia kolana–barki, napięcie 2-3s","Powoli opuść, NIE dotykając podłogi → powtórz"],errs:["Przeprost w lędźwiach zamiast w biodrach","Dominacja tylnych ud — przybliż stopy","Kolana rozjeżdżają się na boki"],yt:"https://www.youtube.com/results?search_query=glute+bridge+proper+form+tutorial"},
+{id:7,cat:"A",name:"Rotacja piersiowa na krześle",ns:"T-Spine Rot.",time:"2×8/str.",tgt:"Rotatory kręgosłupa piersiowego",sc:4.2,ts:150,em:"🔄",sets:2,reps:"8 na stronę",rest:15,cues:["Brzeg krzesła, stopy płasko, ręce skrzyżowane na klatce","Napnij brzuch → stabilizacja lędźwi","WYDECH → obróć tułów powoli, patrz za bark","Trzymaj 2-3s w końcowej pozycji","WDECH → wróć → powtórz drugą stronę"],errs:["Obrót bioder razem z tułowiem","Kompensacja ruchem szyi","Zaokrąglanie pleców przy rotacji"],yt:"https://www.youtube.com/results?search_query=seated+thoracic+spine+rotation+exercise"},
+{id:8,cat:"B",name:"Open Book",ns:"Open Book",time:"2×8/str.",tgt:"Kręgosłup piersiowy, mięśnie piersiowe",sc:4.0,ts:240,em:"📖",sets:2,reps:"8 na stronę",rest:20,cues:["Na boku, kolana i biodra zgięte 90°","Ręce wyprostowane przed sobą, dłonie złożone","WDECH → górna ręka łukiem na drugą stronę","Łopatka ku podłodze, kolana NIERUCHOME","2-3 oddechy w końcowej pozycji → WYDECH → powrót"],errs:["Kolana odchodzą od podłogi","Wymuszanie rotacji siłą ręki","Brak kontroli nad powrotem"],yt:"https://www.youtube.com/results?search_query=open+book+thoracic+rotation+exercise"},
+{id:9,cat:"A",name:"Barki + rozciąg szyi",ns:"Barki & Szyja",time:"2×10+2×15s",tgt:"Górna część kapturowego, dźwigacz łopatki",sc:3.8,ts:150,em:"💆",sets:2,reps:"10 okrążeń + 15s/stronę",rest:10,cues:["FAZA 1: Barki góra→tył→dół→przód — 10 kółek każdy kierunek","Ruch powolny, kontrolowany, pełen zakres","FAZA 2: Dłoń na przeciwnej stronie głowy","Przechyl bocznie — ucho do barku, NIE unoś barku!","Drugą rękę kieruj w dół → pogłębia rozciąg → 15s"],errs:["Obracanie głowy zamiast przechylania","Zbyt duża siła ręki","Szybkie, chaotyczne okrążanie barków"],yt:"https://www.youtube.com/results?search_query=shoulder+circles+lateral+neck+stretch"},
+{id:10,cat:"B",name:"Dead Bug",ns:"Dead Bug",time:"2×8/str.",tgt:"Mięśnie głębokie tułowia, stabilizacja lędźwi",sc:3.8,ts:180,em:"🪲",sets:2,reps:"8 na stronę",rest:30,cues:["Na plecach: ręce pionowo, kolana nad biodrami (90°/90°)","KLUCZOWE: Dolne plecy dociśnięte do podłogi!","WYDECH → prawa ręka nad głowę + lewa noga w przód","Lędźwie MUSZĄ zostać na podłodze","WDECH → powrót → powtórz drugą stronę"],errs:["Odrywanie dolnych pleców od podłogi","Wstrzymywanie oddechu","Zbyt szybkie tempo — 3-4s na fazę"],yt:"https://www.youtube.com/results?search_query=dead+bug+exercise+proper+form"},
+{id:11,cat:"A",name:"Ślizg nerwu pośrodkowego",ns:"Nerve Floss",time:"2×6 poz.×5s",tgt:"Nerw pośrodkowy, nadgarstek, przedramię",sc:4.3,ts:120,em:"🤲",sets:2,reps:"6 pozycji × 5s",rest:15,cues:["Poz.1: Pięść z kciukiem do siebie, nadgarstek neutralny","Poz.2: Wyprostuj palce i kciuk","Poz.3: Cofnij nadgarstek (dłoń do góry)","Poz.4: Odwiń kciuk na bok","Poz.5: Obróć dłoń — wewnętrzna strona od siebie","Poz.6: Drugą ręką pociągnij kciuk w dół — ŁAGODNIE!"],errs:["Mrowienie OK, ból/drętwienie NIE","Pomijanie pozycji — każda dodaje napięcie stopniowo","Nie robić przy istniejącym bólu nadgarstka"],yt:"https://www.youtube.com/results?search_query=median+nerve+glide+exercise"},
+{id:12,cat:"A",name:"Wall Angel",ns:"Wall Angel",time:"2×8",tgt:"Dolny/środkowy trapez, zębaty przedni",sc:4.5,ts:150,em:"👼",sets:2,reps:"8",rest:20,cues:["Plecami do ściany — stopy 8-10 cm, kolana lekko zgięte","Dociśnij: głowę, łopatki, dolne plecy (pelvic tilt!)","Ręce w 'W' — łokcie 90°, dociśnięte do ściany","WYDECH → przesuń do 'Y' — nadgarstki przy ścianie!","WDECH → wróć do 'W'. POWOLNY ruch, 3-4s"],errs:["Dolne plecy odchodzą od ściany","Odrywanie nadgarstków — lepiej mniejszy zakres","Zarzucanie głową — chin tuck!"],yt:"https://www.youtube.com/results?search_query=wall+angels+exercise+proper+form"},
+{id:13,cat:"B",name:"Figure-4 Stretch",ns:"Figure-4",time:"2×30s/str.",tgt:"Mięsień gruszkowaty, rotatory zewnętrzne biodra",sc:4.2,ts:150,em:"4️⃣",sets:2,reps:"30s na stronę",rest:15,cues:["Na plecach, kolana zgięte, stopy na podłodze","Kostka prawej nogi na kolanie lewej (kształt '4')","Chwyć lewą nogę i przyciągnij ku klatce","Głęboki rozciąg w prawym pośladku — piriformis","Odpychaj prawe kolano łokciem dla pogłębienia"],errs:["Odrywanie głowy/barków od podłogi","Zbyt agresywne ciągnięcie","Krzywe ustawienie bioder"],yt:"https://www.youtube.com/results?search_query=figure+4+piriformis+stretch"},
+{id:14,cat:"B",name:"Squat-to-Stand",ns:"Squat-Stand",time:"2×6",tgt:"Hamstrings, mobilność bioder i stawu skokowego",sc:4.1,ts:120,em:"⬆️",sets:2,reps:"6",rest:20,cues:["Stopy na szerokość bioder → głęboki przysiad","Chwyć palce stóp od spodu","NIE puszczając → wyprostuj kolana, biodra w górę","Intensywny rozciąg tylnych ud","Trzymaj 2s → przysiad → wyprostuj się"],errs:["Puszczanie palców stóp","Zaokrąglanie pleców zamiast wypychania bioder","Zbyt szybkie tempo"],yt:"https://www.youtube.com/results?search_query=squat+to+stand+stretch+hamstring"},
+{id:15,cat:"B",name:"Prone Y-Raise",ns:"Prone Y",time:"2×10",tgt:"Dolny trapez, stabilizatory łopatki",sc:4.0,ts:120,em:"🔱",sets:2,reps:"10",rest:20,cues:["Na brzuchu, czoło na ręczniku, ręce w kształt Y","Kciuki ku SUFITOWI (rotacja zewnętrzna)","WYDECH → unieś ręce 5-10 cm, łopatki razem i W DÓŁ","Poczuj pracę MIĘDZY i POD łopatkami","Trzymaj 2-3s → opuść. NIE zarzucaj głową!"],errs:["Unoszenie głowy/szyi","Wzruszanie barkami — łopatki W DÓŁ","Przeprost lędźwi — napnij brzuch"],yt:"https://www.youtube.com/results?search_query=prone+Y+raise+lower+trap+exercise"}
 ];
 const MICRO=[3,12,5,7,11,9],POST=[2,4,1,14,6,13,8,15,10];
-function fmt(s){return Math.floor(s/60)+":"+(s%60).toString().padStart(2,"0")}
-function scCol(s){return s>=4.5?"#22c55e":s>=4?"#84cc16":s>=3.5?"#eab308":"#f97316"}
-function logS(type){const d=ST.get('tr',{});const k=todayKey();if(!d[k])d[k]={m:0,s:0};d[k][type==='micro'?'m':'s']++;ST.set('tr',d)}
-function getStreak(){const d=ST.get('tr',{});let s=0;const n=new Date();n.setHours(0,0,0,0);for(let i=0;i<365;i++){const dt=new Date(n);dt.setDate(dt.getDate()-i);const k=dt.toISOString().slice(0,10);if(d[k]&&(d[k].m>0||d[k].s>0))s++;else break}return s}
-function getMD(y,m){const d=ST.get('tr',{});const r=[];const f=new Date(y,m,1);const l=new Date(y,m+1,0);for(let i=1;i<=l.getDate();i++){const k=y+"-"+String(m+1).padStart(2,"0")+"-"+String(i).padStart(2,"0");const v=d[k]||{m:0,s:0};r.push({day:i,k,mc:v.m,sc:v.s,t:v.m+v.s})}return{days:r,fd:(f.getDay()+6)%7}}
+const fmt=s=>Math.floor(s/60)+":"+(s%60).toString().padStart(2,"0");
+const scC=s=>s>=4.5?"#22c55e":s>=4?"#84cc16":s>=3.5?"#eab308":"#f97316";
 
-function Timer({total,onDone,tkey}){const[rem,setRem]=useState(total);const[run,setRun]=useState(false);const iv=useRef(null);
-useEffect(()=>{setRem(total);setRun(false);iv.current&&clearInterval(iv.current)},[total,tkey]);
-useEffect(()=>{if(run&&rem>0){iv.current=setInterval(()=>setRem(p=>{if(p<=1){clearInterval(iv.current);setRun(false);beep();if(onDone)onDone();return 0}return p-1}),1000)}return()=>clearInterval(iv.current)},[run,rem]);
-const pct=rem/total*100,R=54,C=2*Math.PI*R,off=C-pct/100*C,col=rem<10&&rem>0?"#ef4444":"#6ee7b7";
-return e("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",gap:12}},
-e("div",{className:"timer-ring"},e("svg",{width:130,height:130,viewBox:"0 0 130 130"},e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:"rgba(255,255,255,0.06)",strokeWidth:8}),e("circle",{cx:65,cy:65,r:R,fill:"none",stroke:col,strokeWidth:8,strokeLinecap:"round",strokeDasharray:C,strokeDashoffset:off,transform:"rotate(-90 65 65)",style:{transition:"stroke-dashoffset 0.3s linear,stroke 0.3s ease"}})),e("div",{className:"timer-text",style:{color:rem===0?"#22c55e":"#e2e8f0"}},rem===0?"\u2713":fmt(rem))),
-e("div",{style:{display:"flex",gap:8}},e("button",{className:"timer-btn "+(run?"btn-pause":"btn-start"),onClick:()=>{if(rem===0)setRem(total);setRun(!run)}},run?"\u23F8 Pauza":rem===0?"\u25B6 Od nowa":"\u25B6 Start"),e("button",{className:"timer-btn btn-reset",onClick:()=>{setRem(total);setRun(false);clearInterval(iv.current)}},"\u21BA Reset")))}
+// ── Components ──
+function Timer({total,onDone,tkey}){
+  const[r,setR]=useState(total);const[go,setGo]=useState(false);const iv=useRef(null);
+  useEffect(()=>{setR(total);setGo(false);iv.current&&clearInterval(iv.current)},[total,tkey]);
+  useEffect(()=>{if(go&&r>0){iv.current=setInterval(()=>setR(p=>{if(p<=1){clearInterval(iv.current);setGo(false);beep();onDone?.();return 0}return p-1}),1000)}return()=>clearInterval(iv.current)},[go,r]);
+  const pct=r/total*100,R=54,C=2*Math.PI*R,off=C-pct/100*C,col=r<10&&r>0?"#ef4444":"#6ee7b7";
+  return h("div",{style:{display:"flex",flexDirection:"column",alignItems:"center",gap:12}},
+    h("div",{className:"tr"},h("svg",{width:130,height:130,viewBox:"0 0 130 130"},h("circle",{cx:65,cy:65,r:R,fill:"none",stroke:"rgba(255,255,255,.06)",strokeWidth:8}),h("circle",{cx:65,cy:65,r:R,fill:"none",stroke:col,strokeWidth:8,strokeLinecap:"round",strokeDasharray:C,strokeDashoffset:off,transform:"rotate(-90 65 65)",style:{transition:"stroke-dashoffset .3s linear,stroke .3s"}})),h("div",{className:"tt",style:{color:r===0?"#22c55e":"#e2e8f0"}},r===0?"✓":fmt(r))),
+    h("div",{style:{display:"flex",gap:8}},h("button",{className:"tb "+(go?"tp":"ts"),onClick:()=>{if(r===0)setR(total);setGo(!go)}},go?"⏸ Pauza":r===0?"▶ Od nowa":"▶ Start"),h("button",{className:"tb tre",onClick:()=>{setR(total);setGo(false);clearInterval(iv.current)}},"↺")))
+}
 
-function Card({ex,open,toggle}){const cc=ex.cat==="A"?"#38bdf8":"#c084fc",cl=ex.cat==="A"?"MIKRO-PRZERWA":"SESJA PO PRACY";
-return e("div",{className:"card "+(open?"expanded":"collapsed")},
-e("button",{className:"card-header",onClick:toggle},e("span",{style:{fontSize:26,lineHeight:1,flexShrink:0}},ex.em),e("div",{style:{flex:1,minWidth:0}},e("div",{style:{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}},e("span",{className:"badge",style:{color:cc,background:cc+"15"}},cl),ex.id>10&&e("span",{className:"badge-new"},"NOWE"),e("div",{style:{display:"flex",alignItems:"center",gap:6}},e("div",{className:"score-bar"},e("div",{className:"score-fill",style:{width:(ex.sc/5*100)+"%",background:scCol(ex.sc)}})),e("span",{style:{fontSize:11,color:scCol(ex.sc),fontWeight:700}},ex.sc.toFixed(1)))),e("div",{style:{fontSize:15,fontWeight:600,color:"#e2e8f0",lineHeight:1.3}},ex.name),e("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},ex.tgt+" \u00B7 "+ex.time)),e("span",{style:{color:"#475569",fontSize:18,transition:"transform 0.3s",transform:open?"rotate(180deg)":"rotate(0)",flexShrink:0}},"\u25BE")),
-open&&e("div",{className:"card-body"},e(Timer,{total:ex.ts,tkey:ex.id}),e("div",{style:{marginTop:16}},e("div",{className:"section-label",style:{color:"#6ee7b7"}},"Technika wykonania"),ex.cues.map((c,i)=>e("div",{className:"cue-step",key:i},e("span",{className:"cue-num"},i+1),e("span",null,c)))),e("div",{style:{marginTop:12}},e("div",{className:"section-label",style:{color:"#f87171"}},"\u26A0 Unikaj tych b\u0142\u0119d\u00F3w"),ex.errs.map((r,i)=>e("div",{className:"error-item",key:i},r))),e("div",{style:{display:"flex",gap:8,flexWrap:"wrap",marginTop:12}},e("span",{className:"pill"},ex.sets+" serie \u00D7 "+ex.reps),e("span",{className:"pill"},"Przerwa: "+ex.rest+"s"),e("a",{href:ex.yt,target:"_blank",rel:"noopener noreferrer",className:"yt-pill"},"\u25B6 YouTube"))))}
+function Card({ex,open,toggle}){
+  const cc=ex.cat==="A"?"#38bdf8":"#c084fc",cl=ex.cat==="A"?"MIKRO":"PO PRACY";
+  return h("div",{className:"crd "+(open?"on":"off")},
+    h("button",{className:"ch",onClick:toggle},
+      h("span",{style:{fontSize:26,lineHeight:1,flexShrink:0}},ex.em),
+      h("div",{style:{flex:1,minWidth:0}},
+        h("div",{style:{display:"flex",alignItems:"center",gap:6,marginBottom:4,flexWrap:"wrap"}},
+          h("span",{className:"bdg",style:{color:cc,background:cc+"15"}},cl),
+          ex.id>10&&h("span",{className:"new"},"NOWE"),
+          h("div",{style:{display:"flex",alignItems:"center",gap:6}},h("div",{className:"sb"},h("div",{className:"sf",style:{width:(ex.sc/5*100)+"%",background:scC(ex.sc)}})),h("span",{style:{fontSize:11,color:scC(ex.sc),fontWeight:700}},ex.sc.toFixed(1)))),
+        h("div",{style:{fontSize:14,fontWeight:600,color:"#e2e8f0",lineHeight:1.3}},ex.name),
+        h("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},ex.tgt)),
+      h("span",{style:{color:"#475569",fontSize:18,transition:"transform .3s",transform:open?"rotate(180deg)":"",flexShrink:0}},"▾")),
+    open&&h("div",{className:"cb"},
+      h("div",{className:"svg-wrap"},svgEl(ex.id)),
+      h(Timer,{total:ex.ts,tkey:ex.id}),
+      h("div",{style:{marginTop:14}},h("div",{className:"sl",style:{color:"#6ee7b7"}},"Technika"),ex.cues.map((c,i)=>h("div",{className:"cs",key:i},h("span",{className:"cn"},i+1),h("span",null,c)))),
+      h("div",{style:{marginTop:10}},h("div",{className:"sl",style:{color:"#f87171"}},"⚠ Błędy"),ex.errs.map((r,i)=>h("div",{className:"ei",key:i},r))),
+      h("div",{style:{display:"flex",gap:8,flexWrap:"wrap",marginTop:10}},h("span",{className:"pl"},ex.sets+"×"+ex.reps),h("span",{className:"pl"},"Przerwa "+ex.rest+"s"),h("a",{href:ex.yt,target:"_blank",rel:"noopener",className:"yl"},"▶ YT"))))
+}
 
-function Routine({title,ids,icon,type}){const[idx,setIdx]=useState(0);const[done,setDone]=useState({});const exs=ids.map(id=>EX.find(x=>x.id===id));const cur=exs[idx];const cnt=Object.keys(done).length;const allDone=cnt===exs.length;
-const mark=()=>{const nd={...done,[idx]:true};setDone(nd);if(Object.keys(nd).length===exs.length){logS(type);beep()}else if(idx<exs.length-1)setIdx(idx+1)};
-return e("div",null,e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},e("div",{style:{fontSize:14,fontWeight:700,color:"#e2e8f0"}},icon+" "+title),e("div",{style:{fontSize:12,color:"#64748b"}},cnt+"/"+exs.length)),
-e("div",{style:{display:"flex",gap:4,marginBottom:16}},exs.map((_,i)=>e("button",{key:i,className:"progress-seg",onClick:()=>setIdx(i),style:{background:done[i]?"#22c55e":i===idx?"#6ee7b7":"rgba(255,255,255,0.08)"}}))),
-allDone?e("div",{className:"done-banner"},e("div",{style:{fontSize:40,marginBottom:8,animation:"pulse 0.6s ease"}},"\uD83C\uDF89"),e("div",{style:{fontSize:18,fontWeight:700,color:"#22c55e",marginBottom:4}},"Gratulacje!"),e("div",{style:{fontSize:13,color:"#94a3b8",marginBottom:4}},"Sesja zapisana w trackerze"),e("div",{style:{fontSize:12,color:"#6ee7b7"}},"\uD83D\uDD25 Streak: "+getStreak()+" dni"),e("button",{onClick:()=>{setDone({});setIdx(0)},className:"timer-btn btn-start",style:{marginTop:16}},"\u21BA Zacznij od nowa")):
-e("div",{className:"routine-card"},e("div",{style:{display:"flex",alignItems:"center",gap:10,marginBottom:16}},e("span",{style:{fontSize:28}},cur.em),e("div",null,e("div",{style:{fontSize:16,fontWeight:700,color:"#e2e8f0"}},cur.name),e("div",{style:{fontSize:12,color:"#64748b"}},cur.sets+" serie \u00D7 "+cur.reps))),e(Timer,{total:cur.ts,tkey:"r"+cur.id+idx}),e("div",{style:{marginTop:16}},cur.cues.map((c,i)=>e("div",{key:i,style:{display:"flex",gap:8,marginBottom:6,fontSize:13,color:"#cbd5e1",lineHeight:1.5}},e("span",{style:{color:"#6ee7b7",fontWeight:700,flexShrink:0}},i+1+"."),e("span",null,c)))),e("div",{style:{display:"flex",gap:8,marginTop:16}},e("button",{className:"btn-done",onClick:mark},"\u2713 Gotowe \u2014 nast\u0119pne"),e("a",{href:cur.yt,target:"_blank",rel:"noopener noreferrer",className:"btn-yt"},"\u25B6"))))}
+function Routine({title,ids,icon,type}){
+  const[i,setI]=useState(0);const[dn,setDn]=useState({});
+  const exs=ids.map(id=>EX.find(x=>x.id===id));const cur=exs[i];const cnt=Object.keys(dn).length;const all=cnt===exs.length;
+  const mark=()=>{const n={...dn,[i]:1};setDn(n);if(Object.keys(n).length===exs.length){logDone(type);beep()}else if(i<exs.length-1)setI(i+1)};
+  return h("div",null,
+    h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},h("div",{style:{fontSize:14,fontWeight:700}},icon+" "+title),h("div",{style:{fontSize:12,color:"#64748b"}},cnt+"/"+exs.length)),
+    h("div",{style:{display:"flex",gap:4,marginBottom:16}},exs.map((_,j)=>h("button",{key:j,className:"ps",onClick:()=>setI(j),style:{background:dn[j]?"#22c55e":j===i?"#6ee7b7":"rgba(255,255,255,.08)"}}))),
+    all?h("div",{className:"dn"},h("div",{style:{fontSize:40,marginBottom:8,animation:"pulse .6s"}},"🎉"),h("div",{style:{fontSize:18,fontWeight:700,color:"#22c55e"}},"Gratulacje!"),h("div",{style:{fontSize:13,color:"#94a3b8",margin:"4px 0"}},"Sesja zapisana"),h("div",{style:{fontSize:12,color:"#6ee7b7"}},"🔥 Streak: "+streak()+" dni"),h("button",{onClick:()=>{setDn({});setI(0)},className:"tb ts",style:{marginTop:16}},"↺ Od nowa")):
+    h("div",{className:"rc"},
+      h("div",{style:{display:"flex",alignItems:"center",gap:10,marginBottom:8}},h("span",{style:{fontSize:28}},cur.em),h("div",null,h("div",{style:{fontSize:16,fontWeight:700}},cur.name),h("div",{style:{fontSize:12,color:"#64748b"}},cur.sets+"×"+cur.reps))),
+      h("div",{className:"svg-wrap"},svgEl(cur.id)),
+      h(Timer,{total:cur.ts,tkey:"r"+cur.id+i}),
+      h("div",{style:{marginTop:14}},cur.cues.map((c,j)=>h("div",{key:j,style:{display:"flex",gap:8,marginBottom:5,fontSize:13,color:"#cbd5e1",lineHeight:1.5}},h("span",{style:{color:"#6ee7b7",fontWeight:700,flexShrink:0}},j+1+"."),h("span",null,c)))),
+      h("div",{style:{display:"flex",gap:8,marginTop:14}},h("button",{className:"bd",onClick:mark},"✓ Gotowe — następne"),h("a",{href:cur.yt,target:"_blank",rel:"noopener",className:"by"},"▶"))))
+}
 
-function Heatmap(){const now=new Date();const[mo,setMo]=useState(now.getMonth());const[yr,setYr]=useState(now.getFullYear());
-const data=getMD(yr,mo);const streak=getStreak();const tr=ST.get('tr',{});const tDays=Object.keys(tr).length;
-const tM=Object.values(tr).reduce((a,v)=>a+(v.m||0),0);const tS=Object.values(tr).reduce((a,v)=>a+(v.s||0),0);
-const mn=["Stycze\u0144","Luty","Marzec","Kwiecie\u0144","Maj","Czerwiec","Lipiec","Sierpie\u0144","Wrzesie\u0144","Pa\u017Adziernik","Listopad","Grudzie\u0144"];
-const dn=["Pn","Wt","\u015Ar","Cz","Pt","So","Nd"];
-const pM=()=>{if(mo===0){setMo(11);setYr(yr-1)}else setMo(mo-1)};
-const nM=()=>{const n=new Date();if(yr===n.getFullYear()&&mo===n.getMonth())return;if(mo===11){setMo(0);setYr(yr+1)}else setMo(mo+1)};
-const cc=t=>t===0?"rgba(255,255,255,0.04)":t===1?"rgba(110,231,183,0.2)":t===2?"rgba(110,231,183,0.4)":t>=3?"rgba(110,231,183,0.7)":"rgba(110,231,183,0.9)";
-const isT=k=>k===todayKey();
-return e("div",null,
-e("div",{style:{textAlign:"center",marginBottom:24,padding:20,background:"rgba(255,255,255,0.02)",borderRadius:16,border:"1px solid rgba(255,255,255,0.06)"}},e("div",{className:"streak-num",style:{fontFamily:"'JetBrains Mono',monospace",fontSize:48,fontWeight:700,lineHeight:1,background:"linear-gradient(135deg,#6ee7b7,#22c55e)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},streak),e("div",{style:{fontSize:13,color:"#94a3b8",marginTop:4}},streak===1?"dzie\u0144 z rz\u0119du":"dni z rz\u0119du"),e("div",{style:{fontSize:11,color:"#475569",marginTop:2}},"\uD83D\uDD25 Tw\u00F3j aktualny streak")),
-e("div",{style:{display:"flex",gap:8,marginBottom:20}},e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#38bdf8"}},tM),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\u26A1 Mikro-przerw")),e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#c084fc"}},tS),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\uD83E\uDDD8 Sesji po pracy")),e("div",{className:"stat-box"},e("div",{style:{fontSize:22,fontWeight:700,color:"#6ee7b7"}},tDays),e("div",{style:{fontSize:11,color:"#64748b",marginTop:2}},"\uD83D\uDCC5 Aktywnych dni"))),
-e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},e("button",{onClick:pM,style:{background:"rgba(255,255,255,0.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"\u2039"),e("div",{style:{fontSize:14,fontWeight:700,color:"#e2e8f0"}},mn[mo]+" "+yr),e("button",{onClick:nM,style:{background:"rgba(255,255,255,0.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"\u203A")),
-e("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:4}},dn.map(d=>e("div",{key:d,style:{textAlign:"center",fontSize:10,color:"#475569",fontWeight:600}},d))),
-e("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}},Array(data.fd).fill(null).map((_,i)=>e("div",{key:"e"+i,style:{aspectRatio:"1"}})),data.days.map(d=>e("div",{key:d.day,title:d.k+": "+d.t+" sesji",style:{background:cc(d.t),outline:isT(d.k)?"2px solid #6ee7b7":"none",outlineOffset:"-1px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,color:d.t>0?"#e2e8f0":"#334155",aspectRatio:"1",borderRadius:4}},d.day))),
-e("div",{style:{display:"flex",alignItems:"center",gap:6,marginTop:12,justifyContent:"center"}},e("span",{style:{fontSize:10,color:"#475569"}},"Mniej"),[0,1,2,3].map(l=>e("div",{key:l,style:{width:12,height:12,borderRadius:3,background:cc(l)}})),e("span",{style:{fontSize:10,color:"#475569"}},"Wi\u0119cej")),
-e("div",{style:{textAlign:"center",marginTop:20}},e("button",{onClick:()=>{if(confirm("Wyczy\u015Bci\u0107 ca\u0142y tracker?")){ST.set('tr',{});location.reload()}},style:{fontSize:11,color:"#475569",background:"transparent",padding:"6px 12px"}},"Wyczy\u015B\u0107 dane trackera")))}
+function Heatmap(){
+  const now=new Date();const[mo,setMo]=useState(now.getMonth());const[yr,setYr]=useState(now.getFullYear());
+  const data=mData(yr,mo);const st=streak();const tr=S.g('tr',{});const tD=Object.keys(tr).length;
+  const tM=Object.values(tr).reduce((a,v)=>a+(v.m||0),0);const tS=Object.values(tr).reduce((a,v)=>a+(v.s||0),0);
+  const mn=["Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"];
+  const dn=["Pn","Wt","Śr","Cz","Pt","So","Nd"];
+  const pM=()=>{if(mo===0){setMo(11);setYr(yr-1)}else setMo(mo-1)};
+  const nM=()=>{const n=new Date();if(yr===n.getFullYear()&&mo===n.getMonth())return;if(mo===11){setMo(0);setYr(yr+1)}else setMo(mo+1)};
+  const cc=t=>t===0?"rgba(255,255,255,.04)":t===1?"rgba(110,231,183,.2)":t===2?"rgba(110,231,183,.4)":"rgba(110,231,183,.7)";
+  return h("div",null,
+    h("div",{style:{textAlign:"center",marginBottom:24,padding:20,background:"rgba(255,255,255,.02)",borderRadius:16,border:"1px solid rgba(255,255,255,.06)"}},
+      h("div",{style:{fontFamily:"'JetBrains Mono',monospace",fontSize:48,fontWeight:700,lineHeight:1,background:"linear-gradient(135deg,#6ee7b7,#22c55e)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},st),
+      h("div",{style:{fontSize:13,color:"#94a3b8",marginTop:4}},st===1?"dzień z rzędu":"dni z rzędu"),
+      h("div",{style:{fontSize:11,color:"#475569",marginTop:2}},"🔥 Twój streak")),
+    h("div",{style:{display:"flex",gap:8,marginBottom:20}},
+      h("div",{className:"sx"},h("div",{style:{fontSize:22,fontWeight:700,color:"#38bdf8"}},tM),h("div",{style:{fontSize:10,color:"#64748b",marginTop:2}},"⚡ Mikro")),
+      h("div",{className:"sx"},h("div",{style:{fontSize:22,fontWeight:700,color:"#c084fc"}},tS),h("div",{style:{fontSize:10,color:"#64748b",marginTop:2}},"🧘 Sesji")),
+      h("div",{className:"sx"},h("div",{style:{fontSize:22,fontWeight:700,color:"#6ee7b7"}},tD),h("div",{style:{fontSize:10,color:"#64748b",marginTop:2}},"📅 Dni"))),
+    h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
+      h("button",{onClick:pM,style:{background:"rgba(255,255,255,.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"‹"),
+      h("div",{style:{fontSize:14,fontWeight:700}},mn[mo]+" "+yr),
+      h("button",{onClick:nM,style:{background:"rgba(255,255,255,.06)",color:"#94a3b8",padding:"6px 12px",borderRadius:8,fontSize:14}},"›")),
+    h("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:4}},dn.map(d=>h("div",{key:d,style:{textAlign:"center",fontSize:10,color:"#475569",fontWeight:600}},d))),
+    h("div",{style:{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}},
+      Array(data.fd).fill(0).map((_,i)=>h("div",{key:"e"+i,style:{aspectRatio:"1"}})),
+      data.days.map(d=>h("div",{key:d.day,title:d.k+": "+d.t,style:{background:cc(d.t),outline:d.k===today()?"2px solid #6ee7b7":"none",outlineOffset:-1,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,color:d.t>0?"#e2e8f0":"#334155",aspectRatio:"1",borderRadius:4}},d.day))),
+    h("div",{style:{display:"flex",alignItems:"center",gap:6,marginTop:12,justifyContent:"center"}},
+      h("span",{style:{fontSize:10,color:"#475569"}},"Mniej"),
+      [0,1,2,3].map(l=>h("div",{key:l,style:{width:12,height:12,borderRadius:3,background:cc(l)}})),
+      h("span",{style:{fontSize:10,color:"#475569"}},"Więcej")),
+    h("div",{style:{textAlign:"center",marginTop:20}},h("button",{onClick:()=>{if(confirm("Wyczyścić tracker?")){S.s('tr',{});location.reload()}},style:{fontSize:11,color:"#475569",background:"none",padding:"6px 12px"}},"Wyczyść dane")))
+}
 
-function Notifs(){const[perm,setPerm]=useState(nStat());const[on,setOn]=useState(ST.get('no',false));const[mins,setMins]=useState(ST.get('nm',90));
-useEffect(()=>{if(on&&perm==='granted')startR(mins)},[]);
-const toggle=()=>{if(!on){if(perm!=='granted'){reqN(p=>{setPerm(p);if(p==='granted'){startR(mins);setOn(true)}})}else{startR(mins);setOn(true)}}else{stopR();setOn(false)}};
-const chg=m=>{setMins(m);ST.set('nm',m);if(on)startR(m)};
-return e("div",null,
-e("div",{className:"notif-card"},e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}},e("div",null,e("div",{style:{fontSize:15,fontWeight:700,color:"#e2e8f0"}},"\u26A1 Przypomnienia"),e("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},on?"Aktywne \u2014 co "+mins+" min":"Wy\u0142\u0105czone")),e("button",{onClick:toggle,style:{width:52,height:28,borderRadius:14,padding:2,background:on?"#22c55e":"rgba(255,255,255,0.1)",transition:"all 0.3s",display:"flex",alignItems:"center"}},e("div",{style:{width:24,height:24,borderRadius:12,background:"#fff",transition:"all 0.3s",transform:on?"translateX(24px)":"translateX(0)"}}))),
-perm==='denied'&&e("div",{style:{fontSize:12,color:"#f87171",marginTop:8,padding:8,background:"rgba(248,113,113,0.08)",borderRadius:8}},"\u26A0 Powiadomienia zablokowane. Odblokuj: k\u0142\u00F3dka obok adresu \u2192 Powiadomienia \u2192 Zezwalaj."),
-perm==='unavailable'&&e("div",{style:{fontSize:12,color:"#eab308",marginTop:8,padding:8,background:"rgba(234,179,8,0.08)",borderRadius:8}},"\u26A0 Przegl\u0105darka nie obs\u0142uguje powiadomie\u0144. U\u017Cyj Chrome.")),
-on&&e("div",{className:"notif-card"},e("div",{style:{fontSize:13,fontWeight:700,color:"#e2e8f0",marginBottom:12}},"Cz\u0119stotliwo\u015B\u0107"),e("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}},[45,60,90,120].map(m=>e("button",{key:m,onClick:()=>chg(m),style:{padding:"10px 8px",borderRadius:10,fontSize:13,fontWeight:600,textAlign:"center",background:mins===m?"rgba(110,231,183,0.15)":"rgba(255,255,255,0.04)",color:mins===m?"#6ee7b7":"#94a3b8",transition:"all 0.2s"}},m+" min")))),
-e("div",{className:"notif-card",style:{marginTop:12}},e("div",{style:{fontSize:13,fontWeight:700,color:"#e2e8f0",marginBottom:8}},"\uD83D\uDD0A D\u017Awi\u0119k timera"),e("div",{style:{fontSize:12,color:"#64748b",marginBottom:12}},"Timer ko\u0144czy si\u0119 potr\u00F3jnym sygna\u0142em + wibracj\u0105."),e("button",{onClick:beep,style:{padding:"8px 16px",borderRadius:8,fontSize:12,fontWeight:600,background:"rgba(255,255,255,0.06)",color:"#94a3b8"}},"\u25B6 Testuj d\u017Awi\u0119k + wibracj\u0119")))}
+function Settings(){
+  const[perm,setPerm]=useState(nPerm());
+  const[on,setOn]=useState(S.g('non',false));
+  const cfg=S.g('ncfg',{mins:90,qs:21,qe:9});
+  const[mins,setMins]=useState(cfg.mins||90);
+  const[qs,setQs]=useState(cfg.qs!=null?cfg.qs:21);
+  const[qe,setQe]=useState(cfg.qe!=null?cfg.qe:9);
 
-function App(){const[tab,setTab]=useState("all");const[exp,setExp]=useState(null);const[flt,setFlt]=useState("all");const[_,setR]=useState(0);
-const tabs=[{id:"all",l:"Katalog",ic:"\uD83D\uDCCB"},{id:"micro",l:"Mikro",ic:"\u26A1"},{id:"session",l:"Sesja",ic:"\uD83E\uDDD8"},{id:"tracker",l:"Tracker",ic:"\uD83D\uDD25"},{id:"settings",l:"Ustaw.",ic:"\u2699\uFE0F"}];
-const filtered=flt==="all"?EX:flt==="A"?EX.filter(x=>x.cat==="A"):EX.filter(x=>x.cat==="B");
-const rf=()=>setR(r=>r+1);
-return e("div",null,
-e("div",{className:"header"},e("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between"}},e("div",null,e("div",{style:{fontSize:11,fontWeight:700,letterSpacing:2,color:"#475569",textTransform:"uppercase",marginBottom:4}},"PROGRAM KOMPENSACYJNY"),e("h1",{style:{fontSize:22,fontWeight:700,margin:0,lineHeight:1.2,background:"linear-gradient(135deg,#e2e8f0,#6ee7b7)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},"\u0106wiczenia biurowe")),getStreak()>0&&e("div",{style:{textAlign:"center"}},e("div",{style:{fontSize:24,fontWeight:700,color:"#6ee7b7",fontFamily:"'JetBrains Mono',monospace"}},getStreak()),e("div",{style:{fontSize:9,color:"#475569",letterSpacing:1}},"STREAK")))),
-e("div",{className:"tab-bar"},tabs.map(t=>e("button",{key:t.id,className:"tab-btn "+(tab===t.id?"active":""),onClick:()=>{setTab(t.id);setExp(null);rf()}},e("span",{style:{fontSize:14}},t.ic),t.l))),
-e("div",{className:"content"},
-tab==="all"&&e("div",null,e("div",{style:{display:"flex",gap:6,marginBottom:16}},[["all","Wszystkie"],["A","Mikro (8)"],["B","Po pracy (7)"]].map(([v,l])=>e("button",{key:v,className:"filter-btn "+(flt===v?"active":""),onClick:()=>setFlt(v)},l))),filtered.map(ex=>e(Card,{key:ex.id,ex,open:exp===ex.id,toggle:()=>setExp(exp===ex.id?null:ex.id)}))),
-tab==="micro"&&e(Routine,{title:"Mikro-przerwa w pracy",ids:MICRO,icon:"\u26A1",type:"micro",key:"m"+_}),
-tab==="session"&&e(Routine,{title:"Sesja kompensacyjna po pracy",ids:POST,icon:"\uD83E\uDDD8",type:"session",key:"s"+_}),
-tab==="tracker"&&e(Heatmap,{key:"t"+_}),
-tab==="settings"&&e(Notifs,{key:"n"+_})))}
+  useEffect(()=>{if(on&&perm==='granted')startN({mins,qs,qe})},[]);
 
-ReactDOM.createRoot(document.getElementById("app")).render(e(App));
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js')}
+  const toggle=()=>{
+    if(!on){
+      if(perm!=='granted'){nReq(p=>{setPerm(p);if(p==='granted'){startN({mins,qs,qe});setOn(true)}})}
+      else{startN({mins,qs,qe});setOn(true)}
+    }else{stopN();setOn(false)}
+  };
+  const upd=(m,q1,q2)=>{setMins(m);setQs(q1);setQe(q2);const c={mins:m,qs:q1,qe:q2};S.s('ncfg',c);if(on)startN(c)};
+
+  return h("div",null,
+    // Toggle card
+    h("div",{className:"nc"},
+      h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}},
+        h("div",null,
+          h("div",{style:{fontSize:15,fontWeight:700}},"⚡ Przypomnienia"),
+          h("div",{style:{fontSize:12,color:"#64748b",marginTop:2}},on?"Aktywne — co "+mins+" min":"Wyłączone")),
+        h("button",{onClick:toggle,style:{width:52,height:28,borderRadius:14,padding:2,background:on?"#22c55e":"rgba(255,255,255,.1)",transition:".3s",display:"flex",alignItems:"center"}},
+          h("div",{style:{width:24,height:24,borderRadius:12,background:"#fff",transition:".3s",transform:on?"translateX(24px)":""}}))),
+      perm==='denied'&&h("div",{style:{fontSize:12,color:"#f87171",padding:8,background:"rgba(248,113,113,.08)",borderRadius:8}},"⚠ Zablokowane. Odblokuj: kłódka → Powiadomienia → Zezwalaj."),
+      perm==='unavailable'&&h("div",{style:{fontSize:12,color:"#eab308",padding:8,background:"rgba(234,179,8,.08)",borderRadius:8}},"⚠ Przeglądarka nie obsługuje powiadomień.")),
+
+    // Interval
+    on&&h("div",{className:"nc"},
+      h("div",{style:{fontSize:13,fontWeight:700,marginBottom:12}},"Częstotliwość"),
+      h("div",{style:{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}},
+        [45,60,90,120].map(m=>h("button",{key:m,onClick:()=>upd(m,qs,qe),style:{padding:"10px 6px",borderRadius:10,fontSize:13,fontWeight:600,background:mins===m?"rgba(110,231,183,.15)":"rgba(255,255,255,.04)",color:mins===m?"#6ee7b7":"#94a3b8"}},m+" min")))),
+
+    // Quiet hours
+    on&&h("div",{className:"nc"},
+      h("div",{style:{fontSize:13,fontWeight:700,marginBottom:4}},"🌙 Godziny ciszy"),
+      h("div",{style:{fontSize:12,color:"#64748b",marginBottom:12}},"Powiadomienia NIE będą wysyłane w tych godzinach."),
+      h("div",{style:{display:"flex",alignItems:"center",gap:8,justifyContent:"center"}},
+        h("div",{style:{textAlign:"center"}},
+          h("div",{style:{fontSize:10,color:"#64748b",marginBottom:4}},"Od"),
+          h("div",{style:{display:"flex",gap:4}},
+            [20,21,22,23].map(v=>h("button",{key:v,onClick:()=>upd(mins,v,qe),style:{padding:"8px 10px",borderRadius:8,fontSize:13,fontWeight:600,background:qs===v?"rgba(139,92,246,.2)":"rgba(255,255,255,.04)",color:qs===v?"#a78bfa":"#64748b"}},v+":00")))),
+        h("div",{style:{fontSize:18,color:"#475569"}},"→"),
+        h("div",{style:{textAlign:"center"}},
+          h("div",{style:{fontSize:10,color:"#64748b",marginBottom:4}},"Do"),
+          h("div",{style:{display:"flex",gap:4}},
+            [7,8,9,10].map(v=>h("button",{key:v,onClick:()=>upd(mins,qs,v),style:{padding:"8px 10px",borderRadius:8,fontSize:13,fontWeight:600,background:qe===v?"rgba(139,92,246,.2)":"rgba(255,255,255,.04)",color:qe===v?"#a78bfa":"#64748b"}},v+":00")))))),
+
+    // Sound test
+    h("div",{className:"nc"},
+      h("div",{style:{fontSize:13,fontWeight:700,marginBottom:8}},"🔊 Dźwięk timera"),
+      h("div",{style:{fontSize:12,color:"#64748b",marginBottom:12}},"Potrójny sygnał 880 Hz + wibracja po zakończeniu każdego timera."),
+      h("button",{onClick:beep,style:{padding:"8px 16px",borderRadius:8,fontSize:12,fontWeight:600,background:"rgba(255,255,255,.06)",color:"#94a3b8"}},"▶ Testuj")))
+}
+
+// ── App ──
+function App(){
+  const[tab,setTab]=useState("all");const[exp,setExp]=useState(null);const[flt,setFlt]=useState("all");const[_,setR]=useState(0);
+  const tabs=[{id:"all",l:"Katalog",ic:"📋"},{id:"micro",l:"Mikro",ic:"⚡"},{id:"session",l:"Sesja",ic:"🧘"},{id:"tracker",l:"Tracker",ic:"🔥"},{id:"settings",l:"Ustaw.",ic:"⚙️"}];
+  const filtered=flt==="all"?EX:flt==="A"?EX.filter(x=>x.cat==="A"):EX.filter(x=>x.cat==="B");
+  return h("div",null,
+    h("div",{className:"hdr"},h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between"}},
+      h("div",null,h("div",{style:{fontSize:11,fontWeight:700,letterSpacing:2,color:"#475569",textTransform:"uppercase",marginBottom:4}},"PROGRAM KOMPENSACYJNY"),
+        h("h1",{style:{fontSize:22,fontWeight:700,margin:0,lineHeight:1.2,background:"linear-gradient(135deg,#e2e8f0,#6ee7b7)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}},"Ćwiczenia biurowe")),
+      streak()>0&&h("div",{style:{textAlign:"center"}},
+        h("div",{style:{fontSize:24,fontWeight:700,color:"#6ee7b7",fontFamily:"'JetBrains Mono',monospace"}},streak()),
+        h("div",{style:{fontSize:9,color:"#475569",letterSpacing:1}},"STREAK")))),
+    h("div",{className:"tabs"},tabs.map(t=>h("button",{key:t.id,className:"tab "+(tab===t.id?"on":""),onClick:()=>{setTab(t.id);setExp(null);setR(r=>r+1)}},h("span",{style:{fontSize:14}},t.ic),t.l))),
+    h("div",{className:"cnt"},
+      tab==="all"&&h("div",null,
+        h("div",{style:{display:"flex",gap:6,marginBottom:16}},
+          [["all","Wszystkie"],["A","Mikro (8)"],["B","Po pracy (7)"]].map(([v,l])=>h("button",{key:v,className:"fb "+(flt===v?"on":""),onClick:()=>setFlt(v)},l))),
+        filtered.map(x=>h(Card,{key:x.id,ex:x,open:exp===x.id,toggle:()=>setExp(exp===x.id?null:x.id)}))),
+      tab==="micro"&&h(Routine,{title:"Mikro-przerwa",ids:MICRO,icon:"⚡",type:"micro",key:"m"+_}),
+      tab==="session"&&h(Routine,{title:"Sesja po pracy",ids:POST,icon:"🧘",type:"session",key:"s"+_}),
+      tab==="tracker"&&h(Heatmap,{key:"t"+_}),
+      tab==="settings"&&h(Settings,{key:"n"+_})))
+}
+
+ReactDOM.createRoot(document.getElementById("app")).render(h(App));
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
 </html>
